@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
  *
  * @package Bleicker\Nodes
  */
-class AbstractContentNode implements NodeInterface {
+abstract class AbstractContentNode implements ContentNodeInterface {
 
 	/**
 	 * @var integer
@@ -18,19 +18,12 @@ class AbstractContentNode implements NodeInterface {
 	protected $id;
 
 	/**
-	 * @return int
-	 */
-	public function getId() {
-		return $this->id;
-	}
-
-	/**
 	 * @var integer
 	 */
 	protected $sorting;
 
 	/**
-	 * @var AbstractPageNode
+	 * @var ContentNodeInterface
 	 */
 	protected $parent;
 
@@ -43,8 +36,37 @@ class AbstractContentNode implements NodeInterface {
 	 * @param string $title
 	 */
 	public function __construct($title) {
-		$this->title = $title;
 		$this->children = new ArrayCollection();
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getId() {
+		return $this->id;
+	}
+
+	/**
+	 * @param ContentNodeInterface $parent
+	 * @return $this
+	 */
+	public function setParent(ContentNodeInterface $parent) {
+		$this->parent = $parent;
+		return $this;
+	}
+
+	/**
+	 * @return ContentNodeInterface
+	 */
+	public function getParent() {
+		return $this->parent;
+	}
+
+	/**
+	 * @return Collection
+	 */
+	public function getChildren() {
+		return $this->children;
 	}
 
 	/**
@@ -61,21 +83,5 @@ class AbstractContentNode implements NodeInterface {
 	 */
 	public function getSorting() {
 		return $this->sorting;
-	}
-
-	/**
-	 * @param \Bleicker\Nodes\AbstractPageNode $parent
-	 * @return $this
-	 */
-	public function setParent($parent = NULL) {
-		$this->parent = $parent;
-		return $this;
-	}
-
-	/**
-	 * @return \Bleicker\Nodes\AbstractPageNode
-	 */
-	public function getParent() {
-		return $this->parent;
 	}
 }

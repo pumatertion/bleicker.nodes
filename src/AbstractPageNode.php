@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
  *
  * @package Bleicker\Nodes
  */
-class AbstractPageNode implements NodeInterface {
+abstract class AbstractPageNode implements PageNodeInterface {
 
 	/**
 	 * @var integer
@@ -28,7 +28,7 @@ class AbstractPageNode implements NodeInterface {
 	protected $sorting;
 
 	/**
-	 * @var AbstractPageNode
+	 * @var PageNodeInterface
 	 */
 	protected $parent;
 
@@ -69,16 +69,16 @@ class AbstractPageNode implements NodeInterface {
 	}
 
 	/**
-	 * @param AbstractPageNode $parent
+	 * @param PageNodeInterface $parent
 	 * @return $this
 	 */
-	public function setParent($parent) {
+	public function setParent(PageNodeInterface $parent) {
 		$this->parent = $parent;
 		return $this;
 	}
 
 	/**
-	 * @return AbstractPageNode
+	 * @return PageNodeInterface
 	 */
 	public function getParent() {
 		return $this->parent;

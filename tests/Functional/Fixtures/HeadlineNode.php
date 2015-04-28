@@ -15,11 +15,15 @@ class HeadlineNode extends AbstractContentNode {
 	 */
 	protected $header;
 
+	public function __construct($header) {
+		$this->header = $header;
+	}
+
 	/**
 	 * @param string $header
 	 * @return $this
 	 */
-	public function setHeader($header = NULL) {
+	public function setHeader($header) {
 		$this->header = $header;
 		return $this;
 	}
