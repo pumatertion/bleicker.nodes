@@ -1,0 +1,11 @@
+Bleicker\Nodes\AbstractPageNode:
+  inheritanceType: JOINED
+  type: entity
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    title:
+      type: string

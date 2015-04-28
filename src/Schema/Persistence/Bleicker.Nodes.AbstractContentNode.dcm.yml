@@ -1,0 +1,8 @@
+Bleicker\Nodes\AbstractContentNode:
+  inheritanceType: JOINED
+  type: entity
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
