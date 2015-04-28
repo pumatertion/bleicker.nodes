@@ -8,9 +8,10 @@ namespace Bleicker\Nodes;
  */
 interface NodeInterface {
 
+	const SORTING_DIFF = 10;
+
 	/**
 	 * @return int
 	 */
 	public function getId();
-
 }

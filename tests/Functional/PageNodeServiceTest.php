@@ -75,21 +75,105 @@ class PageNodeServiceTest extends FunctionalTestCase {
 	 */
 	public function moveIntoTest() {
 		$referenceNode = new PageNode('reference');
-		$node = new PageNode('foo');
+		$beforeNode = new PageNode('before');
+		$betweenNode = new PageNode('between');
+		$afterNode = new PageNode('after');
 		/** @var PageNode $persistedNode */
-		$persistedNode = $this->nodeService->into($node, $referenceNode)->flush()->get($node->getId());
-		$this->assertInstanceOf(PageNode::class, $persistedNode->getParent());
+		$this->nodeService->into($beforeNode, $referenceNode)->into($betweenNode, $referenceNode)->into($afterNode, $referenceNode)->flush();
+
+		$referenceNodeId = $referenceNode->getId();
+		$this->nodeService->clear();
+
+		/** @var PageNode $persistedReferenceNode */
+		$persistedReferenceNode = $this->nodeService->get($referenceNodeId);
+		$this->assertEquals(3, $persistedReferenceNode->getChildren()->count());
+
+		/** @var PageNode $beforeNode */
+		$beforeNode = $persistedReferenceNode->getChildren()->first();
+
+		/** @var PageNode $betweenNode */
+		$betweenNode = $persistedReferenceNode->getChildren()->next();
+
+		/** @var PageNode $afterNode */
+		$afterNode = $persistedReferenceNode->getChildren()->next();
+
+		$this->assertEquals('before', $beforeNode->getTitle(), 'Is before');
+		$this->assertEquals('between', $betweenNode->getTitle(), 'Is between');
+		$this->assertEquals('after', $afterNode->getTitle(), 'Is after');
+
+		$this->assertEquals(0, $beforeNode->getSorting(), 'Sorting is 0');
+		$this->assertEquals(10, $betweenNode->getSorting(), 'Sorting is 10');
+		$this->assertEquals(20, $afterNode->getSorting(), 'Sorting is 20');
 	}
 
 	/**
 	 * @test
 	 */
-	public function makeRootNodeTest() {
+	public function moveAfterTest() {
 		$referenceNode = new PageNode('reference');
-		$node = new PageNode('foo');
-		/** @var PageNode $persistedNode */
-		$persistedNode = $this->nodeService->into($node, $referenceNode)->flush()->into($node)->flush()->get($node->getId());
-		$this->assertNull($persistedNode->getParent());
+		$beforeNode = new PageNode('before');
+		$afterNode = new PageNode('after');
+		$betweenNode = new PageNode('between');
+
+		$this->nodeService->into($beforeNode, $referenceNode)->into($afterNode, $referenceNode)->add($betweenNode)->flush()->after($betweenNode, $beforeNode)->flush();
+		$referenceNodeId = $referenceNode->getId();
+		$this->nodeService->clear();
+
+		/** @var PageNode $persistedReferenceNode */
+		$persistedReferenceNode = $this->nodeService->get($referenceNodeId);
+		$this->assertEquals(3, $persistedReferenceNode->getChildren()->count());
+
+		/** @var PageNode $beforeNode */
+		$beforeNode = $persistedReferenceNode->getChildren()->first();
+
+		/** @var PageNode $betweenNode */
+		$betweenNode = $persistedReferenceNode->getChildren()->next();
+
+		/** @var PageNode $afterNode */
+		$afterNode = $persistedReferenceNode->getChildren()->next();
+
+		$this->assertEquals('before', $beforeNode->getTitle(), 'Is before');
+		$this->assertEquals('between', $betweenNode->getTitle(), 'Is between');
+		$this->assertEquals('after', $afterNode->getTitle(), 'Is after');
+
+		$this->assertEquals(0, $beforeNode->getSorting(), 'Sorting is 0');
+		$this->assertEquals(10, $betweenNode->getSorting(), 'Sorting is 10');
+		$this->assertEquals(20, $afterNode->getSorting(), 'Sorting is 20');
+	}
+
+	/**
+	 * @test
+	 */
+	public function moveBeforeTest() {
+		$referenceNode = new PageNode('reference');
+		$beforeNode = new PageNode('before');
+		$afterNode = new PageNode('after');
+		$betweenNode = new PageNode('between');
+
+		$this->nodeService->into($beforeNode, $referenceNode)->into($afterNode, $referenceNode)->add($betweenNode)->flush()->before($betweenNode, $afterNode)->flush();
+		$referenceNodeId = $referenceNode->getId();
+		$this->nodeService->clear();
+
+		/** @var PageNode $persistedReferenceNode */
+		$persistedReferenceNode = $this->nodeService->get($referenceNodeId);
+		$this->assertEquals(3, $persistedReferenceNode->getChildren()->count());
+
+		/** @var PageNode $beforeNode */
+		$beforeNode = $persistedReferenceNode->getChildren()->first();
+
+		/** @var PageNode $betweenNode */
+		$betweenNode = $persistedReferenceNode->getChildren()->next();
+
+		/** @var PageNode $afterNode */
+		$afterNode = $persistedReferenceNode->getChildren()->next();
+
+		$this->assertEquals('before', $beforeNode->getTitle(), 'Is before');
+		$this->assertEquals('between', $betweenNode->getTitle(), 'Is between');
+		$this->assertEquals('after', $afterNode->getTitle(), 'Is after');
+
+		$this->assertEquals(0, $beforeNode->getSorting(), 'Sorting is 0');
+		$this->assertEquals(10, $betweenNode->getSorting(), 'Sorting is 10');
+		$this->assertEquals(20, $afterNode->getSorting(), 'Sorting is 20');
 	}
 
 	/**

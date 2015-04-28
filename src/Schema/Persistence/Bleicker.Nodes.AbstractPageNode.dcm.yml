@@ -9,11 +9,16 @@ Bleicker\Nodes\AbstractPageNode:
   fields:
     title:
       type: string
+    sorting:
+      nullable: true
+      type: integer
   oneToMany:
     children:
+      cascade: ["all"]
       targetEntity: Bleicker\Nodes\AbstractPageNode
       fetch: EXTRA_LAZY
       mappedBy: parent
+      orderBy: { sorting: ASC }
   manyToOne:
     parent:
       cascade: ["all"]

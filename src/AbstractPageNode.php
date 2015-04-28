@@ -1,6 +1,7 @@
 <?php
 
 namespace Bleicker\Nodes;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -22,6 +23,11 @@ class AbstractPageNode implements NodeInterface {
 	protected $title;
 
 	/**
+	 * @var integer
+	 */
+	protected $sorting;
+
+	/**
 	 * @var AbstractPageNode
 	 */
 	protected $parent;
@@ -34,7 +40,7 @@ class AbstractPageNode implements NodeInterface {
 	/**
 	 * @param string $title
 	 */
-	public function __construct($title = NULL) {
+	public function __construct($title) {
 		$this->title = $title;
 		$this->children = new ArrayCollection();
 	}
@@ -50,7 +56,7 @@ class AbstractPageNode implements NodeInterface {
 	 * @param string $title
 	 * @return $this
 	 */
-	public function setTitle($title = NULL) {
+	public function setTitle($title) {
 		$this->title = $title;
 		return $this;
 	}
@@ -66,7 +72,7 @@ class AbstractPageNode implements NodeInterface {
 	 * @param AbstractPageNode $parent
 	 * @return $this
 	 */
-	public function setParent($parent = NULL) {
+	public function setParent($parent) {
 		$this->parent = $parent;
 		return $this;
 	}
@@ -85,4 +91,19 @@ class AbstractPageNode implements NodeInterface {
 		return $this->children;
 	}
 
+	/**
+	 * @param integer $sorting
+	 * @return $this
+	 */
+	public function setSorting($sorting = NULL) {
+		$this->sorting = $sorting;
+		return $this;
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getSorting() {
+		return $this->sorting;
+	}
 }
