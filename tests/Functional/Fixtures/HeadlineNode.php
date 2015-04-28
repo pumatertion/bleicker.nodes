@@ -30,4 +30,7 @@ class HeadlineNode extends AbstractContentNode {
 	public function getHeader() {
 		return $this->header;
 	}
+
+
+
 }
