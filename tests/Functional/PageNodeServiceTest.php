@@ -78,7 +78,7 @@ class PageNodeServiceTest extends FunctionalTestCase {
 		$beforeNode = new PageNode('before');
 		$betweenNode = new PageNode('between');
 		$afterNode = new PageNode('after');
-		/** @var PageNode $persistedNode */
+
 		$this->nodeService->into($beforeNode, $referenceNode)->into($betweenNode, $referenceNode)->into($afterNode, $referenceNode)->flush();
 
 		$referenceNodeId = $referenceNode->getId();
