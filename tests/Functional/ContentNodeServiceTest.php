@@ -179,7 +179,6 @@ class ContentNodeServiceTest extends FunctionalTestCase {
 		$this->assertEquals(20, $afterNode->getSorting(), 'Sorting is 20');
 	}
 
-
 	/**
 	 * @test
 	 */
