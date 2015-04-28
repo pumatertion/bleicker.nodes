@@ -32,10 +32,7 @@ abstract class AbstractContentNode implements ContentNodeInterface {
 	 */
 	protected $children;
 
-	/**
-	 * @param string $title
-	 */
-	public function __construct($title) {
+	public function __construct() {
 		$this->children = new ArrayCollection();
 	}
 
