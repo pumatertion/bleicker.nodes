@@ -9,3 +9,17 @@ Bleicker\Nodes\AbstractPageNode:
   fields:
     title:
       type: string
+  oneToMany:
+    children:
+      targetEntity: Bleicker\Nodes\AbstractPageNode
+      fetch: EXTRA_LAZY
+      mappedBy: parent
+  manyToOne:
+    parent:
+      cascade: ["all"]
+      targetEntity: Bleicker\Nodes\AbstractPageNode
+      inversedBy: children
+      joinColumn:
+        name: parent_id
+        referencedColumnName: id
+        onDelete: CASCADE

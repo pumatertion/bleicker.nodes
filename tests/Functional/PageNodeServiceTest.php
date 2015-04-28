@@ -4,6 +4,7 @@ namespace Tests\Bleicker\Nodes\Functional;
 
 use Bleicker\Nodes\AbstractPageNode;
 use Bleicker\Nodes\Service\PageNodeService;
+use Tests\Bleicker\Nodes\Functional\Fixtures\PageNode;
 use Tests\Bleicker\Nodes\FunctionalTestCase;
 
 /**
@@ -28,5 +29,87 @@ class PageNodeServiceTest extends FunctionalTestCase {
 	 */
 	public function typeHandlingTest() {
 		$this->assertEquals(AbstractPageNode::class, $this->nodeService->getType(), 'Service handles correct type');
+	}
+
+	/**
+	 * @test
+	 */
+	public function addNodeTest() {
+		$node = new PageNode('foo');
+		$this->nodeService->add($node)->flush();
+	}
+
+	/**
+	 * @test
+	 */
+	public function removeNodeTest() {
+		$node = new PageNode('foo');
+		$this->nodeService->add($node)->flush();
+		$id = $node->getId();
+		$this->nodeService->remove($node);
+		$this->assertFalse($this->nodeService->flush()->has($id));
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasNodeTest() {
+		$node = new PageNode('foo');
+		$this->nodeService->add($node)->flush();
+		$this->assertTrue($this->nodeService->has($node->getId()));
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasTitleTest() {
+		$node = new PageNode('foo');
+		/** @var PageNode $addedNode */
+		$addedNode = $this->nodeService->add($node)->flush()->get($node->getId());
+		$this->assertEquals('foo', $addedNode->getTitle());
+		$this->assertEquals('foo', $node->getTitle());
+	}
+
+	/**
+	 * @test
+	 */
+	public function moveIntoTest() {
+		$referenceNode = new PageNode('reference');
+		$node = new PageNode('foo');
+		/** @var PageNode $persistedNode */
+		$persistedNode = $this->nodeService->into($node, $referenceNode)->flush()->get($node->getId());
+		$this->assertInstanceOf(PageNode::class, $persistedNode->getParent());
+	}
+
+	/**
+	 * @test
+	 */
+	public function makeRootNodeTest() {
+		$referenceNode = new PageNode('reference');
+		$node = new PageNode('foo');
+		/** @var PageNode $persistedNode */
+		$persistedNode = $this->nodeService->into($node, $referenceNode)->flush()->into($node)->flush()->get($node->getId());
+		$this->assertNull($persistedNode->getParent());
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteParentNodeAlsoDeletesReferencingNodeTest() {
+		$level1 = new PageNode('Level 1');
+		$level2 = new PageNode('Level 2');
+		$level3 = new PageNode('Level 3');
+
+		$this->nodeService->into($level3, $level2)->into($level2, $level1)->flush();
+
+		$level1Id = $level1->getId();
+		$level2Id = $level2->getId();
+		$level3Id = $level3->getId();
+
+		$this->nodeService->remove($level1)->flush()->clear();
+
+		$this->assertFalse($this->nodeService->has($level1Id));
+		$this->assertFalse($this->nodeService->has($level2Id));
+		$this->assertFalse($this->nodeService->has($level3Id));
 	}
 }

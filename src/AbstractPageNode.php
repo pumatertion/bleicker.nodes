@@ -1,6 +1,8 @@
 <?php
 
 namespace Bleicker\Nodes;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Class AbstractPageNode
@@ -20,7 +22,25 @@ class AbstractPageNode implements NodeInterface {
 	protected $title;
 
 	/**
-	 * @return int
+	 * @var AbstractPageNode
+	 */
+	protected $parent;
+
+	/**
+	 * @var Collection
+	 */
+	protected $children;
+
+	/**
+	 * @param string $title
+	 */
+	public function __construct($title = NULL) {
+		$this->title = $title;
+		$this->children = new ArrayCollection();
+	}
+
+	/**
+	 * @return integer
 	 */
 	public function getId() {
 		return $this->id;
@@ -41,4 +61,28 @@ class AbstractPageNode implements NodeInterface {
 	public function getTitle() {
 		return $this->title;
 	}
+
+	/**
+	 * @param AbstractPageNode $parent
+	 * @return $this
+	 */
+	public function setParent($parent = NULL) {
+		$this->parent = $parent;
+		return $this;
+	}
+
+	/**
+	 * @return AbstractPageNode
+	 */
+	public function getParent() {
+		return $this->parent;
+	}
+
+	/**
+	 * @return Collection
+	 */
+	public function getChildren() {
+		return $this->children;
+	}
+
 }
