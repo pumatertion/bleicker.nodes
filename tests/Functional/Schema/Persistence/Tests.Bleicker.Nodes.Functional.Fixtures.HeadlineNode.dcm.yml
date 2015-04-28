@@ -1,0 +1,5 @@
+Tests\Bleicker\Nodes\Functional\Fixtures\HeadlineNode:
+  type: entity
+  fields:
+    header:
+      type: string

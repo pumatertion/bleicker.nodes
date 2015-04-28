@@ -1,0 +1,28 @@
+Bleicker\Nodes\AbstractContentNode:
+  inheritanceType: JOINED
+  type: entity
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    sorting:
+      nullable: true
+      type: integer
+  oneToMany:
+    children:
+      cascade: ["all"]
+      targetEntity: Bleicker\Nodes\AbstractContentNode
+      fetch: EXTRA_LAZY
+      mappedBy: parent
+      orderBy: { sorting: ASC }
+  manyToOne:
+    parent:
+      cascade: ["all"]
+      targetEntity: Bleicker\Nodes\AbstractContentNode
+      inversedBy: children
+      joinColumn:
+        name: parent_id
+        referencedColumnName: id
+        onDelete: CASCADE
