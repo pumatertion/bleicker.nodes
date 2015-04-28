@@ -10,7 +10,7 @@ use Bleicker\Nodes\PageNodeInterface as NodeInterface;
  *
  * @package Bleicker\Nodes\Service
  */
-class PageNodeService extends AbstractNodeService {
+class PageNodeService extends AbstractNodeService implements PageNodeServiceInterface {
 
 	/**
 	 * @return string
