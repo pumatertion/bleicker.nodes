@@ -202,4 +202,28 @@ class ContentNodeServiceTest extends FunctionalTestCase {
 		$this->assertFalse($this->nodeService->has($level3Id));
 		$this->assertFalse($this->nodeService->has($level4Id));
 	}
+
+	/**
+	 * @test
+	 */
+	public function deleteChildDoesNotDeleteParantsTest() {
+		$level1 = new MultiColumnNode();
+		$level2 = new ColumnNode('Level 2');
+		$level3 = new MultiColumnNode();
+		$level4 = new ColumnNode('Level 4');
+
+		$this->nodeService->into($level4, $level3)->into($level3, $level2)->into($level2, $level1)->flush();
+
+		$level1Id = $level1->getId();
+		$level2Id = $level2->getId();
+		$level3Id = $level3->getId();
+		$level4Id = $level4->getId();
+
+		$this->nodeService->remove($level3)->flush()->clear();
+
+		$this->assertTrue($this->nodeService->has($level1Id));
+		$this->assertTrue($this->nodeService->has($level2Id));
+		$this->assertFalse($this->nodeService->has($level3Id));
+		$this->assertFalse($this->nodeService->has($level4Id));
+	}
 }
