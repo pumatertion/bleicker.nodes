@@ -28,12 +28,6 @@ interface PageNodeInterface extends NodeInterface {
 	public function getParent();
 
 	/**
-	 * @param PageNodeInterface $node
-	 * @return $this
-	 */
-	public function setParent(PageNodeInterface $node = NULL);
-
-	/**
 	 * @return Collection
 	 */
 	public function getContent();

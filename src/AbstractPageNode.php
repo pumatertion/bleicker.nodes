@@ -76,15 +76,6 @@ abstract class AbstractPageNode implements PageNodeInterface {
 	}
 
 	/**
-	 * @param PageNodeInterface $parent
-	 * @return $this
-	 */
-	public function setParent(PageNodeInterface $parent = NULL) {
-		$this->parent = $parent;
-		return $this;
-	}
-
-	/**
 	 * @return PageNodeInterface
 	 */
 	public function getParent() {

@@ -52,30 +52,10 @@ abstract class AbstractContentNode implements ContentNodeInterface {
 	}
 
 	/**
-	 * @param ContentNodeInterface $parent
-	 * @return $this
-	 * @deprecated
-	 */
-	public function setParent(ContentNodeInterface $parent = NULL) {
-		$this->parent = $parent;
-		return $this;
-	}
-
-	/**
 	 * @return ContentNodeInterface
 	 */
 	public function getParent() {
 		return $this->parent;
-	}
-
-	/**
-	 * @param PageNodeInterface $node
-	 * @return $this
-	 * @deprecated
-	 */
-	public function setPage(PageNodeInterface $node = NULL) {
-		$this->page = $node;
-		return $this;
 	}
 
 	/**
@@ -97,7 +77,6 @@ abstract class AbstractContentNode implements ContentNodeInterface {
 	 * @return $this
 	 */
 	public function addChild(ContentNodeInterface $child) {
-		$child->setParent($this);
 		$this->getChildren()->add($child);
 		static::generateSorting($this->getChildren());
 		return $this;
@@ -109,7 +88,6 @@ abstract class AbstractContentNode implements ContentNodeInterface {
 	 * @return $this
 	 */
 	public function addChildAfter(ContentNodeInterface $child, ContentNodeInterface $after) {
-		$child->setParent($this);
 		$child->setSorting($after->getSorting() + 1);
 		$this->getChildren()->add($child);
 		static::reorderBySorting($this->getChildren());
@@ -122,7 +100,6 @@ abstract class AbstractContentNode implements ContentNodeInterface {
 	 * @return $this
 	 */
 	public function addChildBefore(ContentNodeInterface $child, ContentNodeInterface $after) {
-		$child->setParent($this);
 		$child->setSorting($after->getSorting() - 1);
 		$this->getChildren()->add($child);
 		static::reorderBySorting($this->getChildren());
@@ -134,7 +111,6 @@ abstract class AbstractContentNode implements ContentNodeInterface {
 	 * @return $this
 	 */
 	public function removeChild(ContentNodeInterface $child) {
-		$child->setParent($this);
 		$this->getChildren()->removeElement($child);
 		static::generateSorting($this->getChildren());
 		return $this;

@@ -25,16 +25,6 @@ class ContentTests extends UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function addedChildsHavingParentAfterAddingTest() {
-		$node = new Content();
-		$child1 = new Content();
-		$node->addChild($child1);
-		$this->assertInstanceOf(Content::class, $child1->getParent());
-	}
-
-	/**
-	 * @test
-	 */
 	public function sortingDefaultAfterAddingTest() {
 		$node = new Content();
 		$child1 = new Content();
