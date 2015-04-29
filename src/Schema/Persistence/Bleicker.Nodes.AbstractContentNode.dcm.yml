@@ -25,3 +25,10 @@ Bleicker\Nodes\AbstractContentNode:
         name: parent_id
         referencedColumnName: id
         onDelete: CASCADE
+    page:
+      targetEntity: Bleicker\Nodes\AbstractPageNode
+      inversedBy: content
+      joinColumn:
+        name: page_id
+        referencedColumnName: id
+        onDelete: CASCADE

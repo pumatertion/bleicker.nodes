@@ -32,6 +32,11 @@ abstract class AbstractContentNode implements ContentNodeInterface {
 	 */
 	protected $children;
 
+	/**
+	 * @var PageNodeInterface
+	 */
+	protected $page;
+
 	public function __construct() {
 		$this->children = new ArrayCollection();
 	}
@@ -57,6 +62,22 @@ abstract class AbstractContentNode implements ContentNodeInterface {
 	 */
 	public function getParent() {
 		return $this->parent;
+	}
+
+	/**
+	 * @param PageNodeInterface $page
+	 * @return $this
+	 */
+	public function setPage($page = NULL) {
+		$this->page = $page;
+		return $this;
+	}
+
+	/**
+	 * @return PageNodeInterface
+	 */
+	public function getPage() {
+		return $this->page;
 	}
 
 	/**

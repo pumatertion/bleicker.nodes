@@ -19,6 +19,11 @@ Bleicker\Nodes\AbstractPageNode:
       fetch: EXTRA_LAZY
       mappedBy: parent
       orderBy: { sorting: ASC }
+    content:
+      targetEntity: Bleicker\Nodes\AbstractContentNode
+      fetch: EXTRA_LAZY
+      mappedBy: page
+      orderBy: { sorting: ASC }
   manyToOne:
     parent:
       targetEntity: Bleicker\Nodes\AbstractPageNode

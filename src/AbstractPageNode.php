@@ -38,11 +38,17 @@ abstract class AbstractPageNode implements PageNodeInterface {
 	protected $children;
 
 	/**
+	 * @var Collection
+	 */
+	protected $content;
+
+	/**
 	 * @param string $title
 	 */
 	public function __construct($title) {
 		$this->title = $title;
 		$this->children = new ArrayCollection();
+		$this->content = new ArrayCollection();
 	}
 
 	/**
@@ -89,6 +95,13 @@ abstract class AbstractPageNode implements PageNodeInterface {
 	 */
 	public function getChildren() {
 		return $this->children;
+	}
+
+	/**
+	 * @return Collection
+	 */
+	public function getContent() {
+		return $this->content;
 	}
 
 	/**
