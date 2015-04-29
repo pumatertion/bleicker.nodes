@@ -29,5 +29,5 @@ interface ContentNodeInterface extends NodeInterface {
 	 * @param ContentNodeInterface $node
 	 * @return $this
 	 */
-	public function setParent(ContentNodeInterface $node);
+	public function setParent(ContentNodeInterface $node = NULL);
 }

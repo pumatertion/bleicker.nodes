@@ -29,6 +29,6 @@ interface PageNodeInterface extends NodeInterface {
 	 * @param PageNodeInterface $node
 	 * @return $this
 	 */
-	public function setParent(PageNodeInterface $node);
+	public function setParent(PageNodeInterface $node = NULL);
 
 }
