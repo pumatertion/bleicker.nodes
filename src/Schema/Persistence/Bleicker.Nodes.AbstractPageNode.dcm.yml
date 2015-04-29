@@ -21,7 +21,6 @@ Bleicker\Nodes\AbstractPageNode:
       orderBy: { sorting: ASC }
   manyToOne:
     parent:
-      cascade: ["all"]
       targetEntity: Bleicker\Nodes\AbstractPageNode
       inversedBy: children
       joinColumn:

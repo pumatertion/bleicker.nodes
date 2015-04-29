@@ -196,4 +196,25 @@ class PageNodeServiceTest extends FunctionalTestCase {
 		$this->assertFalse($this->nodeService->has($level2Id));
 		$this->assertFalse($this->nodeService->has($level3Id));
 	}
+
+	/**
+	 * @test
+	 */
+	public function deleteChildDoesNotDeleteParantsTest() {
+		$level1 = new PageNode('Level 1');
+		$level2 = new PageNode('Level 2');
+		$level3 = new PageNode('Level 3');
+
+		$this->nodeService->into($level3, $level2)->into($level2, $level1)->flush();
+
+		$level1Id = $level1->getId();
+		$level2Id = $level2->getId();
+		$level3Id = $level3->getId();
+
+		$this->nodeService->remove($level2)->flush()->clear();
+
+		$this->assertTrue($this->nodeService->has($level1Id));
+		$this->assertFalse($this->nodeService->has($level2Id));
+		$this->assertFalse($this->nodeService->has($level3Id));
+	}
 }
