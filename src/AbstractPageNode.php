@@ -12,6 +12,8 @@ use Doctrine\Common\Collections\Collection;
  */
 abstract class AbstractPageNode implements PageNodeInterface {
 
+	use NodeTrait;
+
 	/**
 	 * @var integer
 	 */
@@ -87,6 +89,58 @@ abstract class AbstractPageNode implements PageNodeInterface {
 	 */
 	public function getChildren() {
 		return $this->children;
+	}
+
+	/**
+	 * @param PageNodeInterface $child
+	 * @return $this
+	 */
+	public function addChild(PageNodeInterface $child) {
+		$this->getChildren()->add($child);
+		static::generateSorting($this->getChildren());
+		return $this;
+	}
+
+	/**
+	 * @param PageNodeInterface $child
+	 * @param PageNodeInterface $after
+	 * @return $this
+	 */
+	public function addChildAfter(PageNodeInterface $child, PageNodeInterface $after) {
+		$child->setSorting($after->getSorting() + 1);
+		$this->getChildren()->add($child);
+		static::reorderBySorting($this->getChildren());
+		return $this;
+	}
+
+	/**
+	 * @param PageNodeInterface $child
+	 * @param PageNodeInterface $after
+	 * @return $this
+	 */
+	public function addChildBefore(PageNodeInterface $child, PageNodeInterface $after) {
+		$child->setSorting($after->getSorting() - 1);
+		$this->getChildren()->add($child);
+		static::reorderBySorting($this->getChildren());
+		return $this;
+	}
+
+	/**
+	 * @param PageNodeInterface $child
+	 * @return $this
+	 */
+	public function removeChild(PageNodeInterface $child) {
+		$this->getChildren()->removeElement($child);
+		static::generateSorting($this->getChildren());
+		return $this;
+	}
+
+	/**
+	 * @return $this
+	 */
+	public function clearChildren() {
+		$this->getChildren()->clear();
+		return $this;
 	}
 
 	/**
