@@ -10,6 +10,17 @@ namespace Bleicker\Nodes;
 interface ContentNodeInterface extends NodeInterface {
 
 	/**
+	 * @param PageNodeInterface $node
+	 * @return mixed
+	 */
+	public function setPage(PageNodeInterface $node = NULL);
+
+	/**
+	 * @return PageNodeInterface
+	 */
+	public function getPage();
+	
+	/**
 	 * @return ContentNodeInterface
 	 */
 	public function getParent();
@@ -19,5 +30,4 @@ interface ContentNodeInterface extends NodeInterface {
 	 * @return $this
 	 */
 	public function setParent(ContentNodeInterface $node);
-
 }
