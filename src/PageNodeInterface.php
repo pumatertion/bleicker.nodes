@@ -2,6 +2,8 @@
 
 namespace Bleicker\Nodes;
 
+use Doctrine\Common\Collections\Collection;
+
 /**
  * Interface PageNodeInterface
  *
@@ -30,5 +32,10 @@ interface PageNodeInterface extends NodeInterface {
 	 * @return $this
 	 */
 	public function setParent(PageNodeInterface $node = NULL);
+
+	/**
+	 * @return Collection
+	 */
+	public function getContent();
 
 }
