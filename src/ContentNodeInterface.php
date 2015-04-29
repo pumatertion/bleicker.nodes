@@ -19,7 +19,7 @@ interface ContentNodeInterface extends NodeInterface {
 	 * @return PageNodeInterface
 	 */
 	public function getPage();
-	
+
 	/**
 	 * @return ContentNodeInterface
 	 */
