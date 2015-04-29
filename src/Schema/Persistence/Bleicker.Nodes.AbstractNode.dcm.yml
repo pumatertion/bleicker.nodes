@@ -1,4 +1,4 @@
-Bleicker\Nodes\AbstractPageNode:
+Bleicker\Nodes\AbstractNode:
   inheritanceType: JOINED
   type: entity
   id:
@@ -7,26 +7,19 @@ Bleicker\Nodes\AbstractPageNode:
       generator:
         strategy: AUTO
   fields:
-    title:
-      type: string
     sorting:
       nullable: true
       type: integer
   oneToMany:
     children:
       cascade: ["all"]
-      targetEntity: Bleicker\Nodes\AbstractPageNode
+      targetEntity: Bleicker\Nodes\AbstractNode
       fetch: EXTRA_LAZY
       mappedBy: parent
       orderBy: { sorting: ASC }
-    content:
-      targetEntity: Bleicker\Nodes\AbstractContentNode
-      fetch: EXTRA_LAZY
-      mappedBy: page
-      orderBy: { sorting: ASC }
   manyToOne:
     parent:
-      targetEntity: Bleicker\Nodes\AbstractPageNode
+      targetEntity: Bleicker\Nodes\AbstractNode
       inversedBy: children
       joinColumn:
         name: parent_id

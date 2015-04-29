@@ -2,13 +2,13 @@
 
 namespace Tests\Bleicker\Nodes\Functional\Fixtures;
 
-use Bleicker\Nodes\AbstractPageNode;
+use Bleicker\Nodes\AbstractContentNode;
 
 /**
- * Class PageNode
+ * Class Content
  *
  * @package Tests\Bleicker\Nodes\Functional\Fixtures
  */
-class PageNode extends AbstractPageNode {
+class Content extends AbstractContentNode {
 
 }

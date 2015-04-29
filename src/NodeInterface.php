@@ -29,7 +29,49 @@ interface NodeInterface {
 	public function getId();
 
 	/**
+	 * @param NodeInterface $parent
+	 * @return $this
+	 */
+	public function setParent(NodeInterface $parent = NULL);
+
+	/**
+	 * @return NodeInterface
+	 */
+	public function getParent();
+
+	/**
 	 * @return Collection
 	 */
 	public function getChildren();
+
+	/**
+	 * @param NodeInterface $child
+	 * @return $this
+	 */
+	public function addChild(NodeInterface $child);
+
+	/**
+	 * @param NodeInterface $child
+	 * @param NodeInterface $after
+	 * @return $this
+	 */
+	public function addChildAfter(NodeInterface $child, NodeInterface $after);
+
+	/**
+	 * @param NodeInterface $child
+	 * @param NodeInterface $after
+	 * @return $this
+	 */
+	public function addChildBefore(NodeInterface $child, NodeInterface $after);
+
+	/**
+	 * @param NodeInterface $child
+	 * @return $this
+	 */
+	public function removeChild(NodeInterface $child);
+
+	/**
+	 * @return $this
+	 */
+	public function clearChildren();
 }
