@@ -128,7 +128,7 @@ abstract class AbstractContentNode implements ContentNodeInterface {
 	 * @param integer $sorting
 	 * @return $this
 	 */
-	public function setSorting($sorting = NULL) {
+	public function setSorting($sorting) {
 		$this->sorting = $sorting;
 		return $this;
 	}

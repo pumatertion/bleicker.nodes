@@ -16,7 +16,7 @@ interface NodeInterface {
 	 * @param integer $sorting
 	 * @return $this
 	 */
-	public function setSorting($sorting = NULL);
+	public function setSorting($sorting);
 
 	/**
 	 * @return integer
