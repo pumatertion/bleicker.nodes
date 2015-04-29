@@ -26,6 +26,7 @@ Bleicker\Nodes\AbstractContentNode:
         referencedColumnName: id
         onDelete: CASCADE
     page:
+      cascade: ["all"]
       targetEntity: Bleicker\Nodes\AbstractPageNode
       inversedBy: content
       joinColumn:
