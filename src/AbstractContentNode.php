@@ -52,6 +52,7 @@ abstract class AbstractContentNode implements ContentNodeInterface {
 	/**
 	 * @param ContentNodeInterface $parent
 	 * @return $this
+	 * @deprecated
 	 */
 	public function setParent(ContentNodeInterface $parent = NULL) {
 		$this->parent = $parent;
@@ -68,6 +69,7 @@ abstract class AbstractContentNode implements ContentNodeInterface {
 	/**
 	 * @param PageNodeInterface $node
 	 * @return $this
+	 * @deprecated
 	 */
 	public function setPage(PageNodeInterface $node = NULL) {
 		$this->page = $node;

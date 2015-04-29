@@ -12,6 +12,7 @@ interface ContentNodeInterface extends NodeInterface {
 	/**
 	 * @param PageNodeInterface $node
 	 * @return mixed
+	 * @deprecated
 	 */
 	public function setPage(PageNodeInterface $node = NULL);
 
@@ -28,6 +29,7 @@ interface ContentNodeInterface extends NodeInterface {
 	/**
 	 * @param ContentNodeInterface $node
 	 * @return $this
+	 * @deprecated
 	 */
 	public function setParent(ContentNodeInterface $node = NULL);
 }
