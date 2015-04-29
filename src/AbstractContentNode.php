@@ -65,11 +65,11 @@ abstract class AbstractContentNode implements ContentNodeInterface {
 	}
 
 	/**
-	 * @param PageNodeInterface $page
+	 * @param PageNodeInterface $node
 	 * @return $this
 	 */
-	public function setPage($page = NULL) {
-		$this->page = $page;
+	public function setPage(PageNodeInterface $node = NULL) {
+		$this->page = $node;
 		return $this;
 	}
 
