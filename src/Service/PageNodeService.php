@@ -70,12 +70,12 @@ class PageNodeService extends AbstractNodeService implements PageNodeServiceInte
 
 	/**
 	 * @param NodeInterface $node
-	 * @param NodeInterface $after
+	 * @param NodeInterface $before
 	 * @return $this
 	 */
-	public function before(NodeInterface $node, NodeInterface $after) {
-		$node->setSorting($after->getSorting() - 1);
-		$node->setParent($after->getParent());
+	public function before(NodeInterface $node, NodeInterface $before) {
+		$node->setSorting($before->getSorting() - 1);
+		$node->setParent($before->getParent());
 		$node->getParent()->getChildren()->add($node);
 
 		$children = [];
