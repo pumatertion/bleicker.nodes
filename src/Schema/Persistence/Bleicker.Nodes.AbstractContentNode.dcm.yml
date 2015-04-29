@@ -19,7 +19,6 @@ Bleicker\Nodes\AbstractContentNode:
       orderBy: { sorting: ASC }
   manyToOne:
     parent:
-      cascade: ["all"]
       targetEntity: Bleicker\Nodes\AbstractContentNode
       inversedBy: children
       joinColumn:
