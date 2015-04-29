@@ -12,6 +12,8 @@ use Doctrine\Common\Collections\Collection;
  */
 abstract class AbstractContentNode implements ContentNodeInterface {
 
+	use NodeTrait;
+
 	/**
 	 * @var integer
 	 */
@@ -88,6 +90,62 @@ abstract class AbstractContentNode implements ContentNodeInterface {
 	 */
 	public function getChildren() {
 		return $this->children;
+	}
+
+	/**
+	 * @param ContentNodeInterface $child
+	 * @return $this
+	 */
+	public function addChild(ContentNodeInterface $child) {
+		$child->setParent($this);
+		$this->getChildren()->add($child);
+		static::generateSorting($this->getChildren());
+		return $this;
+	}
+
+	/**
+	 * @param ContentNodeInterface $child
+	 * @param ContentNodeInterface $after
+	 * @return $this
+	 */
+	public function addChildAfter(ContentNodeInterface $child, ContentNodeInterface $after) {
+		$child->setParent($this);
+		$child->setSorting($after->getSorting() + 1);
+		$this->getChildren()->add($child);
+		static::reorderBySorting($this->getChildren());
+		return $this;
+	}
+
+	/**
+	 * @param ContentNodeInterface $child
+	 * @param ContentNodeInterface $after
+	 * @return $this
+	 */
+	public function addChildBefore(ContentNodeInterface $child, ContentNodeInterface $after) {
+		$child->setParent($this);
+		$child->setSorting($after->getSorting() - 1);
+		$this->getChildren()->add($child);
+		static::reorderBySorting($this->getChildren());
+		return $this;
+	}
+
+	/**
+	 * @param ContentNodeInterface $child
+	 * @return $this
+	 */
+	public function removeChild(ContentNodeInterface $child) {
+		$child->setParent($this);
+		$this->getChildren()->removeElement($child);
+		static::generateSorting($this->getChildren());
+		return $this;
+	}
+
+	/**
+	 * @return $this
+	 */
+	public function clearChildren() {
+		$this->getChildren()->clear();
+		return $this;
 	}
 
 	/**
