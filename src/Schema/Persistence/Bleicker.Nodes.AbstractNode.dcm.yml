@@ -1,4 +1,4 @@
-Bleicker\Nodes\AbstractContentNode:
+Bleicker\Nodes\AbstractNode:
   inheritanceType: JOINED
   type: entity
   id:
@@ -13,22 +13,15 @@ Bleicker\Nodes\AbstractContentNode:
   oneToMany:
     children:
       cascade: ["all"]
-      targetEntity: Bleicker\Nodes\AbstractContentNode
+      targetEntity: Bleicker\Nodes\AbstractNode
       fetch: EXTRA_LAZY
       mappedBy: parent
       orderBy: { sorting: ASC }
   manyToOne:
     parent:
-      targetEntity: Bleicker\Nodes\AbstractContentNode
+      targetEntity: Bleicker\Nodes\AbstractNode
       inversedBy: children
       joinColumn:
         name: parent_id
-        referencedColumnName: id
-        onDelete: CASCADE
-    page:
-      targetEntity: Bleicker\Nodes\AbstractPageNode
-      inversedBy: content
-      joinColumn:
-        name: page_id
         referencedColumnName: id
         onDelete: CASCADE

@@ -1,0 +1,5 @@
+Tests\Bleicker\Nodes\Functional\Fixtures\Page:
+  type: entity
+  fields:
+    title:
+      type: integer
