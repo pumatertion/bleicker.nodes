@@ -49,6 +49,7 @@ abstract class AbstractPageNode implements PageNodeInterface {
 		$this->title = $title;
 		$this->children = new ArrayCollection();
 		$this->content = new ArrayCollection();
+		$this->sorting = 0;
 	}
 
 	/**

@@ -39,6 +39,7 @@ abstract class AbstractContentNode implements ContentNodeInterface {
 
 	public function __construct() {
 		$this->children = new ArrayCollection();
+		$this->sorting = 0;
 	}
 
 	/**
