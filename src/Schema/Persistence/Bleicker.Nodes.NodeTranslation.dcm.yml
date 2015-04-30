@@ -1,0 +1,25 @@
+Bleicker\Nodes\NodeTranslation:
+  type: entity
+  table: bleicker_nodes_node_translation
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    propertyName:
+      type: string
+    value:
+      type: string
+    language:
+      type: string
+    region:
+      type: string
+  manyToOne:
+    node:
+      targetEntity: Bleicker\Nodes\AbstractNode
+      inversedBy: translations
+      joinColumn:
+        name: node_id
+        referencedColumnName: id
+        onDelete: CASCADE

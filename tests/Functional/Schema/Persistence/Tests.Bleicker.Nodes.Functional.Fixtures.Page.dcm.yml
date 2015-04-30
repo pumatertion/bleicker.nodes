@@ -1,5 +1,6 @@
 Tests\Bleicker\Nodes\Functional\Fixtures\Page:
   type: entity
+  table: tests_bleicker_nodes_functional_fixtures_page
   fields:
     title:
       type: integer
