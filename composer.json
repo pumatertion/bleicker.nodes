@@ -4,7 +4,7 @@
 	"require": {
 		"bleicker/objectmanager": "1.0.*",
 		"bleicker/persistence": "1.0.*",
-		"bleicker/registry": "1.1.*",
+		"bleicker/registry": "1.2.*",
 		"bleicker/translation": "0.1.*"
 	},
 	"require-dev": {

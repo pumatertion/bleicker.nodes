@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8efa492f3b9b6de13205d81d0dd2de42",
+    "hash": "9ce2deff50e2f163692070de8830a231",
     "packages": [
         {
             "name": "bleicker/container",
@@ -144,20 +144,20 @@
         },
         {
             "name": "bleicker/registry",
-            "version": "1.1.1",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pumatertion/bleicker.registry.git",
-                "reference": "393862319596d5d26f25eeb8cd68774037769ac7"
+                "reference": "3328750e7bc8eff68688487b1fa28d3744e5cc68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pumatertion/bleicker.registry/zipball/393862319596d5d26f25eeb8cd68774037769ac7",
-                "reference": "393862319596d5d26f25eeb8cd68774037769ac7",
+                "url": "https://api.github.com/repos/pumatertion/bleicker.registry/zipball/3328750e7bc8eff68688487b1fa28d3744e5cc68",
+                "reference": "3328750e7bc8eff68688487b1fa28d3744e5cc68",
                 "shasum": ""
             },
             "require-dev": {
-                "phpunit/phpunit": "*"
+                "phpunit/phpunit": "4.6.*"
             },
             "type": "library",
             "autoload": {
@@ -172,7 +172,7 @@
                     "email": "carsten@bleicker.de"
                 }
             ],
-            "time": "2015-04-26 14:06:49"
+            "time": "2015-04-30 19:52:37"
         },
         {
             "name": "bleicker/translation",
