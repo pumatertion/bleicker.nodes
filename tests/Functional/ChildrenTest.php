@@ -2,6 +2,7 @@
 
 namespace Tests\Bleicker\Nodes\Functional;
 
+use Bleicker\Nodes\NodeTranslation;
 use Bleicker\ObjectManager\ObjectManager;
 use Bleicker\Persistence\EntityManagerInterface;
 use Tests\Bleicker\Nodes\Functional\Fixtures\Content;
@@ -299,5 +300,38 @@ class ChildrenTest extends FunctionalTestCase {
 		$this->assertNull($node1);
 		$this->assertNull($node2);
 		$this->assertNull($node3);
+	}
+
+	/**
+	 * @test
+	 */
+	public function translationTest(){
+
+		$node = new Page('Default Title');
+		$german = new NodeTranslation('title', 'German title', 'de', 'DE');
+		$french = new NodeTranslation('title', 'French title', 'fr', 'FR');
+		$node->addTranslation($german->setNode($node))->addTranslation($french->setNode($node));
+
+		$this->entityManager->persist($node);
+		$this->entityManager->flush();
+
+		$nodeId = $node->getId();
+
+		$this->entityManager->clear();
+
+		/** @var Page $node */
+		$node = $this->entityManager->find(Page::class, $nodeId);
+
+		/** @var NodeTranslation $german */
+		$german = $node->filterTranslationsFor('title', 'de', 'DE')->first();
+
+		/** @var NodeTranslation $german */
+		$french = $node->filterTranslationsFor('title', 'fr', 'FR')->first();
+
+		$this->assertInstanceOf(NodeTranslation::class, $german);
+		$this->assertInstanceOf(NodeTranslation::class, $french);
+
+		$this->assertEquals('German title', $german->getValue());
+		$this->assertEquals('French title', $french->getValue());
 	}
 }

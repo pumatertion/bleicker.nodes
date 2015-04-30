@@ -1,2 +1,3 @@
 Tests\Bleicker\Nodes\Functional\Fixtures\Content:
   type: entity
+  table: tests_bleicker_nodes_functional_fixtures_content
