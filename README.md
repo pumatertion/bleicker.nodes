@@ -40,27 +40,15 @@ ExampleApp.php
 		);
 	});
 
-	$firstNode = new MyNode();
-	$childNode = new MyNode();
-	$anotherNode = new MyNode();
+	/** @var EntityManagerInterface $entityManager */
+	$entityManager = ObjectManager::get(EntityManagerInterface::class);
 
-	$service = new ContentNodeService();
+	$node = new Page();
+	$node1 = new Content();
+	$node2 = new Content();
+	$node3 = new Content();
+	
+	$node->addChild($node1)->addChild($node2)->addChildAfter($node3, $node1);
 
-	// Inser $childNode into $firstNode
-	$service->into($childNode, $firstNode);
-
-	// Add $anotherNode
-	$service->add($anotherNode);
-
-	// Or move it before $childNode
-	$service->before($anotherNode, $childNode);
-
-	// Persist the changes
-	$service->flush();
-
-	// Doing it all at once
-	$firstNode = new MyNode();
-	$childNode = new MyNode();
-	$anotherNode = new MyNode();
-
-	$service->into($childNode, $firstNode)->before($anotherNode, $childNode)->flush();
+	$entityManager->persist($node);
+	$entityManager->flush();
