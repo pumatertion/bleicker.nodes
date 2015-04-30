@@ -2,6 +2,8 @@
 
 namespace Bleicker\Nodes;
 
+use Bleicker\Translation\TranslateInterface;
+use Bleicker\Translation\TranslateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -10,7 +12,9 @@ use Doctrine\Common\Collections\Collection;
  *
  * @package Bleicker\Nodes
  */
-abstract class AbstractNode implements NodeInterface {
+abstract class AbstractNode implements NodeInterface, TranslateInterface {
+
+	use TranslateTrait;
 
 	/**
 	 * @var integer
@@ -32,8 +36,14 @@ abstract class AbstractNode implements NodeInterface {
 	 */
 	protected $children;
 
+	/**
+	 * @var Collection
+	 */
+	protected $translations;
+
 	public function __construct() {
 		$this->children = new ArrayCollection();
+		$this->translations = new ArrayCollection();
 		$this->sorting = 0;
 	}
 

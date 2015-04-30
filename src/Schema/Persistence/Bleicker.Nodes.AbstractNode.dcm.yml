@@ -17,6 +17,12 @@ Bleicker\Nodes\AbstractNode:
       fetch: EXTRA_LAZY
       mappedBy: parent
       orderBy: { sorting: ASC }
+    translations:
+      cascade: ["all"]
+      targetEntity: Bleicker\Nodes\NodeTranslation
+      fetch: EXTRA_LAZY
+      mappedBy: node
+      orderBy: { propertyName: ASC, language: DESC, region: DESC}
   manyToOne:
     parent:
       targetEntity: Bleicker\Nodes\AbstractNode
