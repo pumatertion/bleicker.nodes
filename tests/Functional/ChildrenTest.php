@@ -307,9 +307,9 @@ class ChildrenTest extends FunctionalTestCase {
 	public function translationTest() {
 
 		$node = new Page('Default Title');
-		$german = new NodeTranslation('title', 'German title', 'de', 'DE');
-		$french = new NodeTranslation('title', 'French title', 'fr', 'FR');
-		$node->addTranslation($german->setNode($node))->addTranslation($french->setNode($node));
+		$german = new NodeTranslation('German title', 'de', 'DE');
+		$french = new NodeTranslation('French title', 'fr', 'FR');
+		$node->addTranslation($german->setNode($node), 'title')->addTranslation($french->setNode($node), 'title');
 
 		$this->entityManager->persist($node);
 		$this->entityManager->flush();

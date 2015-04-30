@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5e60228576c369c174d80426fa0ca9cf",
+    "hash": "47b39817f05b6939d69b8c166a6919ab",
     "packages": [
         {
             "name": "bleicker/container",
@@ -176,16 +176,16 @@
         },
         {
             "name": "bleicker/translation",
-            "version": "0.0.1",
+            "version": "0.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pumatertion/bleicker.translation.git",
-                "reference": "66af4e2b816abaf54936b5f29241ce02972e6788"
+                "reference": "1ab8546aa8d0a98ea74ce222b98180c4e69e8073"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pumatertion/bleicker.translation/zipball/66af4e2b816abaf54936b5f29241ce02972e6788",
-                "reference": "66af4e2b816abaf54936b5f29241ce02972e6788",
+                "url": "https://api.github.com/repos/pumatertion/bleicker.translation/zipball/1ab8546aa8d0a98ea74ce222b98180c4e69e8073",
+                "reference": "1ab8546aa8d0a98ea74ce222b98180c4e69e8073",
                 "shasum": ""
             },
             "require": {
@@ -208,7 +208,7 @@
                     "email": "carsten@bleicker.de"
                 }
             ],
-            "time": "2015-04-30 10:57:21"
+            "time": "2015-04-30 12:51:07"
         },
         {
             "name": "doctrine/annotations",
