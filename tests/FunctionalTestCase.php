@@ -29,37 +29,6 @@ abstract class FunctionalTestCase extends BaseTestCase {
 		include_once __DIR__ . '/Functional/Configuration/Persistence.php';
 
 		/** @var EntityManagerInterface $em */
-		$em = ObjectManager::get(EntityManagerInterface::class);
-
-		$connection = $em->getConnection();
-		$dbPlatform = $connection->getDatabasePlatform();
-		$connection->beginTransaction();
-
-		try {
-			$cmd = $em->getClassMetadata(AbstractNode::class);
-			$connection->query('SET FOREIGN_KEY_CHECKS=0');
-			$q = $dbPlatform->getTruncateTableSql($cmd->getTableName());
-			$connection->executeUpdate($q);
-			$connection->query('SET FOREIGN_KEY_CHECKS=1');
-
-			$cmd = $em->getClassMetadata(Page::class);
-			$connection->query('SET FOREIGN_KEY_CHECKS=0');
-			$q = $dbPlatform->getTruncateTableSql($cmd->getTableName());
-			$connection->executeUpdate($q);
-			$connection->query('SET FOREIGN_KEY_CHECKS=1');
-
-			$cmd = $em->getClassMetadata(Content::class);
-			$connection->query('SET FOREIGN_KEY_CHECKS=0');
-			$q = $dbPlatform->getTruncateTableSql($cmd->getTableName());
-			$connection->executeUpdate($q);
-			$connection->query('SET FOREIGN_KEY_CHECKS=1');
-
-			$connection->commit();
-		} catch (\Exception $e) {
-			$connection->rollback();
-			throw $e;
-		}
-
-		$this->entityManager = $em;
+		$this->entityManager = ObjectManager::get(EntityManagerInterface::class);
 	}
 }
