@@ -1,5 +1,6 @@
 {
 	"name": "bleicker/nodes",
+	"type": "library",
 	"require": {
 		"bleicker/objectmanager": "~1.0",
 		"bleicker/persistence": "~1.0",
