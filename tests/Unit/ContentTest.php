@@ -6,11 +6,11 @@ use Tests\Bleicker\Nodes\Unit\Fixtures\Content;
 use Tests\Bleicker\Nodes\UnitTestCase;
 
 /**
- * Class ContentTests
+ * Class ContentTest
  *
  * @package Tests\Bleicker\Nodes\Unit
  */
-class ContentTests extends UnitTestCase {
+class ContentTest extends UnitTestCase {
 
 	/**
 	 * @test

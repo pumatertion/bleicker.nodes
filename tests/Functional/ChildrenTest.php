@@ -9,11 +9,11 @@ use Tests\Bleicker\Nodes\Functional\Fixtures\Page;
 use Tests\Bleicker\Nodes\FunctionalTestCase;
 
 /**
- * Class ChildrenTests
+ * Class ChildrenTest
  *
  * @package Tests\Bleicker\Nodes\Functional
  */
-class ChildrenTests extends FunctionalTestCase {
+class ChildrenTest extends FunctionalTestCase {
 
 	/**
 	 * @var EntityManagerInterface
