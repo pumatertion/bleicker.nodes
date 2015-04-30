@@ -1,5 +1,6 @@
 Bleicker\Nodes\NodeTranslation:
   type: entity
+  table: bleicker_nodes_node_translation
   id:
     id:
       type: integer

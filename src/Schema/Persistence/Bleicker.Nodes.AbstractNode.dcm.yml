@@ -1,5 +1,6 @@
 Bleicker\Nodes\AbstractNode:
   inheritanceType: JOINED
+  table: bleicker_nodes_abstractnode
   type: entity
   id:
     id:
