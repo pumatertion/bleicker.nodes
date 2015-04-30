@@ -181,7 +181,6 @@ class ChildrenTest extends FunctionalTestCase {
 
 		$this->assertEquals(0, $_1->getSorting(), 'Sorting is 0');
 		$this->assertEquals(10, $_2->getSorting(), 'Sorting is 10');
-
 	}
 
 	/**
@@ -305,7 +304,7 @@ class ChildrenTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
-	public function translationTest(){
+	public function translationTest() {
 
 		$node = new Page('Default Title');
 		$german = new NodeTranslation('title', 'German title', 'de', 'DE');
