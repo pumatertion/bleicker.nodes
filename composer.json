@@ -5,7 +5,7 @@
 		"bleicker/objectmanager": "~1.0",
 		"bleicker/persistence": "~1.0",
 		"bleicker/registry": "~1.0",
-		"bleicker/translation": "~0.0"
+		"bleicker/translation": "~0.1"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.6"
