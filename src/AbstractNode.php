@@ -57,7 +57,7 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 		$this->translations = new ArrayCollection();
 		$this->nodeType = $this->getNodeType();
 		$this->nodeTypeAbstraction = $this->getNodeTypeAbstraction();
-		$this->sorting = 0;
+		$this->sorting = static::SORTING_DIFF;
 	}
 
 	/**
@@ -90,28 +90,10 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 	}
 
 	/**
-	 * @return NodeInterface
-	 */
-	public function getRoot() {
-		if($this->getParent() !== NULL){
-			return $this->getParent()->getRoot();
-		}
-		return $this;
-	}
-
-	/**
 	 * @return Collection
 	 */
 	public function getChildren() {
 		return $this->children;
-	}
-
-	/**
-	 * @param Criteria $criteria
-	 * @return Collection
-	 */
-	public function getChildrenByCriteria(Criteria $criteria) {
-		return $this->getChildren()->matching($criteria);
 	}
 
 	/**
