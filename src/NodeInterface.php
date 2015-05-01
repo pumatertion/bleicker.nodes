@@ -41,6 +41,11 @@ interface NodeInterface {
 	public function getParent();
 
 	/**
+	 * @return NodeInterface
+	 */
+	public function getRoot();
+
+	/**
 	 * @return Collection
 	 */
 	public function getChildren();

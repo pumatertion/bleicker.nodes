@@ -68,6 +68,31 @@ class ChildrenTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
+	public function rootTest() {
+		$node = new Page();
+		$node1 = new Content();
+		$node2 = new Content();
+		$node3 = new Content();
+
+		$node->addChild($node1->addChild($node2->addChild($node3)));
+
+		$this->entityManager->persist($node);
+		$this->entityManager->flush();
+
+		$nodeId = $node3->getId();
+		$rootId = $node->getId();
+
+		$this->entityManager->clear();
+
+		/** @var Content $node */
+		$node = $this->entityManager->find(Content::class, $nodeId);
+
+		$this->assertEquals($rootId, $node->getRoot()->getId());
+	}
+
+	/**
+	 * @test
+	 */
 	public function addChildAfterTest() {
 		$node = new Page();
 		$node1 = new Content();
