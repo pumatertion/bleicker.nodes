@@ -2,10 +2,12 @@
 
 namespace Bleicker\Nodes;
 
+use Bleicker\Nodes\Exception\CriteriaFilteringNotSupportedForThisTypeOfCollectionException;
 use Bleicker\Translation\TranslateInterface;
 use Bleicker\Translation\TranslateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * Class AbstractNode
@@ -20,6 +22,16 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 	 * @var integer
 	 */
 	protected $id;
+
+	/**
+	 * @var string
+	 */
+	protected $nodeType;
+
+	/**
+	 * @var string
+	 */
+	protected $nodeTypeAbstraction;
 
 	/**
 	 * @var integer
@@ -44,7 +56,16 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 	public function __construct() {
 		$this->children = new ArrayCollection();
 		$this->translations = new ArrayCollection();
+		$this->nodeType = $this->getNodeType();
+		$this->nodeTypeAbstraction = $this->getNodeTypeAbstraction();
 		$this->sorting = 0;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getNodeType() {
+		return static::class;
 	}
 
 	/**
@@ -74,6 +95,14 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 	 */
 	public function getChildren() {
 		return $this->children;
+	}
+
+	/**
+	 * @param Criteria $criteria
+	 * @return Collection
+	 */
+	public function getChildrenByCriteria(Criteria $criteria) {
+		return $this->getChildren()->matching($criteria);
 	}
 
 	/**
@@ -128,7 +157,7 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 	 * @return $this
 	 */
 	public function clearChildren() {
-		$this->getChildren()->map(function(NodeInterface $child){
+		$this->getChildren()->map(function (NodeInterface $child) {
 			$child->setParent();
 		});
 		$this->getChildren()->clear();

@@ -2,6 +2,7 @@
 namespace Bleicker\Nodes;
 
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * Interface NodeInterface
@@ -45,6 +46,12 @@ interface NodeInterface {
 	public function getChildren();
 
 	/**
+	 * @param Criteria $criteria
+	 * @return Collection
+	 */
+	public function getChildrenByCriteria(Criteria $criteria);
+
+	/**
 	 * @param NodeInterface $child
 	 * @return $this
 	 */
@@ -74,4 +81,14 @@ interface NodeInterface {
 	 * @return $this
 	 */
 	public function clearChildren();
+
+	/**
+	 * @return string
+	 */
+	public function getNodeType();
+
+	/**
+	 * @return string
+	 */
+	public function getNodeTypeAbstraction();
 }

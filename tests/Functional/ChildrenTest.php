@@ -2,9 +2,11 @@
 
 namespace Tests\Bleicker\Nodes\Functional;
 
+use Bleicker\Nodes\AbstractPageNode;
 use Bleicker\Nodes\NodeTranslation;
 use Bleicker\ObjectManager\ObjectManager;
 use Bleicker\Persistence\EntityManagerInterface;
+use Doctrine\Common\Collections\Criteria;
 use Tests\Bleicker\Nodes\Functional\Fixtures\Content;
 use Tests\Bleicker\Nodes\Functional\Fixtures\Page;
 use Tests\Bleicker\Nodes\FunctionalTestCase;
@@ -332,5 +334,38 @@ class ChildrenTest extends FunctionalTestCase {
 
 		$this->assertEquals('German title', $german->getValue());
 		$this->assertEquals('French title', $french->getValue());
+	}
+
+	/**
+	 * @test
+	 */
+	public function criteriaTest() {
+
+		$page = new Page();
+		$page1 = new Page();
+		$page2 = new Page();
+		$page3 = new Page();
+
+		$node = new Content();
+		$node1 = new Content();
+		$node2 = new Content();
+		$node3 = new Content();
+
+		$page->addChild($page1)->addChild($page2)->addChild($page3)->addChild($node)->addChild($node1)->addChild($node2)->addChild($node3);
+
+		$this->entityManager->persist($page);
+		$this->entityManager->flush();
+
+		$pageId = $page->getId();
+
+		$this->entityManager->clear();
+
+		/** @var Page $page */
+		$page = $this->entityManager->find(Page::class, $pageId);
+
+		$criteria = Criteria::create()->where(Criteria::expr()->eq('nodeTypeAbstraction', AbstractPageNode::class));
+		$pagesOnly = $page->getChildrenByCriteria($criteria);
+
+		$this->assertEquals(3, $pagesOnly->count());
 	}
 }

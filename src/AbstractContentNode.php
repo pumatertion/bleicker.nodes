@@ -12,4 +12,11 @@ use Doctrine\Common\Collections\Collection;
  */
 abstract class AbstractContentNode extends AbstractNode implements ContentNodeInterface {
 
+	/**
+	 * @return string
+	 */
+	public function getNodeTypeAbstraction() {
+		return self::class;
+	}
+
 }

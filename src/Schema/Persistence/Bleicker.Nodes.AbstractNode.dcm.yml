@@ -11,6 +11,10 @@ Bleicker\Nodes\AbstractNode:
     sorting:
       nullable: true
       type: integer
+    nodeType:
+      type: string
+    nodeTypeAbstraction:
+      type: string
   oneToMany:
     children:
       cascade: ["all"]
