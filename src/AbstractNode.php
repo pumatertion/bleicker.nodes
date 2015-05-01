@@ -2,7 +2,6 @@
 
 namespace Bleicker\Nodes;
 
-use Bleicker\Nodes\Exception\CriteriaFilteringNotSupportedForThisTypeOfCollectionException;
 use Bleicker\Translation\TranslateInterface;
 use Bleicker\Translation\TranslateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -88,6 +87,16 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 	 */
 	public function getParent() {
 		return $this->parent;
+	}
+
+	/**
+	 * @return NodeInterface
+	 */
+	public function getRoot() {
+		if($this->getParent() !== NULL){
+			return $this->getParent()->getRoot();
+		}
+		return $this;
 	}
 
 	/**
