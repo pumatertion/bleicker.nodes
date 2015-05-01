@@ -29,4 +29,11 @@ abstract class AbstractPageNode extends AbstractNode implements PageNodeInterfac
 	public function getTitle() {
 		return $this->title;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getNodeTypeAbstraction() {
+		return self::class;
+	}
 }
