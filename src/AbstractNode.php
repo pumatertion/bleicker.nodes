@@ -90,6 +90,16 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 	}
 
 	/**
+	 * @return NodeInterface
+	 */
+	public function getRoot() {
+		if($this->getParent() !== NULL){
+			return $this->getParent()->getRoot();
+		}
+		return $this;
+	}
+
+	/**
 	 * @return Collection
 	 */
 	public function getChildren() {
