@@ -2,7 +2,6 @@
 
 namespace Bleicker\Nodes;
 
-use Bleicker\Nodes\Exception\CriteriaFilteringNotSupportedForThisTypeOfCollectionException;
 use Bleicker\Translation\TranslateInterface;
 use Bleicker\Translation\TranslateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
