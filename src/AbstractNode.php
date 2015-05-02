@@ -103,33 +103,6 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 	public function addChild(NodeInterface $child) {
 		$child->setParent($this);
 		$this->getChildren()->add($child);
-		static::generateSorting($this->getChildren());
-		return $this;
-	}
-
-	/**
-	 * @param NodeInterface $child
-	 * @param NodeInterface $after
-	 * @return $this
-	 */
-	public function addChildAfter(NodeInterface $child, NodeInterface $after) {
-		$child->setParent($this);
-		$child->setSorting($after->getSorting() + 1);
-		$this->getChildren()->add($child);
-		static::reorderBySorting($this->getChildren());
-		return $this;
-	}
-
-	/**
-	 * @param NodeInterface $child
-	 * @param NodeInterface $after
-	 * @return $this
-	 */
-	public function addChildBefore(NodeInterface $child, NodeInterface $after) {
-		$child->setParent($this);
-		$child->setSorting($after->getSorting() - 1);
-		$this->getChildren()->add($child);
-		static::reorderBySorting($this->getChildren());
 		return $this;
 	}
 
@@ -140,7 +113,6 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 	public function removeChild(NodeInterface $child) {
 		$child->setParent();
 		$this->getChildren()->removeElement($child);
-		static::generateSorting($this->getChildren());
 		return $this;
 	}
 
@@ -171,36 +143,4 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 		return $this->sorting;
 	}
 
-	/**
-	 * @param Collection $collection
-	 * @return void
-	 */
-	protected static function generateSorting(Collection $collection) {
-		$multiplier = 0;
-		/** @var NodeInterface $item */
-		foreach ($collection as $item) {
-			$item->setSorting($multiplier * NodeInterface::SORTING_DIFF);
-			$multiplier++;
-		}
-	}
-
-	/**
-	 * @param Collection $collection
-	 * @return void
-	 */
-	protected static function reorderBySorting(Collection $collection) {
-		$arrayCopy = $collection->toArray();
-		$collection->clear();
-		usort($arrayCopy, function (NodeInterface $a, NodeInterface $b) {
-			if ($a->getSorting() === $b->getSorting()) {
-				return 0;
-			}
-			return ($a->getSorting() < $b->getSorting()) ? -1 : 1;
-		});
-		/** @var NodeInterface $node */
-		foreach ($arrayCopy as $node) {
-			$collection->add($node);
-		}
-		static::generateSorting($collection);
-	}
 }

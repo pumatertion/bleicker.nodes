@@ -52,20 +52,6 @@ interface NodeInterface {
 
 	/**
 	 * @param NodeInterface $child
-	 * @param NodeInterface $after
-	 * @return $this
-	 */
-	public function addChildAfter(NodeInterface $child, NodeInterface $after);
-
-	/**
-	 * @param NodeInterface $child
-	 * @param NodeInterface $after
-	 * @return $this
-	 */
-	public function addChildBefore(NodeInterface $child, NodeInterface $after);
-
-	/**
-	 * @param NodeInterface $child
 	 * @return $this
 	 */
 	public function removeChild(NodeInterface $child);
