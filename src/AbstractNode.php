@@ -2,18 +2,16 @@
 
 namespace Bleicker\Nodes;
 
-use Bleicker\Translation\TranslateInterface;
 use Bleicker\Translation\TranslateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 
 /**
  * Class AbstractNode
  *
  * @package Bleicker\Nodes
  */
-abstract class AbstractNode implements NodeInterface, TranslateInterface {
+abstract class AbstractNode implements NodeInterface {
 
 	use TranslateTrait;
 
@@ -57,7 +55,7 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 		$this->translations = new ArrayCollection();
 		$this->nodeType = $this->getNodeType();
 		$this->nodeTypeAbstraction = $this->getNodeTypeAbstraction();
-		$this->sorting = 0;
+		$this->sorting = static::SORTING_DIFF;
 	}
 
 	/**
@@ -79,7 +77,13 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 	 * @return $this
 	 */
 	public function setParent(NodeInterface $parent = NULL) {
-		$this->parent = $parent;
+		if($parent === NULL && $this->getParent() !== NULL){
+			$this->getParent()->removeChild($this);
+		}
+		if ($parent !== NULL) {
+			$this->parent = $parent;
+			$this->parent->addChild($this);
+		}
 	}
 
 	/**
@@ -90,16 +94,6 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 	}
 
 	/**
-	 * @return NodeInterface
-	 */
-	public function getRoot() {
-		if($this->getParent() !== NULL){
-			return $this->getParent()->getRoot();
-		}
-		return $this;
-	}
-
-	/**
 	 * @return Collection
 	 */
 	public function getChildren() {
@@ -107,47 +101,16 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 	}
 
 	/**
-	 * @param Criteria $criteria
-	 * @return Collection
-	 */
-	public function getChildrenByCriteria(Criteria $criteria) {
-		return $this->getChildren()->matching($criteria);
-	}
-
-	/**
 	 * @param NodeInterface $child
 	 * @return $this
 	 */
 	public function addChild(NodeInterface $child) {
-		$child->setParent($this);
-		$this->getChildren()->add($child);
-		static::generateSorting($this->getChildren());
-		return $this;
-	}
-
-	/**
-	 * @param NodeInterface $child
-	 * @param NodeInterface $after
-	 * @return $this
-	 */
-	public function addChildAfter(NodeInterface $child, NodeInterface $after) {
-		$child->setParent($this);
-		$child->setSorting($after->getSorting() + 1);
-		$this->getChildren()->add($child);
-		static::reorderBySorting($this->getChildren());
-		return $this;
-	}
-
-	/**
-	 * @param NodeInterface $child
-	 * @param NodeInterface $after
-	 * @return $this
-	 */
-	public function addChildBefore(NodeInterface $child, NodeInterface $after) {
-		$child->setParent($this);
-		$child->setSorting($after->getSorting() - 1);
-		$this->getChildren()->add($child);
-		static::reorderBySorting($this->getChildren());
+		if($child->getParent() !== $this){
+			$child->setParent($this);
+		}
+		if(!$this->getChildren()->contains($child)){
+			$this->getChildren()->add($child);
+		}
 		return $this;
 	}
 
@@ -157,19 +120,9 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 	 */
 	public function removeChild(NodeInterface $child) {
 		$child->setParent();
-		$this->getChildren()->removeElement($child);
-		static::generateSorting($this->getChildren());
-		return $this;
-	}
-
-	/**
-	 * @return $this
-	 */
-	public function clearChildren() {
-		$this->getChildren()->map(function (NodeInterface $child) {
-			$child->setParent();
-		});
-		$this->getChildren()->clear();
+		if($this->getChildren()->contains($child)){
+			$this->getChildren()->remove($child);
+		}
 		return $this;
 	}
 
@@ -187,38 +140,5 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 	 */
 	public function getSorting() {
 		return $this->sorting;
-	}
-
-	/**
-	 * @param Collection $collection
-	 * @return void
-	 */
-	protected static function generateSorting(Collection $collection) {
-		$multiplier = 0;
-		/** @var NodeInterface $item */
-		foreach ($collection as $item) {
-			$item->setSorting($multiplier * NodeInterface::SORTING_DIFF);
-			$multiplier++;
-		}
-	}
-
-	/**
-	 * @param Collection $collection
-	 * @return void
-	 */
-	protected static function reorderBySorting(Collection $collection) {
-		$arrayCopy = $collection->toArray();
-		$collection->clear();
-		usort($arrayCopy, function (NodeInterface $a, NodeInterface $b) {
-			if ($a->getSorting() === $b->getSorting()) {
-				return 0;
-			}
-			return ($a->getSorting() < $b->getSorting()) ? -1 : 1;
-		});
-		/** @var NodeInterface $node */
-		foreach ($arrayCopy as $node) {
-			$collection->add($node);
-		}
-		static::generateSorting($collection);
 	}
 }
