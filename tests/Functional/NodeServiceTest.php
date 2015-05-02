@@ -27,7 +27,7 @@ class NodeServiceTest extends FunctionalTestCase {
 	}
 
 	/**
-	 * test
+	 * @test
 	 */
 	public function addTranslationTest() {
 		$translation = new NodeTranslation('German', 'de', 'DE');
