@@ -58,11 +58,6 @@ interface NodeInterface extends TranslateInterface {
 	public function removeChild(NodeInterface $child);
 
 	/**
-	 * @return $this
-	 */
-	public function clearChildren();
-
-	/**
 	 * @return string
 	 */
 	public function getNodeType();

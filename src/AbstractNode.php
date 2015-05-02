@@ -127,17 +127,6 @@ abstract class AbstractNode implements NodeInterface {
 	}
 
 	/**
-	 * @return $this
-	 */
-	public function clearChildren() {
-		$this->getChildren()->map(function (NodeInterface $child) {
-			$child->setParent();
-		});
-		$this->getChildren()->clear();
-		return $this;
-	}
-
-	/**
 	 * @param integer $sorting
 	 * @return $this
 	 */
