@@ -38,8 +38,8 @@ class NodeService {
 	 * @return $this
 	 */
 	public function addFirstChild(NodeInterface $node, NodeInterface $parent){
-		$parent->addChild($node);
-		$this->persist($parent);
+		$node->setParent($parent);
+		$this->persist($node, $parent);
 		$this->addFirst($node);
 		return $this;
 	}
@@ -50,8 +50,8 @@ class NodeService {
 	 * @return $this
 	 */
 	public function addLastChild(NodeInterface $node, NodeInterface $parent){
-		$parent->addChild($node);
-		$this->persist($parent);
+		$node->setParent($parent);
+		$this->persist($node, $parent);
 		$this->addLast($node);
 		return $this;
 	}
