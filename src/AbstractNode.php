@@ -6,7 +6,6 @@ use Bleicker\Translation\TranslateInterface;
 use Bleicker\Translation\TranslateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 
 /**
  * Class AbstractNode
