@@ -28,6 +28,7 @@ class NodeService {
 	 * @param NodeTranslationInterface $translation
 	 * @param string $propertyName
 	 * @return $this
+	 * @api
 	 */
 	public function addTranslation(NodeInterface $node, NodeTranslationInterface $translation, $propertyName) {
 		$node->addTranslation($translation, $propertyName);
@@ -39,6 +40,7 @@ class NodeService {
 	 * @param NodeInterface $node
 	 * @param NodeTranslationInterface $translation
 	 * @return $this
+	 * @api
 	 */
 	public function removeTranslastion(NodeInterface $node, NodeTranslationInterface $translation) {
 		$node->removeTranslation($translation);
@@ -50,6 +52,7 @@ class NodeService {
 	/**
 	 * @param NodeInterface $node
 	 * @return $this
+	 * @api
 	 */
 	public function add(NodeInterface $node) {
 		$this->addLast($node);
@@ -59,6 +62,7 @@ class NodeService {
 	/**
 	 * @param NodeInterface $node
 	 * @return $this
+	 * @api
 	 */
 	public function remove(NodeInterface $node) {
 		$this->entityManager->remove($node);
@@ -69,6 +73,7 @@ class NodeService {
 	 * @param NodeInterface $node
 	 * @param NodeInterface $parent
 	 * @return $this
+	 * @api
 	 */
 	public function addFirstChild(NodeInterface $node, NodeInterface $parent) {
 		$node->setParent($parent);
@@ -81,6 +86,7 @@ class NodeService {
 	 * @param NodeInterface $node
 	 * @param NodeInterface $parent
 	 * @return $this
+	 * @api
 	 */
 	public function addLastChild(NodeInterface $node, NodeInterface $parent) {
 		$node->setParent($parent);
@@ -93,6 +99,7 @@ class NodeService {
 	 * @param NodeInterface $node
 	 * @param NodeInterface $parent
 	 * @return $this
+	 * @api
 	 */
 	public function addChild(NodeInterface $node, NodeInterface $parent) {
 		$this->addLastChild($node, $parent);
@@ -102,6 +109,7 @@ class NodeService {
 	/**
 	 * @param NodeInterface $node
 	 * @return $this
+	 * @api
 	 */
 	public function addLast(NodeInterface $node) {
 		/** @var NodeInterface $lastLevelNode */
@@ -117,6 +125,7 @@ class NodeService {
 	/**
 	 * @param NodeInterface $node
 	 * @return $this
+	 * @api
 	 */
 	public function addFirst(NodeInterface $node) {
 		/** @var NodeInterface $lastLevelNode */
@@ -132,6 +141,7 @@ class NodeService {
 	/**
 	 * @param mixed $id
 	 * @return NodeInterface
+	 * @api
 	 */
 	public function getNode($id) {
 		return $this->entityManager->find(AbstractNode::class, $id);
@@ -142,6 +152,7 @@ class NodeService {
 	 *
 	 * @param NodeInterface $node
 	 * @return PageNodeInterface
+	 * @api
 	 */
 	public function locatePage(NodeInterface $node) {
 		if ($node instanceof PageNodeInterface) {
@@ -166,6 +177,7 @@ class NodeService {
 	 *
 	 * @param NodeInterface $node
 	 * @return Collection
+	 * @api
 	 */
 	public function getContent(NodeInterface $node) {
 		$criteria = Criteria::create()->where(Criteria::expr()->eq('nodeTypeAbstraction', AbstractContentNode::class));
@@ -177,6 +189,7 @@ class NodeService {
 	 *
 	 * @param NodeInterface $node
 	 * @return Collection
+	 * @api
 	 */
 	public function getPages(NodeInterface $node) {
 		$criteria = Criteria::create()->where(Criteria::expr()->eq('nodeTypeAbstraction', AbstractPageNode::class));
@@ -187,6 +200,7 @@ class NodeService {
 	 * @param NodeInterface $node
 	 * @param Criteria $criteria
 	 * @return Collection
+	 * @api
 	 */
 	public function getChildrenByCriteria(NodeInterface $node, Criteria $criteria) {
 		return $node->getChildren()->matching($criteria);
@@ -195,6 +209,7 @@ class NodeService {
 	/**
 	 * @param NodeInterface $node
 	 * @return Collection
+	 * @api
 	 */
 	public function getChildren(NodeInterface $node) {
 		return $node->getChildren();
@@ -203,6 +218,7 @@ class NodeService {
 	/**
 	 * @param NodeInterface $node
 	 * @return NodeInterface
+	 * @api
 	 */
 	public function locateRoot(NodeInterface $node) {
 		$parent = $this->getParent($node);
@@ -215,6 +231,7 @@ class NodeService {
 	/**
 	 * @param NodeInterface $node
 	 * @return NodeInterface
+	 * @api
 	 */
 	public function getParent(NodeInterface $node) {
 		return $node->getParent();
@@ -224,6 +241,7 @@ class NodeService {
 	 * @param NodeInterface $node
 	 * @param NodeInterface $after
 	 * @return $this
+	 * @api
 	 */
 	public function addAfter(NodeInterface $node, NodeInterface $after) {
 		$node->setParent($after->getParent());
@@ -237,6 +255,7 @@ class NodeService {
 	 * @param NodeInterface $node
 	 * @param NodeInterface $before
 	 * @return $this
+	 * @api
 	 */
 	public function addBefore(NodeInterface $node, NodeInterface $before) {
 		$node->setParent($before->getParent());
@@ -249,6 +268,7 @@ class NodeService {
 	/**
 	 * @param NodeInterface $node
 	 * @return Collection
+	 * @api
 	 */
 	public function findNodesOnSameLevel(NodeInterface $node) {
 		$criteria = Criteria::create()->where(Criteria::expr()->eq('parent', $node->getParent()));
