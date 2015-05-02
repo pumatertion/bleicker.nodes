@@ -37,6 +37,52 @@ class NodeServiceTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
+	public function removeTest(){
+		$node = new Content('c1');
+		$this->nodeService->add($node)->remove($node);
+		$this->assertNull($node->getId());
+	}
+
+	/**
+	 * @test
+	 */
+	public function removeClearsChildrenTest(){
+		$node1 = new Content('c1');
+		$node2 = new Content('c2');
+		$node3 = new Content('c3');
+
+		$this->nodeService->add($node1)->addChild($node2, $node1)->addChild($node3, $node1);
+
+		$this->assertEquals(2, $this->nodeService->getChildren($node1)->count());
+
+		$this->nodeService->remove($node2);
+
+		$this->assertEquals(1, $this->nodeService->getChildren($node1)->count());
+	}
+
+	/**
+	 * @test
+	 */
+	public function removeTreeTest(){
+		$node1 = new Content('c1');
+		$node2 = new Content('c2');
+		$node3 = new Content('c3');
+
+		$this->nodeService->add($node1)->addChild($node2, $node1)->addChild($node3, $node2);
+
+		$this->assertEquals(1, $this->nodeService->getChildren($node1)->count());
+		$this->assertEquals(1, $this->nodeService->getChildren($node2)->count());
+
+		$this->nodeService->remove($node2);
+
+		$this->assertEquals(0, $this->nodeService->getChildren($node1)->count());
+		$this->assertNull($node2->getId());
+		$this->assertNull($node3->getId());
+	}
+
+	/**
+	 * @test
+	 */
 	public function addFirstChild() {
 		$node1 = new Content('c1');
 		$node2 = new Content('c2');

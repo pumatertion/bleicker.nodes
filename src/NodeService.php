@@ -34,6 +34,15 @@ class NodeService {
 
 	/**
 	 * @param NodeInterface $node
+	 * @return $this
+	 */
+	public function remove(NodeInterface $node) {
+		$this->entityManager->remove($node);
+		$this->entityManager->flush();
+	}
+
+	/**
+	 * @param NodeInterface $node
 	 * @param NodeInterface $parent
 	 * @return $this
 	 */

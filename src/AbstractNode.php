@@ -78,8 +78,11 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 	 * @return $this
 	 */
 	public function setParent(NodeInterface $parent = NULL) {
-		$this->parent = $parent;
-		if ($this->parent !== NULL) {
+		if($parent === NULL && $this->getParent() !== NULL){
+			$this->getParent()->removeChild($this);
+		}
+		if ($parent !== NULL) {
+			$this->parent = $parent;
 			$this->parent->addChild($this);
 		}
 	}
@@ -118,7 +121,9 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 	 */
 	public function removeChild(NodeInterface $child) {
 		$child->setParent();
-		$this->getChildren()->removeElement($child);
+		if($this->getChildren()->contains($child)){
+			$this->getChildren()->remove($child);
+		}
 		return $this;
 	}
 
