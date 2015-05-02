@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\Criteria;
  *
  * @package Bleicker\Nodes
  */
-class NodeService {
+class NodeService implements NodeServiceInterface {
 
 	/**
 	 * @var EntityManagerInterface
