@@ -29,7 +29,7 @@ class NodeService {
 	 * @param string $propertyName
 	 * @return $this
 	 */
-	public function addTranslation(NodeInterface $node, NodeTranslationInterface $translation, $propertyName){
+	public function addTranslation(NodeInterface $node, NodeTranslationInterface $translation, $propertyName) {
 		$node->addTranslation($translation, $propertyName);
 		$this->persist($node);
 		return $this;
@@ -40,7 +40,7 @@ class NodeService {
 	 * @param NodeTranslationInterface $translation
 	 * @return $this
 	 */
-	public function removeTranslastion(NodeInterface $node, NodeTranslationInterface $translation){
+	public function removeTranslastion(NodeInterface $node, NodeTranslationInterface $translation) {
 		$node->removeTranslation($translation);
 		$this->entityManager->remove($translation);
 		$this->entityManager->flush();
@@ -70,7 +70,7 @@ class NodeService {
 	 * @param NodeInterface $parent
 	 * @return $this
 	 */
-	public function addFirstChild(NodeInterface $node, NodeInterface $parent){
+	public function addFirstChild(NodeInterface $node, NodeInterface $parent) {
 		$node->setParent($parent);
 		$this->persist($node, $parent);
 		$this->addFirst($node);
@@ -82,7 +82,7 @@ class NodeService {
 	 * @param NodeInterface $parent
 	 * @return $this
 	 */
-	public function addLastChild(NodeInterface $node, NodeInterface $parent){
+	public function addLastChild(NodeInterface $node, NodeInterface $parent) {
 		$node->setParent($parent);
 		$this->persist($node, $parent);
 		$this->addLast($node);
@@ -94,7 +94,7 @@ class NodeService {
 	 * @param NodeInterface $parent
 	 * @return $this
 	 */
-	public function addChild(NodeInterface $node, NodeInterface $parent){
+	public function addChild(NodeInterface $node, NodeInterface $parent) {
 		$this->addLastChild($node, $parent);
 		return $this;
 	}
@@ -199,7 +199,6 @@ class NodeService {
 	public function getChildren(NodeInterface $node) {
 		return $node->getChildren();
 	}
-
 
 	/**
 	 * @param NodeInterface $node
