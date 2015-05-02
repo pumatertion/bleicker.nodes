@@ -1,15 +1,15 @@
 <?php
 namespace Bleicker\Nodes;
 
+use Bleicker\Translation\TranslateInterface;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 
 /**
  * Interface NodeInterface
  *
  * @package Bleicker\Nodes
  */
-interface NodeInterface {
+interface NodeInterface extends TranslateInterface {
 
 	const SORTING_DIFF = 10;
 
@@ -41,20 +41,9 @@ interface NodeInterface {
 	public function getParent();
 
 	/**
-	 * @return NodeInterface
-	 */
-	public function getRoot();
-
-	/**
 	 * @return Collection
 	 */
 	public function getChildren();
-
-	/**
-	 * @param Criteria $criteria
-	 * @return Collection
-	 */
-	public function getChildrenByCriteria(Criteria $criteria);
 
 	/**
 	 * @param NodeInterface $child
@@ -64,28 +53,9 @@ interface NodeInterface {
 
 	/**
 	 * @param NodeInterface $child
-	 * @param NodeInterface $after
-	 * @return $this
-	 */
-	public function addChildAfter(NodeInterface $child, NodeInterface $after);
-
-	/**
-	 * @param NodeInterface $child
-	 * @param NodeInterface $after
-	 * @return $this
-	 */
-	public function addChildBefore(NodeInterface $child, NodeInterface $after);
-
-	/**
-	 * @param NodeInterface $child
 	 * @return $this
 	 */
 	public function removeChild(NodeInterface $child);
-
-	/**
-	 * @return $this
-	 */
-	public function clearChildren();
 
 	/**
 	 * @return string

@@ -10,7 +10,7 @@ use Tests\Bleicker\Nodes\UnitTestCase;
  *
  * @package Tests\Bleicker\Nodes\Unit
  */
-class ContentTest extends UnitTestCase {
+class ContentTest {
 
 	/**
 	 * @test

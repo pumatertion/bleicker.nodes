@@ -16,7 +16,7 @@ use Tests\Bleicker\Nodes\FunctionalTestCase;
  *
  * @package Tests\Bleicker\Nodes\Functional
  */
-class ChildrenTest extends FunctionalTestCase {
+class ChildrenTest {
 
 	/**
 	 * @var EntityManagerInterface
