@@ -1,6 +1,7 @@
 <?php
 namespace Bleicker\Nodes;
 
+use Bleicker\Translation\TranslateInterface;
 use Doctrine\Common\Collections\Collection;
 
 /**
@@ -8,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
  *
  * @package Bleicker\Nodes
  */
-interface NodeInterface {
+interface NodeInterface extends TranslateInterface {
 
 	const SORTING_DIFF = 10;
 

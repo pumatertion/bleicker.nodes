@@ -9,7 +9,7 @@ use Bleicker\Translation\Translation;
  *
  * @package Bleicker\Nodes
  */
-class NodeTranslation extends Translation {
+class NodeTranslation extends Translation implements NodeTranslationInterface {
 
 	/**
 	 * @var integer

@@ -4,6 +4,7 @@ namespace Bleicker\Nodes;
 
 use Bleicker\ObjectManager\ObjectManager;
 use Bleicker\Persistence\EntityManagerInterface;
+use Bleicker\Translation\TranslationInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 
@@ -21,6 +22,30 @@ class NodeService {
 
 	public function __construct() {
 		$this->entityManager = ObjectManager::get(EntityManagerInterface::class);
+	}
+
+	/**
+	 * @param NodeInterface $node
+	 * @param NodeTranslationInterface $translation
+	 * @param string $propertyName
+	 * @return $this
+	 */
+	public function addTranslation(NodeInterface $node, NodeTranslationInterface $translation, $propertyName){
+		$node->addTranslation($translation, $propertyName);
+		$this->persist($node);
+		return $this;
+	}
+
+	/**
+	 * @param NodeInterface $node
+	 * @param NodeTranslationInterface $translation
+	 * @return $this
+	 */
+	public function removeTranslastion(NodeInterface $node, NodeTranslationInterface $translation){
+		$node->removeTranslation($translation);
+		$this->entityManager->remove($translation);
+		$this->entityManager->flush();
+		return $this;
 	}
 
 	/**

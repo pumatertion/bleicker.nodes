@@ -4,6 +4,8 @@ namespace Tests\Bleicker\Nodes\Functional;
 
 use Bleicker\Nodes\NodeInterface;
 use Bleicker\Nodes\NodeService;
+use Bleicker\Nodes\NodeTranslation;
+use Bleicker\Translation\Translation;
 use Tests\Bleicker\Nodes\Functional\Fixtures\Content;
 use Tests\Bleicker\Nodes\Functional\Fixtures\Page;
 use Tests\Bleicker\Nodes\FunctionalTestCase;
@@ -26,6 +28,29 @@ class NodeServiceTest extends FunctionalTestCase {
 	}
 
 	/**
+	 * test
+	 */
+	public function addTranslationTest() {
+		$translation = new NodeTranslation('German', 'de', 'DE');
+		$node = new Content();
+		$this->nodeService->addTranslation($node, $translation, 'title');
+		$this->assertEquals(1, $node->getTranslations()->count());
+		$this->assertNotNull($translation->getId());
+	}
+
+	/**
+	 * @test
+	 */
+	public function removeTranslationTest() {
+		$translation = new NodeTranslation('German', 'de', 'DE');
+		$node = new Content();
+		$this->nodeService->addTranslation($node, $translation, 'title')->removeTranslastion($node, $translation);
+
+		$this->assertEquals(0, $node->getTranslations()->count());
+		$this->assertNull($translation->getId());
+	}
+
+	/**
 	 * @test
 	 */
 	public function addTest() {
@@ -37,7 +62,7 @@ class NodeServiceTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
-	public function removeTest(){
+	public function removeTest() {
 		$node = new Content('c1');
 		$this->nodeService->add($node)->remove($node);
 		$this->assertNull($node->getId());
@@ -46,7 +71,7 @@ class NodeServiceTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
-	public function removeClearsChildrenTest(){
+	public function removeClearsChildrenTest() {
 		$node1 = new Content('c1');
 		$node2 = new Content('c2');
 		$node3 = new Content('c3');
@@ -63,7 +88,7 @@ class NodeServiceTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
-	public function removeTreeTest(){
+	public function removeTreeTest() {
 		$node1 = new Content('c1');
 		$node2 = new Content('c2');
 		$node3 = new Content('c3');

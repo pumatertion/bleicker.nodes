@@ -2,7 +2,6 @@
 
 namespace Bleicker\Nodes;
 
-use Bleicker\Translation\TranslateInterface;
 use Bleicker\Translation\TranslateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,7 +11,7 @@ use Doctrine\Common\Collections\Collection;
  *
  * @package Bleicker\Nodes
  */
-abstract class AbstractNode implements NodeInterface, TranslateInterface {
+abstract class AbstractNode implements NodeInterface {
 
 	use TranslateTrait;
 
