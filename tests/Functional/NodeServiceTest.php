@@ -5,7 +5,6 @@ namespace Tests\Bleicker\Nodes\Functional;
 use Bleicker\Nodes\NodeInterface;
 use Bleicker\Nodes\NodeService;
 use Bleicker\Nodes\NodeTranslation;
-use Bleicker\Translation\Translation;
 use Tests\Bleicker\Nodes\Functional\Fixtures\Content;
 use Tests\Bleicker\Nodes\Functional\Fixtures\Page;
 use Tests\Bleicker\Nodes\FunctionalTestCase;
