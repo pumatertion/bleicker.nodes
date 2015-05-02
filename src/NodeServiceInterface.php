@@ -12,6 +12,11 @@ use Doctrine\Common\Collections\Criteria;
 interface NodeServiceInterface {
 
 	/**
+	 * @return Collection
+	 */
+	public function findSites();
+
+	/**
 	 * @param NodeInterface $node
 	 * @param NodeInterface $after
 	 * @return $this
