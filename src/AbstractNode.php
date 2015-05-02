@@ -148,5 +148,4 @@ abstract class AbstractNode implements NodeInterface, TranslateInterface {
 	public function getSorting() {
 		return $this->sorting;
 	}
-
 }
