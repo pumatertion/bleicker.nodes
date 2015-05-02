@@ -29,6 +29,17 @@ class NodeServiceTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
+	public function findSitesTest(){
+		$site1 = new Page('site1');
+		$site2 = new Page('site2');
+
+		$this->nodeService->add($site1)->add($site2);
+		$this->assertEquals(2, $this->nodeService->findSites()->count());
+	}
+
+	/**
+	 * @test
+	 */
 	public function addTranslationTest() {
 		$translation = new NodeTranslation('German', 'de', 'DE');
 		$node = new Content();

@@ -24,6 +24,21 @@ class NodeService implements NodeServiceInterface {
 	}
 
 	/**
+	 * @return Collection
+	 */
+	public function findSites(){
+		$expr = Criteria::expr();
+		$criteria = Criteria::create();
+		$criteria->where(
+			$expr->andX(
+				$expr->eq('nodeTypeAbstraction', AbstractPageNode::class),
+				$expr->isNull('parent')
+			)
+		);
+		return $this->entityManager->getRepository(AbstractNode::class)->matching($criteria);
+	}
+
+	/**
 	 * @param NodeInterface $node
 	 * @param NodeTranslationInterface $translation
 	 * @param string $propertyName
