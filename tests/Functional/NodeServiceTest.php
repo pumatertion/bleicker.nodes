@@ -29,6 +29,15 @@ class NodeServiceTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
+	public function getTest(){
+		$content = new Content();
+		$persisted = $this->nodeService->add($content)->get($content->getId());
+		$this->assertEquals($content->getId(), $persisted->getId());
+	}
+
+	/**
+	 * @test
+	 */
 	public function findSitesTest(){
 		$site1 = new Page('site1');
 		$site2 = new Page('site2');
@@ -76,6 +85,15 @@ class NodeServiceTest extends FunctionalTestCase {
 		$node = new Content('c1');
 		$this->nodeService->add($node)->remove($node);
 		$this->assertNull($node->getId());
+	}
+
+	/**
+	 * @test
+	 */
+	public function updateTest() {
+		$node = new Page('Old title');
+		$this->nodeService->add($node)->update($node->setTitle('New title'));
+		$this->assertEquals('New title', $node->getTitle());
 	}
 
 	/**

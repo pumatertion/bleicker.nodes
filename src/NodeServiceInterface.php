@@ -116,7 +116,7 @@ interface NodeServiceInterface {
 	 * @return NodeInterface
 	 * @api
 	 */
-	public function getNode($id);
+	public function get($id);
 
 	/**
 	 * @param NodeInterface $node
@@ -170,4 +170,11 @@ interface NodeServiceInterface {
 	 * @api
 	 */
 	public function remove(NodeInterface $node);
+
+	/**
+	 * @param NodeInterface $node
+	 * @return $this
+	 * @api
+	 */
+	public function update(NodeInterface $node);
 }
