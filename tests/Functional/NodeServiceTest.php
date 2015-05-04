@@ -29,6 +29,15 @@ class NodeServiceTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
+	public function getTest(){
+		$content = new Content();
+		$persisted = $this->nodeService->add($content)->get($content->getId());
+		$this->assertEquals($content->getId(), $persisted->getId());
+	}
+
+	/**
+	 * @test
+	 */
 	public function findSitesTest(){
 		$site1 = new Page('site1');
 		$site2 = new Page('site2');
