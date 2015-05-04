@@ -34,7 +34,7 @@ class NodeService implements NodeServiceInterface {
 				$expr->eq('nodeTypeAbstraction', AbstractPageNode::class),
 				$expr->isNull('parent')
 			)
-		);
+		)->orderBy(['sorting' => Criteria::ASC]);
 		return $this->entityManager->getRepository(AbstractNode::class)->matching($criteria);
 	}
 
@@ -204,7 +204,7 @@ class NodeService implements NodeServiceInterface {
 	 * @api
 	 */
 	public function getContent(NodeInterface $node) {
-		$criteria = Criteria::create()->where(Criteria::expr()->eq('nodeTypeAbstraction', AbstractContentNode::class));
+		$criteria = Criteria::create()->where(Criteria::expr()->eq('nodeTypeAbstraction', AbstractContentNode::class))->orderBy(['sorting' => Criteria::ASC]);
 		return $this->getChildrenByCriteria($node, $criteria);
 	}
 
@@ -216,7 +216,7 @@ class NodeService implements NodeServiceInterface {
 	 * @api
 	 */
 	public function getPages(NodeInterface $node) {
-		$criteria = Criteria::create()->where(Criteria::expr()->eq('nodeTypeAbstraction', AbstractPageNode::class));
+		$criteria = Criteria::create()->where(Criteria::expr()->eq('nodeTypeAbstraction', AbstractPageNode::class))->orderBy(['sorting' => Criteria::ASC]);
 		return $this->getChildrenByCriteria($node, $criteria);
 	}
 
@@ -295,7 +295,7 @@ class NodeService implements NodeServiceInterface {
 	 * @api
 	 */
 	public function findNodesOnSameLevel(NodeInterface $node) {
-		$criteria = Criteria::create()->where(Criteria::expr()->eq('parent', $node->getParent()));
+		$criteria = Criteria::create()->where(Criteria::expr()->eq('parent', $node->getParent()))->orderBy(['sorting' => Criteria::ASC]);
 		$levelNodes = $this->entityManager->getRepository(AbstractNode::class)->matching($criteria);
 		return $this->getSortedCollection($levelNodes);
 	}
