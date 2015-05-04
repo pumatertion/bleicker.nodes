@@ -81,6 +81,15 @@ class NodeServiceTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
+	public function updateTest() {
+		$node = new Page('Old title');
+		$this->nodeService->add($node)->update($node->setTitle('New title'));
+		$this->assertEquals('New title', $node->getTitle());
+	}
+
+	/**
+	 * @test
+	 */
 	public function removeClearsChildrenTest() {
 		$node1 = new Content('c1');
 		$node2 = new Content('c2');

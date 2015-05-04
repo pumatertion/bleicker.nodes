@@ -26,7 +26,7 @@ class NodeService implements NodeServiceInterface {
 	/**
 	 * @return Collection
 	 */
-	public function findSites(){
+	public function findSites() {
 		$expr = Criteria::expr();
 		$criteria = Criteria::create();
 		$criteria->where(
@@ -82,6 +82,15 @@ class NodeService implements NodeServiceInterface {
 	public function remove(NodeInterface $node) {
 		$this->entityManager->remove($node);
 		$this->entityManager->flush();
+	}
+
+	/**
+	 * @param NodeInterface $node
+	 * @return $this
+	 * @api
+	 */
+	public function update(NodeInterface $node) {
+		$this->persist($node);
 	}
 
 	/**
