@@ -43,7 +43,7 @@ class NodeServiceTest extends FunctionalTestCase {
 		$node1 = new Content();
 		$node2 = new Content();
 		$node3 = new Content();
-		$this->nodeService->add($node1)->addChild($node2->addChild($node3), $node1)->addBefore($node2, $node3);
+		$this->nodeService->add($node1)->addChild($node2, $node1)->addChild($node3, $node2)->addBefore($node2, $node3);
 	}
 
 	/**
@@ -54,7 +54,7 @@ class NodeServiceTest extends FunctionalTestCase {
 		$node1 = new Content();
 		$node2 = new Content();
 		$node3 = new Content();
-		$this->nodeService->add($node1)->addChild($node2->addChild($node3), $node1)->addAfter($node2, $node3);
+		$this->nodeService->add($node1)->addChild($node2, $node1)->addChild($node3, $node2)->addAfter($node2, $node3);
 	}
 
 	/**
@@ -267,9 +267,9 @@ class NodeServiceTest extends FunctionalTestCase {
 		$page2 = new Page('p2');
 		$page3 = new Page('p3');
 
-		$page1->addChild($page2->addChild($page3))->addChild($content1);
-		$page2->addChild($content2);
-		$page3->addChild($content3->addChild($content4));
+		$this->nodeService->addChild($page2, $page1)->addChild($page3, $page2)->addChild($content1, $page1)
+			->addChild($content2, $page2)->addChild($content3, $page3)
+			->addChild($content4, $content3);
 
 		$this->assertNull($this->nodeService->locatePage($lostContent));
 
@@ -297,7 +297,9 @@ class NodeServiceTest extends FunctionalTestCase {
 		$page1 = new Page('p1');
 		$page2 = new Page('p2');
 
-		$page1->addChild($page2)->addChild($content1)->addChild($content2)->addChild($content3)->addChild($content4);
+		$this->nodeService
+			->addChild($page2, $page1)
+			->addChild($content1, $page1)->addChild($content2, $page1)->addChild($content3, $page1)->addChild($content4, $page1);
 
 		$this->assertEquals(4, $this->nodeService->getContent($page1)->count());
 		$this->assertEquals(0, $this->nodeService->getContent($page2)->count());
@@ -318,7 +320,7 @@ class NodeServiceTest extends FunctionalTestCase {
 		$page4 = new Page('p4');
 		$page5 = new Page('p5');
 
-		$page1->addChild($page2)->addChild($page3->addChild($page5))->addChild($page4)->addChild($content1)->addChild($content2)->addChild($content3)->addChild($content4);
+		$this->nodeService->addChild($page2, $page1)->addChild($page3, $page1)->addChild($page5, $page3)->addChild($page4, $page1)->addChild($content1, $page1)->addChild($content2, $page1)->addChild($content3, $page1)->addChild($content4, $page1);
 
 		$this->assertEquals(3, $this->nodeService->getPages($page1)->count());
 		$this->assertEquals(0, $this->nodeService->getPages($page2)->count());
