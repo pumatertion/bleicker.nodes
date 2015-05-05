@@ -9,31 +9,17 @@ namespace Bleicker\Nodes;
  */
 abstract class AbstractPageNode extends AbstractNode implements PageNodeInterface {
 
+	use PageNodeTrait;
+
 	/**
 	 * @var string
 	 */
 	protected $title;
 
 	/**
-	 * @param string $title
-	 * @return $this
-	 */
-	public function setTitle($title) {
-		$this->title = $title;
-		return $this;
-	}
-
-	/**
 	 * @return string
 	 */
-	public function getTitle() {
-		return $this->title;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getNodeTypeAbstraction() {
+	public final function getNodeTypeAbstraction() {
 		return self::class;
 	}
 }
