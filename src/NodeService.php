@@ -197,6 +197,31 @@ class NodeService implements NodeServiceInterface {
 	}
 
 	/**
+	 * Returns the first found site node in root line.
+	 *
+	 * @param NodeInterface $node
+	 * @return SiteNodeInterface
+	 * @api
+	 */
+	public function locateSite(NodeInterface $node) {
+		if ($node instanceof SiteNodeInterface) {
+			return $node;
+		}
+
+		$parentNode = $node->getParent();
+
+		if ($parentNode === NULL) {
+			return NULL;
+		}
+
+		if ($parentNode instanceof SiteNodeInterface) {
+			return $parentNode;
+		}
+
+		return $this->locateSite($parentNode);
+	}
+
+	/**
 	 * Returns the first found page node in root line.
 	 *
 	 * @param NodeInterface $node
