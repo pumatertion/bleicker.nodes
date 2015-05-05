@@ -1,0 +1,6 @@
+Tests\Bleicker\Nodes\Functional\Fixtures\Site:
+  type: entity
+  table: tests_bleicker_nodes_functional_fixtures_site
+  fields:
+    title:
+      type: string
