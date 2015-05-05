@@ -41,15 +41,15 @@ class NodeTypesTest extends UnitTestCase {
 	 * @expectedException \Bleicker\Nodes\Configuration\Exception\AlreadyRegisteredException
 	 */
 	public function doubletteAliasTest() {
-		NodeConfiguration::instance(Content::class, 'Example Content', 'Description', NodeConfiguration::CONTENT_GROUP)->register('content');
-		NodeConfiguration::instance(Content::class, 'Example Content', 'Description', NodeConfiguration::CONTENT_GROUP)->register('content');
+		NodeConfiguration::register(Content::class, 'content', 'Example Content', 'Description', NodeConfiguration::CONTENT_GROUP);
+		NodeConfiguration::register(Content::class, 'content', 'Example Content', 'Description', NodeConfiguration::CONTENT_GROUP);
 	}
 
 	/**
 	 * @test
 	 */
 	public function addTest() {
-		NodeConfiguration::instance(Site::class, 'Site', 'Description', NodeConfiguration::SITE_GROUP, Page::class, Content::class)->register('site');
+		NodeConfiguration::register(Site::class, 'site', 'Site', 'Description', NodeConfiguration::SITE_GROUP, Page::class, Content::class);
 		$configuration = NodeTypeConfigurations::get('site');
 		$this->assertInstanceOf(NodeConfiguration::class, $configuration);
 		$this->assertEquals(Site::class, $configuration->getClassName());
@@ -73,7 +73,7 @@ class NodeTypesTest extends UnitTestCase {
 	 * @test
 	 */
 	public function interfaceChildTypeNotAllowedTest() {
-		NodeConfiguration::instance(Site::class, 'Site', 'Description', NodeConfiguration::SITE_GROUP)->register('site');
+		NodeConfiguration::register(Site::class, 'site', 'Site', 'Description', NodeConfiguration::SITE_GROUP);
 		$this->assertFalse(NodeTypeConfigurations::allowsChild('site', NodeConfigurationInterface::class));
 	}
 
@@ -81,7 +81,7 @@ class NodeTypesTest extends UnitTestCase {
 	 * @test
 	 */
 	public function classChildTypeNotAllowedTest() {
-		NodeConfiguration::instance(Site::class, 'Site', 'Description', NodeConfiguration::SITE_GROUP)->register('site');
+		NodeConfiguration::register(Site::class, 'site', 'Site', 'Description', NodeConfiguration::SITE_GROUP);
 		$this->assertFalse(NodeTypeConfigurations::allowsChild('site', Page::class));
 	}
 
@@ -89,7 +89,7 @@ class NodeTypesTest extends UnitTestCase {
 	 * @test
 	 */
 	public function classChildTypeDenyAbstractTest() {
-		NodeConfiguration::instance(Site::class, 'Site', 'Description', NodeConfiguration::SITE_GROUP, AbstractContentNode::class)->register('site');
+		NodeConfiguration::register(Site::class, 'site', 'Site', 'Description', NodeConfiguration::SITE_GROUP, AbstractContentNode::class);
 		$this->assertFalse(NodeTypeConfigurations::allowsChild('site', Site::class));
 		$this->assertFalse(NodeTypeConfigurations::allowsChild('site', Page::class));
 		$this->assertFalse(NodeTypeConfigurations::allowsChild('site', Page::class));
@@ -100,7 +100,7 @@ class NodeTypesTest extends UnitTestCase {
 	 * @test
 	 */
 	public function classChildTypeDenyInterfaceTest() {
-		NodeConfiguration::instance(Site::class, 'Site', 'Description', NodeConfiguration::SITE_GROUP, ContentNodeInterface::class)->register('site');
+		NodeConfiguration::register(Site::class, 'site', 'Site', 'Description', NodeConfiguration::SITE_GROUP, ContentNodeInterface::class);
 		$this->assertFalse(NodeTypeConfigurations::allowsChild('site', Site::class));
 		$this->assertFalse(NodeTypeConfigurations::allowsChild('site', Page::class));
 		$this->assertFalse(NodeTypeConfigurations::allowsChild('site', Page::class));
@@ -111,7 +111,7 @@ class NodeTypesTest extends UnitTestCase {
 	 * @test
 	 */
 	public function classChildTypeDenyAbstractNodeTest() {
-		NodeConfiguration::instance(Site::class, 'Site', 'Description', NodeConfiguration::SITE_GROUP, AbstractNode::class)->register('site');
+		NodeConfiguration::register(Site::class, 'site', 'Site', 'Description', NodeConfiguration::SITE_GROUP, AbstractNode::class);
 		$this->assertTrue(NodeTypeConfigurations::allowsChild('site', Site::class));
 		$this->assertTrue(NodeTypeConfigurations::allowsChild('site', Page::class));
 		$this->assertTrue(NodeTypeConfigurations::allowsChild('site', Page::class));
@@ -122,7 +122,7 @@ class NodeTypesTest extends UnitTestCase {
 	 * @test
 	 */
 	public function classChildTypeDenyNodeInterfaceTest() {
-		NodeConfiguration::instance(Site::class, 'Site', 'Description', NodeConfiguration::SITE_GROUP, NodeInterface::class)->register('site');
+		NodeConfiguration::register(Site::class, 'site', 'Site', 'Description', NodeConfiguration::SITE_GROUP, NodeInterface::class);
 		$this->assertTrue(NodeTypeConfigurations::allowsChild('site', Site::class));
 		$this->assertTrue(NodeTypeConfigurations::allowsChild('site', Page::class));
 		$this->assertTrue(NodeTypeConfigurations::allowsChild('site', Page::class));
@@ -133,7 +133,7 @@ class NodeTypesTest extends UnitTestCase {
 	 * @test
 	 */
 	public function classChildTypeDenyConcreteTest() {
-		NodeConfiguration::instance(Site::class, 'Site', 'Description', NodeConfiguration::SITE_GROUP, Page::class, Content::class, AbstractContentNode::class, AbstractPageNode::class)->register('site');
+		NodeConfiguration::register(Site::class, 'site', 'Site', 'Description', NodeConfiguration::SITE_GROUP, Page::class, Content::class, AbstractContentNode::class, AbstractPageNode::class);
 		$this->assertFalse(NodeTypeConfigurations::allowsChild('site', Site::class));
 		$this->assertTrue(NodeTypeConfigurations::allowsChild('site', Page::class));
 		$this->assertTrue(NodeTypeConfigurations::allowsChild('site', Page::class));

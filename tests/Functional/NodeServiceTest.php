@@ -2,9 +2,13 @@
 
 namespace Tests\Bleicker\Nodes\Functional;
 
+use Bleicker\Nodes\Configuration\NodeConfiguration;
+use Bleicker\Nodes\Configuration\NodeTypeConfigurations;
+use Bleicker\Nodes\Configuration\NodeTypeConfigurationsInterface;
 use Bleicker\Nodes\NodeInterface;
 use Bleicker\Nodes\NodeService;
 use Bleicker\Nodes\NodeTranslation;
+use Bleicker\ObjectManager\ObjectManager;
 use Tests\Bleicker\Nodes\Functional\Fixtures\Content;
 use Tests\Bleicker\Nodes\Functional\Fixtures\Page;
 use Tests\Bleicker\Nodes\FunctionalTestCase;
@@ -24,6 +28,14 @@ class NodeServiceTest extends FunctionalTestCase {
 	protected function setUp() {
 		parent::setUp();
 		$this->nodeService = new NodeService();
+		ObjectManager::register(NodeTypeConfigurationsInterface::class, NodeTypeConfigurations::class);
+		NodeTypeConfigurations::prune();
+	}
+
+	protected function tearDown() {
+		parent::tearDown();
+		ObjectManager::unregister(NodeTypeConfigurationsInterface::class);
+		NodeTypeConfigurations::prune();
 	}
 
 	/**

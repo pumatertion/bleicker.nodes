@@ -35,35 +35,52 @@ class NodeConfiguration implements NodeConfigurationInterface {
 	protected $className;
 
 	/**
+	 * @var string
+	 */
+	protected $alias;
+
+	/**
 	 * @var Collection
 	 */
 	protected $allowedChildren;
 
 	/**
 	 * @param string $className
+	 * @param string $alias
 	 * @param string $label
 	 * @param string $description
 	 * @param string $group
 	 */
-	public function __construct($className, $label, $description, $group) {
+	public function __construct($className, $alias, $label, $description, $group) {
 		$this->className = $className;
+		$this->alias = $alias;
 		$this->label = $label;
 		$this->description = $description;
 		$this->group = $group;
-		$this->allowedChildren = new ArrayCollection(array_slice(func_get_args(), 4));
+		$this->allowedChildren = new ArrayCollection(array_slice(func_get_args(), 5));
 	}
 
 	/**
 	 * @param string $className
+	 * @param string $alias
 	 * @param string $label
 	 * @param string $description
 	 * @param string $group
 	 * @param string $allowedChild
-	 * @return self
+	 * @return void
+	 * @throws Exception\AlreadyRegisteredException
 	 */
-	public static function instance($className, $label, $description, $group, $allowedChild = NULL){
+	public static function register($className, $alias, $label, $description, $group, $allowedChild = NULL) {
+		/** @var NodeTypeConfigurationsInterface $configurations */
+		$configurations = ObjectManager::get(NodeTypeConfigurationsInterface::class);
+		if ($configurations->has($alias)) {
+			throw new AlreadyRegisteredException('The alias is already registered', 1430837412);
+		}
+
+		/** @var self $configuration */
 		$reflection = new \ReflectionClass(static::class);
-		return $reflection->newInstanceArgs(func_get_args());
+		$configuration = $reflection->newInstanceArgs(func_get_args());
+		$configurations->add($configuration->getAlias(), $configuration);
 	}
 
 	/**
@@ -140,14 +157,16 @@ class NodeConfiguration implements NodeConfigurationInterface {
 	/**
 	 * @param string $alias
 	 * @return $this
-	 * @throws AlreadyRegisteredException
 	 */
-	public function register($alias) {
-		/** @var NodeTypeConfigurationsInterface $configuration */
-		$configuration = ObjectManager::get(NodeTypeConfigurationsInterface::class);
-		if ($configuration->has($alias)) {
-			throw new AlreadyRegisteredException('The alias is already registered', 1430837412);
-		}
-		$configuration->add($alias, $this);
+	public function setAlias($alias = NULL) {
+		$this->alias = $alias;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAlias() {
+		return $this->alias;
 	}
 }

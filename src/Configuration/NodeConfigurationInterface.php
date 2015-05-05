@@ -62,8 +62,13 @@ interface NodeConfigurationInterface {
 	public function getLabel();
 
 	/**
+	 * @param string $className
 	 * @param string $alias
-	 * @return $this
+	 * @param string $label
+	 * @param string $description
+	 * @param string $group
+	 * @param string $allowedChild
+	 * @return void
 	 */
-	public function register($alias);
+	public static function register($className, $alias, $label, $description, $group, $allowedChild = NULL);
 }
