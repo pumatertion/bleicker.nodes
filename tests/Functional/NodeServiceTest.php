@@ -303,6 +303,39 @@ class NodeServiceTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
+	public function locateSiteTest() {
+		$content1 = new Content('c1');
+		$content2 = new Content('c2');
+		$content3 = new Content('c3');
+		$content4 = new Content('c4');
+
+		$lostContent = new Content('I am lost');
+
+		$page1 = new Page('p1');
+		$page2 = new Page('p2');
+
+		$site1 = new Site('s1');
+		$site2 = new Site('s2');
+
+		$this->nodeService->add($lostContent);
+		$this->nodeService->addChild($page1, $site1)->addChild($content1, $site1)->addChild($content2, $page1);
+		$this->nodeService->addChild($page2, $site2)->addChild($content3, $site2)->addChild($content4, $page2);
+
+		$this->assertNull($this->nodeService->locateSite($lostContent));
+
+		$this->assertEquals('s1', $this->nodeService->locateSite($page1)->getTitle());
+		$this->assertEquals('s2', $this->nodeService->locateSite($page2)->getTitle());
+
+		$this->assertEquals('s1', $this->nodeService->locateSite($content1)->getTitle());
+		$this->assertEquals('s2', $this->nodeService->locateSite($content3)->getTitle());
+
+		$this->assertEquals('s1', $this->nodeService->locateSite($content2)->getTitle());
+		$this->assertEquals('s2', $this->nodeService->locateSite($content4)->getTitle());
+	}
+
+	/**
+	 * @test
+	 */
 	public function getContentTest() {
 		$content1 = new Content('c1');
 		$content2 = new Content('c2');

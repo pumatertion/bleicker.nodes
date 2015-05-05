@@ -158,6 +158,15 @@ interface NodeServiceInterface {
 	public function locatePage(NodeInterface $node);
 
 	/**
+	 * Returns the first found site node in root line.
+	 *
+	 * @param NodeInterface $node
+	 * @return SiteNodeInterface
+	 * @api
+	 */
+	public function locateSite(NodeInterface $node);
+
+	/**
 	 * @param NodeInterface $node
 	 * @return $this
 	 * @api
