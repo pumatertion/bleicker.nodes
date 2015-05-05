@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9ce2deff50e2f163692070de8830a231",
+    "hash": "c3baee9222623130b58c10e8b0393d83",
     "packages": [
         {
             "name": "bleicker/container",
@@ -72,16 +72,16 @@
         },
         {
             "name": "bleicker/objectmanager",
-            "version": "1.0.4",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pumatertion/bleicker.objectmanager.git",
-                "reference": "a424ea93509a880847db038e8f2c6b3716805e53"
+                "reference": "f36dd1789b28c4af3f929ea3ad202d52841cf20b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pumatertion/bleicker.objectmanager/zipball/a424ea93509a880847db038e8f2c6b3716805e53",
-                "reference": "a424ea93509a880847db038e8f2c6b3716805e53",
+                "url": "https://api.github.com/repos/pumatertion/bleicker.objectmanager/zipball/f36dd1789b28c4af3f929ea3ad202d52841cf20b",
+                "reference": "f36dd1789b28c4af3f929ea3ad202d52841cf20b",
                 "shasum": ""
             },
             "require": {
@@ -104,7 +104,7 @@
                     "email": "carsten@bleicker.de"
                 }
             ],
-            "time": "2015-04-26 12:56:58"
+            "time": "2015-05-05 14:33:35"
         },
         {
             "name": "bleicker/persistence",
