@@ -28,8 +28,39 @@ class NodeServiceTest extends FunctionalTestCase {
 
 	/**
 	 * @test
+	 * @expectedException \Bleicker\Nodes\Exception\InvalidNodeException
 	 */
-	public function getTest(){
+	public function addNodeIntoItselfTest() {
+		$node = new Content();
+		$this->nodeService->add($node)->addChild($node, $node);
+	}
+
+	/**
+	 * @test
+	 * @expectedException \Bleicker\Nodes\Exception\InvalidNodeException
+	 */
+	public function addNodeBeforeThrowsExceptionTest() {
+		$node1 = new Content();
+		$node2 = new Content();
+		$node3 = new Content();
+		$this->nodeService->add($node1)->addChild($node2->addChild($node3), $node1)->addBefore($node2, $node3);
+	}
+
+	/**
+	 * @test
+	 * @expectedException \Bleicker\Nodes\Exception\InvalidNodeException
+	 */
+	public function addNodeAfterThrowsExceptionTest() {
+		$node1 = new Content();
+		$node2 = new Content();
+		$node3 = new Content();
+		$this->nodeService->add($node1)->addChild($node2->addChild($node3), $node1)->addAfter($node2, $node3);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getTest() {
 		$content = new Content();
 		$persisted = $this->nodeService->add($content)->get($content->getId());
 		$this->assertEquals($content->getId(), $persisted->getId());
@@ -38,7 +69,7 @@ class NodeServiceTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
-	public function findSitesTest(){
+	public function findSitesTest() {
 		$site1 = new Page('site1');
 		$site2 = new Page('site2');
 
