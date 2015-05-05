@@ -31,7 +31,7 @@ class NodeService implements NodeServiceInterface {
 		$criteria = Criteria::create();
 		$criteria->where(
 			$expr->andX(
-				$expr->eq('nodeTypeAbstraction', AbstractPageNode::class),
+				$expr->eq('nodeTypeAbstraction', AbstractSiteNode::class),
 				$expr->isNull('parent')
 			)
 		);

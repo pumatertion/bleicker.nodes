@@ -11,6 +11,7 @@ use Bleicker\Nodes\NodeTranslation;
 use Bleicker\ObjectManager\ObjectManager;
 use Tests\Bleicker\Nodes\Functional\Fixtures\Content;
 use Tests\Bleicker\Nodes\Functional\Fixtures\Page;
+use Tests\Bleicker\Nodes\Functional\Fixtures\Site;
 use Tests\Bleicker\Nodes\FunctionalTestCase;
 
 /**
@@ -82,10 +83,12 @@ class NodeServiceTest extends FunctionalTestCase {
 	 * @test
 	 */
 	public function findSitesTest() {
-		$site1 = new Page('site1');
-		$site2 = new Page('site2');
+		$site1 = new Site('site1');
+		$site2 = new Site('site2');
+		$page = new Page('page');
+		$content = new Content('content');
 
-		$this->nodeService->add($site1)->add($site2);
+		$this->nodeService->add($site1)->add($site2)->addChild($content, $site1)->addChild($page, $site2);
 		$this->assertEquals(2, $this->nodeService->findSites()->count());
 	}
 
