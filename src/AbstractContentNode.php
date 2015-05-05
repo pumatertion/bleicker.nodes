@@ -14,7 +14,7 @@ abstract class AbstractContentNode extends AbstractNode implements ContentNodeIn
 	/**
 	 * @return string
 	 */
-	public function getNodeTypeAbstraction() {
+	public final function getNodeTypeAbstraction() {
 		return self::class;
 	}
 }

@@ -19,7 +19,7 @@ abstract class AbstractPageNode extends AbstractNode implements PageNodeInterfac
 	/**
 	 * @return string
 	 */
-	public function getNodeTypeAbstraction() {
+	public final function getNodeTypeAbstraction() {
 		return self::class;
 	}
 }
