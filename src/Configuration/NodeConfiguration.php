@@ -169,4 +169,25 @@ class NodeConfiguration implements NodeConfigurationInterface {
 	public function getAlias() {
 		return $this->alias;
 	}
+
+	/**
+	 * @param string $classOrInterfaceName
+	 * @return boolean
+	 */
+	public function allowsChild($classOrInterfaceName) {
+		$allowedChildrenMatchingResults = $this->getAllowedChildren()->filter(function ($allowedClassOrInterfaceName) use ($classOrInterfaceName) {
+			if ($allowedClassOrInterfaceName === $classOrInterfaceName) {
+				return TRUE;
+			}
+			$checkParents = class_parents($classOrInterfaceName, TRUE);
+			if (in_array($allowedClassOrInterfaceName, $checkParents)) {
+				return TRUE;
+			}
+			$checkImplementations = class_implements($classOrInterfaceName, TRUE);
+			if (in_array($allowedClassOrInterfaceName, $checkImplementations)) {
+				return TRUE;
+			}
+		});
+		return (boolean)$allowedChildrenMatchingResults->count();
+	}
 }

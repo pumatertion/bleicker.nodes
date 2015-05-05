@@ -71,4 +71,10 @@ interface NodeConfigurationInterface {
 	 * @return void
 	 */
 	public static function register($className, $alias, $label, $description, $group, $allowedChild = NULL);
+
+	/**
+	 * @param string $classOrInterfaceName
+	 * @return boolean
+	 */
+	public function allowsChild($classOrInterfaceName);
 }
