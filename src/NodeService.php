@@ -30,10 +30,8 @@ class NodeService implements NodeServiceInterface {
 		$expr = Criteria::expr();
 		$criteria = Criteria::create();
 		$criteria->where(
-			$expr->andX(
-				$expr->eq('nodeTypeAbstraction', AbstractSiteNode::class),
-				$expr->isNull('parent')
-			)
+			$expr->eq('nodeTypeAbstraction', AbstractSiteNode::class),
+			$expr->isNull('parent')
 		)->orderBy(['sorting' => Criteria::ASC]);
 		return $this->entityManager->getRepository(AbstractNode::class)->matching($criteria);
 	}
