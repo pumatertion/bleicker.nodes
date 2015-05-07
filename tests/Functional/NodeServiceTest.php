@@ -2,13 +2,15 @@
 
 namespace Tests\Bleicker\Nodes\Functional;
 
-use Bleicker\Nodes\Configuration\NodeConfiguration;
 use Bleicker\Nodes\Configuration\NodeTypeConfigurations;
 use Bleicker\Nodes\Configuration\NodeTypeConfigurationsInterface;
+use Bleicker\Translation\Locale as SystemLocale;
+use Bleicker\Nodes\Locale;
 use Bleicker\Nodes\NodeInterface;
 use Bleicker\Nodes\NodeService;
 use Bleicker\Nodes\NodeTranslation;
 use Bleicker\ObjectManager\ObjectManager;
+use Bleicker\Translation\Locales;
 use Tests\Bleicker\Nodes\Functional\Fixtures\Content;
 use Tests\Bleicker\Nodes\Functional\Fixtures\Page;
 use Tests\Bleicker\Nodes\Functional\Fixtures\Site;
@@ -31,6 +33,10 @@ class NodeServiceTest extends FunctionalTestCase {
 		$this->nodeService = new NodeService();
 		ObjectManager::register(NodeTypeConfigurationsInterface::class, NodeTypeConfigurations::class);
 		NodeTypeConfigurations::prune();
+		Locales::prune();
+		SystemLocale::register('german', 'de', 'DE');
+		SystemLocale::register('french', 'fr', 'FR');
+		SystemLocale::register('english', 'en', 'GB');
 	}
 
 	protected function tearDown() {
@@ -98,7 +104,9 @@ class NodeServiceTest extends FunctionalTestCase {
 	 * @test
 	 */
 	public function addTranslationTest() {
-		$translation = new NodeTranslation('German', 'de', 'DE');
+		$registeredLocale = Locales::get('german');
+		$locale = new Locale($registeredLocale->getLanguage(), $registeredLocale->getRegion());
+		$translation = new NodeTranslation('title', $locale);
 		$node = new Content();
 		$this->nodeService->addTranslation($node, $translation, 'title');
 		$this->assertEquals(1, $node->getTranslations()->count());
@@ -109,7 +117,9 @@ class NodeServiceTest extends FunctionalTestCase {
 	 * @test
 	 */
 	public function removeTranslationTest() {
-		$translation = new NodeTranslation('German', 'de', 'DE');
+		$registeredLocale = Locales::get('german');
+		$locale = new Locale($registeredLocale->getLanguage(), $registeredLocale->getRegion());
+		$translation = new NodeTranslation('title', $locale);
 		$node = new Content();
 		$this->nodeService->addTranslation($node, $translation, 'title')->removeTranslastion($node, $translation);
 

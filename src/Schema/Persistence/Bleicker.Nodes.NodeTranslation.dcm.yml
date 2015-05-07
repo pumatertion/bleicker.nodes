@@ -9,17 +9,19 @@ Bleicker\Nodes\NodeTranslation:
   fields:
     propertyName:
       type: string
-    value:
-      type: string
-    language:
-      type: string
-    region:
-      type: string
   manyToOne:
     node:
       targetEntity: Bleicker\Nodes\AbstractNode
       inversedBy: translations
       joinColumn:
         name: node_id
+        referencedColumnName: id
+        onDelete: CASCADE
+  oneToOne:
+    locale:
+      cascade: ["all"]
+      targetEntity: Bleicker\Nodes\Locale
+      joinColumn:
+        name: locale_id
         referencedColumnName: id
         onDelete: CASCADE

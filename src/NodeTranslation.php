@@ -21,6 +21,10 @@ class NodeTranslation extends Translation implements NodeTranslationInterface {
 	 */
 	protected $node;
 
+	public function __construct($propertyName, Locale $locale, $value = NULL) {
+		parent::__construct($propertyName, $locale, $value);
+	}
+
 	/**
 	 * @return integer
 	 */
