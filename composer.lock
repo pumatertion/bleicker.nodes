@@ -179,16 +179,16 @@
         },
         {
             "name": "bleicker/translation",
-            "version": "0.2.2",
+            "version": "0.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pumatertion/bleicker.translation.git",
-                "reference": "64eca9b1afc48db4dfac0b4dad21c550969bfd06"
+                "reference": "5fcc3396a2c1a0de9528574d4affd971ec7cc7df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pumatertion/bleicker.translation/zipball/64eca9b1afc48db4dfac0b4dad21c550969bfd06",
-                "reference": "64eca9b1afc48db4dfac0b4dad21c550969bfd06",
+                "url": "https://api.github.com/repos/pumatertion/bleicker.translation/zipball/5fcc3396a2c1a0de9528574d4affd971ec7cc7df",
+                "reference": "5fcc3396a2c1a0de9528574d4affd971ec7cc7df",
                 "shasum": ""
             },
             "require": {
@@ -213,7 +213,7 @@
                     "email": "carsten@bleicker.de"
                 }
             ],
-            "time": "2015-05-07 16:38:32"
+            "time": "2015-05-07 20:35:29"
         },
         {
             "name": "doctrine/annotations",
