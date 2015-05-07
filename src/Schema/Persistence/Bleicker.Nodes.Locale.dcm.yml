@@ -1,0 +1,8 @@
+Bleicker\Nodes\Locale:
+  type: entity
+  table: bleicker_nodes_locale
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO

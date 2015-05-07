@@ -4,21 +4,24 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c3baee9222623130b58c10e8b0393d83",
+    "hash": "bcdd33f6acafe59ad910a92c1ac11377",
     "packages": [
         {
             "name": "bleicker/container",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pumatertion/bleicker.container.git",
-                "reference": "b5d7d75a8a1050c46fadfdf95d94fd7e73668cd9"
+                "reference": "293dc151833a6cf4175e2dfeb8733408875852a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pumatertion/bleicker.container/zipball/b5d7d75a8a1050c46fadfdf95d94fd7e73668cd9",
-                "reference": "b5d7d75a8a1050c46fadfdf95d94fd7e73668cd9",
+                "url": "https://api.github.com/repos/pumatertion/bleicker.container/zipball/293dc151833a6cf4175e2dfeb8733408875852a5",
+                "reference": "293dc151833a6cf4175e2dfeb8733408875852a5",
                 "shasum": ""
+            },
+            "require": {
+                "bleicker/exception": "*"
             },
             "require-dev": {
                 "phpunit/phpunit": "*"
@@ -36,7 +39,7 @@
                     "email": "carsten@bleicker.de"
                 }
             ],
-            "time": "2015-04-26 12:38:26"
+            "time": "2015-05-07 12:32:09"
         },
         {
             "name": "bleicker/exception",
@@ -176,21 +179,23 @@
         },
         {
             "name": "bleicker/translation",
-            "version": "0.1.0",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pumatertion/bleicker.translation.git",
-                "reference": "78c97f33a11fc035ad16c9081cde4c53b35c2a98"
+                "reference": "3dce17582c155fb3ed31649f5db8816ea3a14e55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pumatertion/bleicker.translation/zipball/78c97f33a11fc035ad16c9081cde4c53b35c2a98",
-                "reference": "78c97f33a11fc035ad16c9081cde4c53b35c2a98",
+                "url": "https://api.github.com/repos/pumatertion/bleicker.translation/zipball/3dce17582c155fb3ed31649f5db8816ea3a14e55",
+                "reference": "3dce17582c155fb3ed31649f5db8816ea3a14e55",
                 "shasum": ""
             },
             "require": {
-                "bleicker/exception": "~1.0",
-                "doctrine/collections": "~1.2"
+                "bleicker/container": "1.0.*",
+                "bleicker/exception": "1.0.*",
+                "bleicker/objectmanager": "1.0.*",
+                "doctrine/collections": "1.2.*"
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.6"
@@ -208,7 +213,7 @@
                     "email": "carsten@bleicker.de"
                 }
             ],
-            "time": "2015-04-30 12:59:28"
+            "time": "2015-05-07 14:59:35"
         },
         {
             "name": "doctrine/annotations",
@@ -350,23 +355,20 @@
         },
         {
             "name": "doctrine/collections",
-            "version": "v1.3.0",
+            "version": "v1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/collections.git",
-                "reference": "6c1e4eef75f310ea1b3e30945e9f06e652128b8a"
+                "reference": "b99c5c46c87126201899afe88ec490a25eedd6a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/collections/zipball/6c1e4eef75f310ea1b3e30945e9f06e652128b8a",
-                "reference": "6c1e4eef75f310ea1b3e30945e9f06e652128b8a",
+                "url": "https://api.github.com/repos/doctrine/collections/zipball/b99c5c46c87126201899afe88ec490a25eedd6a2",
+                "reference": "b99c5c46c87126201899afe88ec490a25eedd6a2",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0"
             },
             "type": "library",
             "extra": {
@@ -385,6 +387,17 @@
             ],
             "authors": [
                 {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com",
+                    "homepage": "http://www.jwage.com/",
+                    "role": "Creator"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com",
+                    "homepage": "http://www.instaclick.com"
+                },
+                {
                     "name": "Roman Borschel",
                     "email": "roman@code-factory.org"
                 },
@@ -393,16 +406,10 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com"
-                },
-                {
-                    "name": "Jonathan Wage",
-                    "email": "jonwage@gmail.com"
-                },
-                {
                     "name": "Johannes Schmitt",
-                    "email": "schmittjoh@gmail.com"
+                    "email": "schmittjoh@gmail.com",
+                    "homepage": "https://github.com/schmittjoh",
+                    "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
             "description": "Collections Abstraction library",
@@ -412,7 +419,7 @@
                 "collections",
                 "iterator"
             ],
-            "time": "2015-04-14 22:21:58"
+            "time": "2014-02-03 23:07:43"
         },
         {
             "name": "doctrine/common",

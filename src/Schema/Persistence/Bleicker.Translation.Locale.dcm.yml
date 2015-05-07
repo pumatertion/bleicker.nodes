@@ -1,0 +1,7 @@
+Bleicker\Translation\Locale:
+  type: mappedSuperclass
+  fields:
+    language:
+      type: string
+    region:
+      type: string
