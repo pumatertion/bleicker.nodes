@@ -86,9 +86,11 @@ class NodeServiceTest extends FunctionalTestCase {
 		$site1 = new Site('site1');
 		$site2 = new Site('site2');
 		$page = new Page('page');
+		$lostPage = new Page('page');
+		$lostContent = new Content('content');
 		$content = new Content('content');
 
-		$this->nodeService->add($site1)->add($site2)->addChild($content, $site1)->addChild($page, $site2);
+		$this->nodeService->add($lostContent)->add($lostPage)->add($site1)->add($site2)->addChild($content, $site1)->addChild($page, $site2);
 		$this->assertEquals(2, $this->nodeService->findSites()->count());
 	}
 
