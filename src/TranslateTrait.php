@@ -66,7 +66,7 @@ trait TranslateTrait {
 
 	/**
 	 * @param TranslationInterface $translation
-	 * @return TranslationInterface
+	 * @return NodeTranslationInterface
 	 */
 	public function getTranslation(TranslationInterface $translation) {
 		$expr = Criteria::expr();
