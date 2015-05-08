@@ -1,12 +1,14 @@
 <?php
 namespace Bleicker\Nodes;
 
+use Bleicker\Translation\TranslationInterface;
+
 /**
  * Class NodeTranslation
  *
  * @package Bleicker\Nodes
  */
-interface NodeTranslationInterface {
+interface NodeTranslationInterface extends TranslationInterface {
 
 	/**
 	 * @return NodeInterface
