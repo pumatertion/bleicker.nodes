@@ -29,7 +29,7 @@ Bleicker\Nodes\AbstractNode:
       targetEntity: Bleicker\Nodes\NodeTranslation
       fetch: EXTRA_LAZY
       mappedBy: node
-      orderBy: { propertyName: ASC, language: DESC, region: DESC}
+      orderBy: { propertyName: ASC }
   manyToOne:
     parent:
       targetEntity: Bleicker\Nodes\AbstractNode
