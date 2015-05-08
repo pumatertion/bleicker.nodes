@@ -13,8 +13,10 @@ Bleicker\Nodes\AbstractNode:
       type: integer
     nodeType:
       type: string
+      column: node_type
     nodeTypeAbstraction:
       type: string
+      column: node_type_abstraction
   oneToMany:
     children:
       cascade: ["all"]
