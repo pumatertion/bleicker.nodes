@@ -46,6 +46,7 @@ class NodeService implements NodeServiceInterface {
 	 */
 	public function addTranslation(NodeInterface $node, NodeTranslationInterface $translation) {
 		$node->removeTranslation($translation)->addTranslation($translation);
+		$this->entityManager->remove($translation);
 		$this->persist($node);
 		return $this;
 	}
