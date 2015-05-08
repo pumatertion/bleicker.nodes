@@ -9,6 +9,9 @@ Bleicker\Nodes\NodeTranslation:
   fields:
     propertyName:
       type: string
+    value:
+      type: string
+      nullable: true
   manyToOne:
     node:
       targetEntity: Bleicker\Nodes\AbstractNode

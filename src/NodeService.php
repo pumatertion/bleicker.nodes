@@ -41,12 +41,11 @@ class NodeService implements NodeServiceInterface {
 	/**
 	 * @param NodeInterface $node
 	 * @param NodeTranslationInterface $translation
-	 * @param string $propertyName
 	 * @return $this
 	 * @api
 	 */
-	public function addTranslation(NodeInterface $node, NodeTranslationInterface $translation, $propertyName) {
-		$node->addTranslation($translation, $propertyName);
+	public function addTranslation(NodeInterface $node, NodeTranslationInterface $translation) {
+		$node->addTranslation($translation);
 		$this->persist($node);
 		return $this;
 	}
