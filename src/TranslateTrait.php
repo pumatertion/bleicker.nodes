@@ -2,9 +2,9 @@
 
 namespace Bleicker\Nodes;
 
-use Bleicker\Nodes\NodeTranslationInterface as TranslationInterface;
 use Bleicker\Translation\Exception\TranslationAlreadyExistsException;
 use Bleicker\Translation\TranslateTrait as TranslateTraitOrigin;
+use Bleicker\Translation\TranslationInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 
