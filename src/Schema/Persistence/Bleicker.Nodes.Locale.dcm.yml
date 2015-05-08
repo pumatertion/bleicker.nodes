@@ -6,3 +6,8 @@ Bleicker\Nodes\Locale:
       type: integer
       generator:
         strategy: AUTO
+  fields:
+    language:
+      type: string
+    region:
+      type: string
