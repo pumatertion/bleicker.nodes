@@ -2,9 +2,6 @@
 
 namespace Bleicker\Nodes;
 
-use Bleicker\Nodes\Exception\InvalidChildException;
-use Bleicker\Nodes\Exception\InvalidParentException;
-use Bleicker\Translation\TranslateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -15,7 +12,6 @@ use Doctrine\Common\Collections\Collection;
  */
 abstract class AbstractNode implements NodeInterface {
 
-	use TranslateTrait;
 	use NodeTrait;
 
 	/**

@@ -14,6 +14,8 @@ use Doctrine\Common\Collections\Collection;
  */
 trait NodeTrait {
 
+	use TranslateTrait;
+
 	/**
 	 * @return string
 	 */
