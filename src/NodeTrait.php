@@ -4,7 +4,6 @@ namespace Bleicker\Nodes;
 
 use Bleicker\Nodes\Exception\InvalidChildException;
 use Bleicker\Nodes\Exception\InvalidParentException;
-use Bleicker\Translation\TranslateTrait;
 use Doctrine\Common\Collections\Collection;
 
 /**

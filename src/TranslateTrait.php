@@ -2,8 +2,9 @@
 
 namespace Bleicker\Nodes;
 
-use Bleicker\Nodes\NodeTranslationInterface as TranslationInterface;
+use Bleicker\Translation\Exception\TranslationAlreadyExistsException;
 use Bleicker\Translation\TranslateTrait as TranslateTraitOrigin;
+use Bleicker\Translation\TranslationInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 
@@ -36,12 +37,12 @@ trait TranslateTrait {
 	 * @param TranslationInterface $translation
 	 * @return $this
 	 * @throws TranslationAlreadyExistsException
-	 * @throws PropertyDoesNotExistsException
 	 */
 	public function addTranslation(TranslationInterface $translation) {
 		if ($this->hasTranslation($translation)) {
 			throw new TranslationAlreadyExistsException('Translation "' . (string)$translation . '" already exists', 1431005644);
 		}
+		$translation->setNode($this);
 		$this->translations->add($translation);
 		return $this;
 	}
@@ -65,7 +66,7 @@ trait TranslateTrait {
 
 	/**
 	 * @param TranslationInterface $translation
-	 * @return TranslationInterface
+	 * @return NodeTranslationInterface
 	 */
 	public function getTranslation(TranslationInterface $translation) {
 		$expr = Criteria::expr();
