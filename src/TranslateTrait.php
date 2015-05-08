@@ -37,7 +37,6 @@ trait TranslateTrait {
 	 * @param TranslationInterface $translation
 	 * @return $this
 	 * @throws TranslationAlreadyExistsException
-	 * @throws PropertyDoesNotExistsException
 	 */
 	public function addTranslation(TranslationInterface $translation) {
 		if ($this->hasTranslation($translation)) {
