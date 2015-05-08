@@ -30,6 +30,14 @@ interface NodeServiceInterface {
 	 * @return $this
 	 * @api
 	 */
+	public function addTranslation(NodeInterface $node, NodeTranslationInterface $translation);
+
+	/**
+	 * @param NodeInterface $node
+	 * @param NodeTranslationInterface $translation
+	 * @return $this
+	 * @api
+	 */
 	public function removeTranslastion(NodeInterface $node, NodeTranslationInterface $translation);
 
 	/**
@@ -87,15 +95,6 @@ interface NodeServiceInterface {
 	 * @api
 	 */
 	public function getParent(NodeInterface $node);
-
-	/**
-	 * @param NodeInterface $node
-	 * @param NodeTranslationInterface $translation
-	 * @param string $propertyName
-	 * @return $this
-	 * @api
-	 */
-	public function addTranslation(NodeInterface $node, NodeTranslationInterface $translation, $propertyName);
 
 	/**
 	 * @param NodeInterface $node

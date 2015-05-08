@@ -4,12 +4,12 @@ namespace Tests\Bleicker\Nodes\Functional;
 
 use Bleicker\Nodes\Configuration\NodeTypeConfigurations;
 use Bleicker\Nodes\Configuration\NodeTypeConfigurationsInterface;
-use Bleicker\Translation\Locale as SystemLocale;
 use Bleicker\Nodes\Locale;
 use Bleicker\Nodes\NodeInterface;
 use Bleicker\Nodes\NodeService;
 use Bleicker\Nodes\NodeTranslation;
 use Bleicker\ObjectManager\ObjectManager;
+use Bleicker\Translation\Locale as SystemLocale;
 use Bleicker\Translation\Locales;
 use Tests\Bleicker\Nodes\Functional\Fixtures\Content;
 use Tests\Bleicker\Nodes\Functional\Fixtures\Page;
@@ -43,6 +43,32 @@ class NodeServiceTest extends FunctionalTestCase {
 		parent::tearDown();
 		ObjectManager::unregister(NodeTypeConfigurationsInterface::class);
 		NodeTypeConfigurations::prune();
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteNodeTest() {
+		$node = new Page('Page to delete');
+		$this->nodeService->add($node);
+		$this->assertNotNull($node->getId());
+		$this->nodeService->remove($node);
+		$this->assertNull($node->getId());
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteNodeHavingTranslationTest() {
+		$registeredLocale = Locales::get('german');
+		$locale = new Locale($registeredLocale->getLanguage(), $registeredLocale->getRegion());
+		$translation = new NodeTranslation('title', $locale, 'Zu löschende Seite');
+		$node = new Page('Page to delete');
+		$this->nodeService->addTranslation($node, $translation);
+		$this->assertNotNull($node->getId());
+		$this->assertNotNull($translation->getId());
+		$this->nodeService->remove($node);
+		$this->assertNull($node->getId());
 	}
 
 	/**
