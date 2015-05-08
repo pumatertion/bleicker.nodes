@@ -42,6 +42,7 @@ trait TranslateTrait {
 		if ($this->hasTranslation($translation)) {
 			throw new TranslationAlreadyExistsException('Translation "' . (string)$translation . '" already exists', 1431005644);
 		}
+		$translation->setNode($this);
 		$this->translations->add($translation);
 		return $this;
 	}
