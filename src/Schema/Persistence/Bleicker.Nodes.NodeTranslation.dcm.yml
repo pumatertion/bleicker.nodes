@@ -9,6 +9,7 @@ Bleicker\Nodes\NodeTranslation:
   fields:
     propertyName:
       type: string
+      column: property_name
     value:
       type: string
       nullable: true
