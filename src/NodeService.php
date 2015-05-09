@@ -63,7 +63,7 @@ class NodeService implements NodeServiceInterface {
 	 * @return $this
 	 * @api
 	 */
-	public function removeTranslastion(NodeInterface $node, NodeTranslationInterface $translation) {
+	public function removeTranslation(NodeInterface $node, NodeTranslationInterface $translation) {
 		if($node->hasTranslation($translation)){
 			$translation = $node->getTranslation($translation);
 		}

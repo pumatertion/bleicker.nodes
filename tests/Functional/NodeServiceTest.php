@@ -147,7 +147,7 @@ class NodeServiceTest extends FunctionalTestCase {
 		$locale = new Locale($registeredLocale->getLanguage(), $registeredLocale->getRegion());
 		$translation = new NodeTranslation('title', $locale);
 		$node = new Content();
-		$this->nodeService->addTranslation($node, $translation, 'title')->removeTranslastion($node, $translation);
+		$this->nodeService->addTranslation($node, $translation, 'title')->removeTranslation($node, $translation);
 
 		$this->assertEquals(0, $node->getTranslations()->count());
 		$this->assertNull($translation->getId());
