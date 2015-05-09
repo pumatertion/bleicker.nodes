@@ -1,6 +1,7 @@
 <?php
 namespace Bleicker\Nodes;
 
+use Bleicker\Translation\LocaleInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 
@@ -39,6 +40,14 @@ interface NodeServiceInterface {
 	 * @api
 	 */
 	public function removeTranslation(NodeInterface $node, NodeTranslationInterface $translation);
+
+	/**
+	 * @param NodeInterface $node
+	 * @param LocaleInterface $locale
+	 * @return $this
+	 * @api
+	 */
+	public function removeTranslations(NodeInterface $node, LocaleInterface $locale);
 
 	/**
 	 * @param NodeInterface $node

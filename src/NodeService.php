@@ -4,8 +4,11 @@ namespace Bleicker\Nodes;
 
 use Bleicker\ObjectManager\ObjectManager;
 use Bleicker\Persistence\EntityManagerInterface;
+use Bleicker\Translation\LocaleInterface;
+use Bleicker\Translation\TranslationInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Closure;
 
 /**
  * Class NodeService
@@ -55,6 +58,31 @@ class NodeService implements NodeServiceInterface {
 		$node->addTranslation($translation);
 		$this->persist($node);
 		return $this;
+	}
+
+	/**
+	 * @param NodeInterface $node
+	 * @param LocaleInterface $locale
+	 * @return $this
+	 * @api
+	 */
+	public function removeTranslations(NodeInterface $node, LocaleInterface $locale) {
+		$translationsToRemove = $node->getTranslations()->filter($this->getTranslationMatchingFilter($locale));
+		while($translation = $translationsToRemove->current()){
+			$this->removeTranslation($node, $translation);
+			$translationsToRemove->next();
+		}
+		return $this;
+	}
+
+	/**
+	 * @param LocaleInterface $locale
+	 * @return Closure
+	 */
+	protected function getTranslationMatchingFilter(LocaleInterface $locale) {
+		return function (TranslationInterface $existingTranslation) use ($locale) {
+			return (string)$existingTranslation->getLocale() === (string)$locale;
+		};
 	}
 
 	/**
