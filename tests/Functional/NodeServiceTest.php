@@ -73,6 +73,20 @@ class NodeServiceTest extends FunctionalTestCase {
 
 	/**
 	 * @test
+	 */
+	public function deleteAllTranslationsByLocaleTest() {
+		$registeredLocale = Locales::get('german');
+		$locale = new Locale($registeredLocale->getLanguage(), $registeredLocale->getRegion());
+		$translation = new NodeTranslation('title', $locale, 'Zu löschende Seite');
+		$node = new Page('Page to delete');
+		$this->nodeService->addTranslation($node, $translation);
+		$this->assertEquals(1, $node->getTranslations()->count());
+		$this->nodeService->removeTranslations($node, $locale);
+		$this->assertEquals(0, $node->getTranslations()->count());
+	}
+
+	/**
+	 * @test
 	 * @expectedException \Bleicker\Nodes\Exception\InvalidNodeException
 	 */
 	public function addNodeIntoItselfTest() {
@@ -147,7 +161,7 @@ class NodeServiceTest extends FunctionalTestCase {
 		$locale = new Locale($registeredLocale->getLanguage(), $registeredLocale->getRegion());
 		$translation = new NodeTranslation('title', $locale);
 		$node = new Content();
-		$this->nodeService->addTranslation($node, $translation, 'title')->removeTranslastion($node, $translation);
+		$this->nodeService->addTranslation($node, $translation, 'title')->removeTranslation($node, $translation);
 
 		$this->assertEquals(0, $node->getTranslations()->count());
 		$this->assertNull($translation->getId());

@@ -4,8 +4,11 @@ namespace Bleicker\Nodes;
 
 use Bleicker\ObjectManager\ObjectManager;
 use Bleicker\Persistence\EntityManagerInterface;
+use Bleicker\Translation\LocaleInterface;
+use Bleicker\Translation\TranslationInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Closure;
 
 /**
  * Class NodeService
@@ -59,11 +62,36 @@ class NodeService implements NodeServiceInterface {
 
 	/**
 	 * @param NodeInterface $node
+	 * @param LocaleInterface $locale
+	 * @return $this
+	 * @api
+	 */
+	public function removeTranslations(NodeInterface $node, LocaleInterface $locale) {
+		$translationsToRemove = $node->getTranslations()->filter($this->getTranslationMatchingFilter($locale));
+		while($translation = $translationsToRemove->current()){
+			$this->removeTranslation($node, $translation);
+			$translationsToRemove->next();
+		}
+		return $this;
+	}
+
+	/**
+	 * @param LocaleInterface $locale
+	 * @return Closure
+	 */
+	protected function getTranslationMatchingFilter(LocaleInterface $locale) {
+		return function (TranslationInterface $existingTranslation) use ($locale) {
+			return (string)$existingTranslation->getLocale() === (string)$locale;
+		};
+	}
+
+	/**
+	 * @param NodeInterface $node
 	 * @param NodeTranslationInterface $translation
 	 * @return $this
 	 * @api
 	 */
-	public function removeTranslastion(NodeInterface $node, NodeTranslationInterface $translation) {
+	public function removeTranslation(NodeInterface $node, NodeTranslationInterface $translation) {
 		if($node->hasTranslation($translation)){
 			$translation = $node->getTranslation($translation);
 		}
@@ -91,6 +119,7 @@ class NodeService implements NodeServiceInterface {
 	public function remove(NodeInterface $node) {
 		$this->entityManager->remove($node);
 		$this->entityManager->flush();
+		return $this;
 	}
 
 	/**
@@ -100,6 +129,7 @@ class NodeService implements NodeServiceInterface {
 	 */
 	public function update(NodeInterface $node) {
 		$this->persist($node);
+		return $this;
 	}
 
 	/**
@@ -344,6 +374,7 @@ class NodeService implements NodeServiceInterface {
 			$this->entityManager->persist($entity);
 		}
 		$this->entityManager->flush();
+		return $this;
 	}
 
 	/**
