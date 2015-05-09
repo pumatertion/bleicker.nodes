@@ -26,7 +26,7 @@ class NodeTypesTest extends UnitTestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		ObjectManager::register(NodeTypeConfigurationsInterface::class, NodeTypeConfigurations::class);
+		ObjectManager::add(NodeTypeConfigurationsInterface::class, NodeTypeConfigurations::class);
 		NodeTypeConfigurations::prune();
 	}
 

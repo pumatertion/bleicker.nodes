@@ -31,7 +31,7 @@ class NodeServiceTest extends FunctionalTestCase {
 	protected function setUp() {
 		parent::setUp();
 		$this->nodeService = new NodeService();
-		ObjectManager::register(NodeTypeConfigurationsInterface::class, NodeTypeConfigurations::class);
+		ObjectManager::add(NodeTypeConfigurationsInterface::class, NodeTypeConfigurations::class);
 		NodeTypeConfigurations::prune();
 		Locales::prune();
 		SystemLocale::register('german', 'de', 'DE');
@@ -41,7 +41,7 @@ class NodeServiceTest extends FunctionalTestCase {
 
 	protected function tearDown() {
 		parent::tearDown();
-		ObjectManager::unregister(NodeTypeConfigurationsInterface::class);
+		ObjectManager::remove(NodeTypeConfigurationsInterface::class);
 		NodeTypeConfigurations::prune();
 	}
 
