@@ -119,6 +119,7 @@ class NodeService implements NodeServiceInterface {
 	public function remove(NodeInterface $node) {
 		$this->entityManager->remove($node);
 		$this->entityManager->flush();
+		return $this;
 	}
 
 	/**
@@ -128,6 +129,7 @@ class NodeService implements NodeServiceInterface {
 	 */
 	public function update(NodeInterface $node) {
 		$this->persist($node);
+		return $this;
 	}
 
 	/**
@@ -372,6 +374,7 @@ class NodeService implements NodeServiceInterface {
 			$this->entityManager->persist($entity);
 		}
 		$this->entityManager->flush();
+		return $this;
 	}
 
 	/**
