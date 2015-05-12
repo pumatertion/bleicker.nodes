@@ -72,7 +72,12 @@ class NodeConfiguration implements NodeConfigurationInterface {
 	 */
 	public static function register($className, $alias, $label, $description, $group, $allowedChild = NULL) {
 		/** @var NodeTypeConfigurationsInterface $configurations */
-		$configurations = ObjectManager::get(NodeTypeConfigurationsInterface::class);
+		$configurations = ObjectManager::get(NodeTypeConfigurationsInterface::class, function(){
+			$nodeTypeConfigurations = new NodeTypeConfigurations();
+			ObjectManager::add(NodeTypeConfigurationsInterface::class, $nodeTypeConfigurations, TRUE);
+			return $nodeTypeConfigurations;
+		});
+
 		if ($configurations->has($alias)) {
 			throw new AlreadyRegisteredException('The alias is already registered', 1430837412);
 		}
