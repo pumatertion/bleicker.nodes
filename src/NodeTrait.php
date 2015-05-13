@@ -2,6 +2,7 @@
 
 namespace Bleicker\Nodes;
 
+use Bleicker\Nodes\Configuration\NodeConfiguration;
 use Bleicker\Nodes\Exception\InvalidChildException;
 use Bleicker\Nodes\Exception\InvalidParentException;
 use Bleicker\Translation\TranslateTrait;
@@ -110,5 +111,19 @@ trait NodeTrait {
 	 */
 	public function getSorting() {
 		return $this->sorting;
+	}
+
+	/**
+	 * @param string $alias
+	 * @param string $label
+	 * @param string $description
+	 * @param string $group
+	 * @param string $allowedChild
+	 * @return void
+	 */
+	public static function register($alias, $label, $description, $group, $allowedChild = NULL) {
+		$arguments = ['className' => static::class];
+		$arguments = array_merge($arguments, func_get_args());
+		call_user_func_array(NodeConfiguration::class . '::register', $arguments);
 	}
 }

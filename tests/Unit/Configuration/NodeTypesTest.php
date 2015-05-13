@@ -131,4 +131,15 @@ class NodeTypesTest extends UnitTestCase {
 		$this->assertTrue(NodeTypeConfigurations::get('site')->allowsChild(Page::class));
 		$this->assertTrue(NodeTypeConfigurations::get('site')->allowsChild(Content::class));
 	}
+
+	/**
+	 * @test
+	 */
+	public function selfRegistrationTest() {
+		Site::register('site', 'Site', 'Description', NodeConfiguration::SITE_GROUP, Page::class, Content::class, AbstractContentNode::class, AbstractPageNode::class);
+		$this->assertFalse(NodeTypeConfigurations::get('site')->allowsChild(Site::class));
+		$this->assertTrue(NodeTypeConfigurations::get('site')->allowsChild(Page::class));
+		$this->assertTrue(NodeTypeConfigurations::get('site')->allowsChild(Page::class));
+		$this->assertTrue(NodeTypeConfigurations::get('site')->allowsChild(Content::class));
+	}
 }
