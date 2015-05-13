@@ -118,10 +118,11 @@ trait NodeTrait {
 	 * @param string $label
 	 * @param string $description
 	 * @param string $group
-	 * @param string $allowedChild
+	 * @param array $allowedChildren
+	 * @param array $forbiddenChildren
 	 * @return void
 	 */
-	public static function register($alias, $label, $description, $group, $allowedChild = NULL) {
+	public static function register($alias, $label, $description, $group, array $allowedChildren = [], array $forbiddenChildren = []) {
 		$arguments = ['className' => static::class];
 		$arguments = array_merge($arguments, func_get_args());
 		call_user_func_array(NodeConfiguration::class . '::register', $arguments);
