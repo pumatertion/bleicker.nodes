@@ -72,8 +72,9 @@ interface NodeInterface extends TranslateInterface {
 	 * @param string $label
 	 * @param string $description
 	 * @param string $group
-	 * @param string $allowedChild
+	 * @param array $allowedChildren
+	 * @param array $forbiddenChildren
 	 * @return void
 	 */
-	public static function register($alias, $label, $description, $group, $allowedChild = NULL);
+	public static function register($alias, $label, $description, $group, array $allowedChildren = [], array $forbiddenChildren = []);
 }

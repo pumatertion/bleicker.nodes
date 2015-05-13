@@ -45,19 +45,27 @@ class NodeConfiguration implements NodeConfigurationInterface {
 	protected $allowedChildren;
 
 	/**
+	 * @var Collection
+	 */
+	protected $forbiddenChildren;
+
+	/**
 	 * @param string $className
 	 * @param string $alias
 	 * @param string $label
 	 * @param string $description
 	 * @param string $group
+	 * @param array $allowedChildren
+	 * @param array $forbiddenChildren
 	 */
-	public function __construct($className, $alias, $label, $description, $group) {
+	public function __construct($className, $alias, $label, $description, $group, array $allowedChildren = [], array $forbiddenChildren = []) {
 		$this->className = $className;
 		$this->alias = $alias;
 		$this->label = $label;
 		$this->description = $description;
 		$this->group = $group;
-		$this->allowedChildren = new ArrayCollection(array_slice(func_get_args(), 5));
+		$this->allowedChildren = new ArrayCollection($allowedChildren);
+		$this->forbiddenChildren = new ArrayCollection($forbiddenChildren);
 	}
 
 	/**
@@ -66,21 +74,17 @@ class NodeConfiguration implements NodeConfigurationInterface {
 	 * @param string $label
 	 * @param string $description
 	 * @param string $group
-	 * @param string $allowedChild
+	 * @param array $allowedChildren
+	 * @param array $forbiddenChildren
 	 * @return void
-	 * @throws Exception\AlreadyRegisteredException
 	 */
-	public static function register($className, $alias, $label, $description, $group, $allowedChild = NULL) {
+	public static function register($className, $alias, $label, $description, $group, array $allowedChildren = [], array $forbiddenChildren = []) {
 		/** @var NodeTypeConfigurationsInterface $configurations */
 		$configurations = ObjectManager::get(NodeTypeConfigurationsInterface::class, function(){
 			$nodeTypeConfigurations = new NodeTypeConfigurations();
 			ObjectManager::add(NodeTypeConfigurationsInterface::class, $nodeTypeConfigurations, TRUE);
 			return $nodeTypeConfigurations;
 		});
-
-		if ($configurations->has($alias)) {
-			throw new AlreadyRegisteredException('The alias is already registered', 1430837412);
-		}
 
 		/** @var self $configuration */
 		$reflection = new \ReflectionClass(static::class);
@@ -93,6 +97,13 @@ class NodeConfiguration implements NodeConfigurationInterface {
 	 */
 	public function getAllowedChildren() {
 		return $this->allowedChildren;
+	}
+
+	/**
+	 * @return Collection
+	 */
+	public function getForbiddenChildren() {
+		return $this->forbiddenChildren;
 	}
 
 	/**
@@ -180,7 +191,7 @@ class NodeConfiguration implements NodeConfigurationInterface {
 	 * @return boolean
 	 */
 	public function allowsChild($classOrInterfaceName) {
-		$allowedChildrenMatchingResults = $this->getAllowedChildren()->filter(function ($allowedClassOrInterfaceName) use ($classOrInterfaceName) {
+		$isWhiteListed = (boolean)$this->getAllowedChildren()->filter(function ($allowedClassOrInterfaceName) use ($classOrInterfaceName) {
 			if ($allowedClassOrInterfaceName === $classOrInterfaceName) {
 				return TRUE;
 			}
@@ -192,7 +203,24 @@ class NodeConfiguration implements NodeConfigurationInterface {
 			if (in_array($allowedClassOrInterfaceName, $checkImplementations)) {
 				return TRUE;
 			}
-		});
-		return (boolean)$allowedChildrenMatchingResults->count();
+			return FALSE;
+		})->count();
+
+		$isBlackListed = (boolean)$this->getForbiddenChildren()->filter(function ($allowedClassOrInterfaceName) use ($classOrInterfaceName) {
+			if ($allowedClassOrInterfaceName === $classOrInterfaceName) {
+				return TRUE;
+			}
+			$checkParents = class_parents($classOrInterfaceName, TRUE);
+			if (in_array($allowedClassOrInterfaceName, $checkParents)) {
+				return TRUE;
+			}
+			$checkImplementations = class_implements($classOrInterfaceName, TRUE);
+			if (in_array($allowedClassOrInterfaceName, $checkImplementations)) {
+				return TRUE;
+			}
+			return FALSE;
+		})->count();
+
+		return $isWhiteListed === TRUE && $isBlackListed === FALSE;
 	}
 }
