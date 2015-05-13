@@ -66,4 +66,14 @@ interface NodeInterface extends TranslateInterface {
 	 * @return string
 	 */
 	public function getNodeTypeAbstraction();
+
+	/**
+	 * @param string $alias
+	 * @param string $label
+	 * @param string $description
+	 * @param string $group
+	 * @param string $allowedChild
+	 * @return void
+	 */
+	public static function register($alias, $label, $description, $group, $allowedChild = NULL);
 }
