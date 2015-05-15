@@ -11,7 +11,7 @@ Registry::set('doctrine.schema.paths.nodes-functional', __DIR__ . "/../Schema/Pe
 
 ObjectManager::get(EntityManagerInterface::class, function () {
 	return EntityManager::create(
-		Registry::get('DbConnection'),
+		Registry::get('doctrine.db.testing'),
 		Setup::createYAMLMetadataConfiguration(Registry::get('doctrine.schema.paths'), TRUE)
 	);
 });
