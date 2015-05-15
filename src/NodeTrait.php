@@ -7,6 +7,7 @@ use Bleicker\Nodes\Exception\InvalidChildException;
 use Bleicker\Nodes\Exception\InvalidParentException;
 use Bleicker\Translation\TranslateTrait;
 use Doctrine\Common\Collections\Collection;
+use Bleicker\Nodes\Configuration\NodeConfigurationInterface;
 
 /**
  * Class NodeTrait
@@ -114,17 +115,14 @@ trait NodeTrait {
 	}
 
 	/**
-	 * @param string $alias
 	 * @param string $label
 	 * @param string $description
 	 * @param string $group
-	 * @param array $allowedChildren
-	 * @param array $forbiddenChildren
-	 * @return void
+	 * @return NodeConfigurationInterface
 	 */
-	public static function register($alias, $label, $description, $group, array $allowedChildren = [], array $forbiddenChildren = []) {
+	public static function register($label, $description, $group) {
 		$arguments = ['className' => static::class];
 		$arguments = array_merge($arguments, func_get_args());
-		call_user_func_array(NodeConfiguration::class . '::register', $arguments);
+		return call_user_func_array(NodeConfiguration::class . '::register', $arguments);
 	}
 }
