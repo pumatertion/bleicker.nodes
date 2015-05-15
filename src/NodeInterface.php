@@ -1,6 +1,7 @@
 <?php
 namespace Bleicker\Nodes;
 
+use Bleicker\Nodes\Configuration\NodeConfigurationInterface;
 use Bleicker\Translation\TranslateInterface;
 use Doctrine\Common\Collections\Collection;
 
@@ -68,13 +69,10 @@ interface NodeInterface extends TranslateInterface {
 	public function getNodeTypeAbstraction();
 
 	/**
-	 * @param string $alias
 	 * @param string $label
 	 * @param string $description
 	 * @param string $group
-	 * @param array $allowedChildren
-	 * @param array $forbiddenChildren
-	 * @return void
+	 * @return NodeConfigurationInterface
 	 */
-	public static function register($alias, $label, $description, $group, array $allowedChildren = [], array $forbiddenChildren = []);
+	public static function register($label, $description, $group);
 }

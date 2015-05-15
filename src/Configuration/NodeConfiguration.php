@@ -2,7 +2,6 @@
 
 namespace Bleicker\Nodes\Configuration;
 
-use Bleicker\Nodes\Configuration\Exception\AlreadyRegisteredException;
 use Bleicker\ObjectManager\ObjectManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -35,12 +34,7 @@ class NodeConfiguration implements NodeConfigurationInterface {
 	protected $className;
 
 	/**
-	 * @var string
-	 */
-	protected $alias;
-
-	/**
-	 * @var Collection
+	 * @var array
 	 */
 	protected $allowedChildren;
 
@@ -51,68 +45,39 @@ class NodeConfiguration implements NodeConfigurationInterface {
 
 	/**
 	 * @param string $className
-	 * @param string $alias
 	 * @param string $label
 	 * @param string $description
 	 * @param string $group
-	 * @param array $allowedChildren
-	 * @param array $forbiddenChildren
 	 */
-	public function __construct($className, $alias, $label, $description, $group, array $allowedChildren = [], array $forbiddenChildren = []) {
+	public function __construct($className, $label, $description, $group) {
 		$this->className = $className;
-		$this->alias = $alias;
 		$this->label = $label;
 		$this->description = $description;
 		$this->group = $group;
-		$this->allowedChildren = new ArrayCollection($allowedChildren);
-		$this->forbiddenChildren = new ArrayCollection($forbiddenChildren);
+		$this->allowedChildren = new ArrayCollection();
+		$this->forbiddenChildren = new ArrayCollection();
 	}
 
 	/**
 	 * @param string $className
-	 * @param string $alias
 	 * @param string $label
 	 * @param string $description
 	 * @param string $group
-	 * @param array $allowedChildren
-	 * @param array $forbiddenChildren
-	 * @return void
+	 * @return NodeConfigurationInterface
 	 */
-	public static function register($className, $alias, $label, $description, $group, array $allowedChildren = [], array $forbiddenChildren = []) {
+	public static function register($className, $label, $description, $group) {
 		/** @var NodeTypeConfigurationsInterface $configurations */
-		$configurations = ObjectManager::get(NodeTypeConfigurationsInterface::class, function(){
+		$configurations = ObjectManager::get(NodeTypeConfigurationsInterface::class, function () {
 			$nodeTypeConfigurations = new NodeTypeConfigurations();
 			ObjectManager::add(NodeTypeConfigurationsInterface::class, $nodeTypeConfigurations, TRUE);
 			return $nodeTypeConfigurations;
 		});
 
-		/** @var self $configuration */
+		/** @var NodeConfigurationInterface $configuration */
 		$reflection = new \ReflectionClass(static::class);
 		$configuration = $reflection->newInstanceArgs(func_get_args());
-		$configurations->add($configuration->getAlias(), $configuration);
-	}
-
-	/**
-	 * @return Collection
-	 */
-	public function getAllowedChildren() {
-		return $this->allowedChildren;
-	}
-
-	/**
-	 * @return Collection
-	 */
-	public function getForbiddenChildren() {
-		return $this->forbiddenChildren;
-	}
-
-	/**
-	 * @param string $className
-	 * @return $this
-	 */
-	public function setClassName($className) {
-		$this->className = $className;
-		return $this;
+		$configurations->add($configuration->getClassName(), $configuration);
+		return $configuration;
 	}
 
 	/**
@@ -123,28 +88,10 @@ class NodeConfiguration implements NodeConfigurationInterface {
 	}
 
 	/**
-	 * @param string $group
-	 * @return $this
-	 */
-	public function setGroup($group) {
-		$this->group = $group;
-		return $this;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getGroup() {
 		return $this->group;
-	}
-
-	/**
-	 * @param string $label
-	 * @return $this
-	 */
-	public function setLabel($label) {
-		$this->label = $label;
-		return $this;
 	}
 
 	/**
@@ -155,15 +102,6 @@ class NodeConfiguration implements NodeConfigurationInterface {
 	}
 
 	/**
-	 * @param string $description
-	 * @return $this
-	 */
-	public function setDescription($description) {
-		$this->description = $description;
-		return $this;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getDescription() {
@@ -171,27 +109,11 @@ class NodeConfiguration implements NodeConfigurationInterface {
 	}
 
 	/**
-	 * @param string $alias
-	 * @return $this
-	 */
-	public function setAlias($alias = NULL) {
-		$this->alias = $alias;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getAlias() {
-		return $this->alias;
-	}
-
-	/**
 	 * @param string $classOrInterfaceName
 	 * @return boolean
 	 */
 	public function allowsChild($classOrInterfaceName) {
-		$isWhiteListed = (boolean)$this->getAllowedChildren()->filter(function ($allowedClassOrInterfaceName) use ($classOrInterfaceName) {
+		$isWhiteListed = (boolean)$this->allowedChildren->filter(function ($allowedClassOrInterfaceName) use ($classOrInterfaceName) {
 			if ($allowedClassOrInterfaceName === $classOrInterfaceName) {
 				return TRUE;
 			}
@@ -206,7 +128,7 @@ class NodeConfiguration implements NodeConfigurationInterface {
 			return FALSE;
 		})->count();
 
-		$isBlackListed = (boolean)$this->getForbiddenChildren()->filter(function ($allowedClassOrInterfaceName) use ($classOrInterfaceName) {
+		$isBlackListed = (boolean)$this->forbiddenChildren->filter(function ($allowedClassOrInterfaceName) use ($classOrInterfaceName) {
 			if ($allowedClassOrInterfaceName === $classOrInterfaceName) {
 				return TRUE;
 			}
@@ -222,5 +144,33 @@ class NodeConfiguration implements NodeConfigurationInterface {
 		})->count();
 
 		return $isWhiteListed === TRUE && $isBlackListed === FALSE;
+	}
+
+	/**
+	 * @param string $classOrInterfaceName
+	 * @return $this
+	 */
+	public function allowChild($classOrInterfaceName) {
+		if($this->forbiddenChildren->offsetExists($classOrInterfaceName)){
+			$this->forbiddenChildren->offsetUnset($classOrInterfaceName);
+		}
+		if (!$this->allowedChildren->offsetExists($classOrInterfaceName)) {
+			$this->allowedChildren->offsetSet($classOrInterfaceName, $classOrInterfaceName);
+		}
+		return $this;
+	}
+
+	/**
+	 * @param string $classOrInterfaceName
+	 * @return $this
+	 */
+	public function forbidChild($classOrInterfaceName) {
+		if ($this->allowedChildren->offsetExists($classOrInterfaceName)) {
+			$this->allowedChildren->offsetUnset($classOrInterfaceName);
+		}
+		if(!$this->forbiddenChildren->offsetExists($classOrInterfaceName)){
+			$this->forbiddenChildren->offsetSet($classOrInterfaceName, $classOrInterfaceName);
+		}
+		return $this;
 	}
 }
