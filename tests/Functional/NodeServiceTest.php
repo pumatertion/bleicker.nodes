@@ -481,6 +481,31 @@ class NodeServiceTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
+	public function getOnlyNonHiddenPagesTest() {
+		Context::remove(NodeService::SHOW_HIDDEN_CONTEXT_KEY)->add(NodeService::SHOW_HIDDEN_CONTEXT_KEY, FALSE);
+		$content1 = new Content('c1');
+		$content2 = new Content('c2');
+		$content3 = new Content('c3');
+		$content4 = new Content('c4');
+
+		$page1 = new Page('p1');
+		$page2 = new Page('p2');
+		$page3 = new Page('p3');
+		$page4 = new Page('p4');
+		$page5 = new Page('p5');
+
+		$this->nodeService->addChild($page2, $page1)->addChild($page3->setHidden(TRUE), $page1)->addChild($page5, $page3)->addChild($page4, $page1)->addChild($content1, $page1)->addChild($content2, $page1)->addChild($content3, $page1)->addChild($content4, $page1);
+
+		$this->assertEquals(2, $this->nodeService->getPages($page1)->count());
+		$this->assertEquals(0, $this->nodeService->getPages($page2)->count());
+		$this->assertEquals(1, $this->nodeService->getPages($page3)->count());
+		$this->assertEquals(0, $this->nodeService->getPages($page4)->count());
+		$this->assertEquals(0, $this->nodeService->getPages($page5)->count());
+	}
+
+	/**
+	 * @test
+	 */
 	public function addAfterTest() {
 		$node1 = new Content();
 		$node2 = new Content();
