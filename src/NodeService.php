@@ -307,7 +307,11 @@ class NodeService implements NodeServiceInterface {
 	 * @api
 	 */
 	public function getContent(NodeInterface $node) {
-		$criteria = Criteria::create()->where(Criteria::expr()->eq('nodeTypeAbstraction', AbstractContentNode::class))->orderBy(['sorting' => Criteria::ASC]);
+		$expr = Criteria::expr();
+		$expressionList = $this->getExpressionListByContext();
+		$expressionList[] = $expr->eq('nodeTypeAbstraction', AbstractContentNode::class);
+		$andWhere = call_user_func_array([$expr, 'andX'], $expressionList);
+		$criteria = Criteria::create()->andWhere($andWhere)->orderBy(['sorting' => Criteria::ASC]);
 		return $this->getChildrenByCriteria($node, $criteria);
 	}
 

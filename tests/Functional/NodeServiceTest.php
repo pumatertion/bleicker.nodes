@@ -436,6 +436,27 @@ class NodeServiceTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
+	public function getOnlyNonHiddenContentTest() {
+		Context::remove(NodeService::SHOW_HIDDEN_CONTEXT_KEY)->add(NodeService::SHOW_HIDDEN_CONTEXT_KEY, FALSE);
+		$content1 = new Content('c1');
+		$content2 = new Content('c2');
+		$content3 = new Content('c3');
+		$content4 = new Content('c4');
+
+		$page1 = new Page('p1');
+		$page2 = new Page('p2');
+
+		$this->nodeService
+			->addChild($page2, $page1)
+			->addChild($content1, $page1)->addChild($content2, $page1)->addChild($content3, $page1)->addChild($content4->setHidden(TRUE), $page1);
+
+		$this->assertEquals(3, $this->nodeService->getContent($page1)->count());
+		$this->assertEquals(0, $this->nodeService->getContent($page2)->count());
+	}
+
+	/**
+	 * @test
+	 */
 	public function getPagesTest() {
 		$content1 = new Content('c1');
 		$content2 = new Content('c2');
