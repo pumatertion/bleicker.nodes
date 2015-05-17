@@ -3,7 +3,7 @@
 	"type": "library",
 	"require": {
 		"bleicker/objectmanager": "1.1.*",
-		"bleicker/persistence": "1.0.*",
+		"bleicker/persistence": "1.1.*",
 		"bleicker/registry": "1.2.*",
 		"bleicker/translation": "0.2.*",
 		"bleicker/exception": "1.0.*"
