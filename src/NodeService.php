@@ -2,13 +2,16 @@
 
 namespace Bleicker\Nodes;
 
+use Bleicker\Context\Context;
+use Bleicker\Context\ContextInterface;
 use Bleicker\ObjectManager\ObjectManager;
 use Bleicker\Persistence\EntityManagerInterface;
 use Bleicker\Translation\LocaleInterface;
 use Bleicker\Translation\TranslationInterface;
+use Closure;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Closure;
+use Doctrine\Common\Collections\Expr\Expression;
 
 /**
  * Class NodeService
@@ -17,13 +20,45 @@ use Closure;
  */
 class NodeService implements NodeServiceInterface {
 
+	const SHOW_HIDDEN_CONTEXT_KEY = 'Bleicker\Nodes\NodeService::showHidden';
+
 	/**
 	 * @var EntityManagerInterface
 	 */
 	protected $entityManager;
 
+	/**
+	 * @var ContextInterface
+	 */
+	protected $context;
+
 	public function __construct() {
 		$this->entityManager = ObjectManager::get(EntityManagerInterface::class);
+		$this->context = ObjectManager::get(ContextInterface::class, function () {
+			$context = new Context();
+			ObjectManager::add(ContextInterface::class, $context, TRUE);
+			return $context;
+		});
+	}
+
+	/**
+	 * @return Expression[]
+	 */
+	public function getExpressionListByContext() {
+		$expressionList = [];
+		$expression = Criteria::expr();
+		if (!$this->showHidden()) {
+			$expressionList[] = $expression->eq('hidden', FALSE);
+		}
+		return $expressionList;
+	}
+
+	/**
+	 * @return boolean
+	 * @api
+	 */
+	public function showHidden() {
+		return (boolean)$this->context->get(static::SHOW_HIDDEN_CONTEXT_KEY);
 	}
 
 	/**
@@ -31,13 +66,11 @@ class NodeService implements NodeServiceInterface {
 	 */
 	public function findSites() {
 		$expr = Criteria::expr();
-		$criteria = Criteria::create();
-		$criteria->andWhere(
-			$expr->andX(
-				$expr->eq('nodeTypeAbstraction', AbstractSiteNode::class),
-				$expr->isNull('parent')
-			)
-		)->orderBy(['sorting' => Criteria::ASC]);
+		$expressionList = $this->getExpressionListByContext();
+		$expressionList[] = $expr->eq('nodeTypeAbstraction', AbstractSiteNode::class);
+		$expressionList[] = $expr->isNull('parent');
+		$andWhere = call_user_func_array([$expr, 'andX'], $expressionList);
+		$criteria = Criteria::create()->andWhere($andWhere)->orderBy(['sorting' => Criteria::ASC]);
 		return $this->entityManager->getRepository(AbstractNode::class)->matching($criteria);
 	}
 
@@ -48,7 +81,7 @@ class NodeService implements NodeServiceInterface {
 	 * @api
 	 */
 	public function addTranslation(NodeInterface $node, NodeTranslationInterface $translation) {
-		if($node->hasTranslation($translation)){
+		if ($node->hasTranslation($translation)) {
 			$value = $translation->getValue();
 			$translation = $node->getTranslation($translation);
 			$translation->setValue($value);
@@ -68,7 +101,7 @@ class NodeService implements NodeServiceInterface {
 	 */
 	public function removeTranslations(NodeInterface $node, LocaleInterface $locale) {
 		$translationsToRemove = $node->getTranslations()->filter($this->getTranslationMatchingFilter($locale));
-		while($translation = $translationsToRemove->current()){
+		while ($translation = $translationsToRemove->current()) {
 			$this->removeTranslation($node, $translation);
 			$translationsToRemove->next();
 		}
@@ -92,7 +125,7 @@ class NodeService implements NodeServiceInterface {
 	 * @api
 	 */
 	public function removeTranslation(NodeInterface $node, NodeTranslationInterface $translation) {
-		if($node->hasTranslation($translation)){
+		if ($node->hasTranslation($translation)) {
 			$translation = $node->getTranslation($translation);
 		}
 		$node->removeTranslation($translation);
@@ -207,7 +240,13 @@ class NodeService implements NodeServiceInterface {
 	 * @api
 	 */
 	public function get($id) {
-		return $this->entityManager->find(AbstractNode::class, $id);
+		$expr = Criteria::expr();
+		$expressionList = $this->getExpressionListByContext();
+		$expressionList[] = $expr->eq('id', $id);
+		$andWhere = call_user_func_array([$expr, 'andX'], $expressionList);
+		$criteria = Criteria::create()->andWhere($andWhere)->orderBy(['sorting' => Criteria::ASC]);
+		$entity = $this->entityManager->getRepository(AbstractNode::class)->matching($criteria)->first();
+		return $entity === FALSE ? NULL : $entity;
 	}
 
 	/**
@@ -268,7 +307,11 @@ class NodeService implements NodeServiceInterface {
 	 * @api
 	 */
 	public function getContent(NodeInterface $node) {
-		$criteria = Criteria::create()->where(Criteria::expr()->eq('nodeTypeAbstraction', AbstractContentNode::class))->orderBy(['sorting' => Criteria::ASC]);
+		$expr = Criteria::expr();
+		$expressionList = $this->getExpressionListByContext();
+		$expressionList[] = $expr->eq('nodeTypeAbstraction', AbstractContentNode::class);
+		$andWhere = call_user_func_array([$expr, 'andX'], $expressionList);
+		$criteria = Criteria::create()->andWhere($andWhere)->orderBy(['sorting' => Criteria::ASC]);
 		return $this->getChildrenByCriteria($node, $criteria);
 	}
 
@@ -280,7 +323,12 @@ class NodeService implements NodeServiceInterface {
 	 * @api
 	 */
 	public function getPages(NodeInterface $node) {
-		$criteria = Criteria::create()->where(Criteria::expr()->eq('nodeTypeAbstraction', AbstractPageNode::class))->orderBy(['sorting' => Criteria::ASC]);
+		$expr = Criteria::expr();
+		$expressionList = $this->getExpressionListByContext();
+		$expressionList[] = $expr->eq('nodeTypeAbstraction', AbstractPageNode::class);
+		$andWhere = call_user_func_array([$expr, 'andX'], $expressionList);
+		$criteria = Criteria::create()->andWhere($andWhere)->orderBy(['sorting' => Criteria::ASC]);
+//		$criteria = Criteria::create()->where(Criteria::expr()->eq('nodeTypeAbstraction', AbstractPageNode::class))->orderBy(['sorting' => Criteria::ASC]);
 		return $this->getChildrenByCriteria($node, $criteria);
 	}
 

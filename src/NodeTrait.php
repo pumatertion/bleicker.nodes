@@ -115,6 +115,22 @@ trait NodeTrait {
 	}
 
 	/**
+	 * @return boolean
+	 */
+	public function getHidden() {
+		return $this->hidden;
+	}
+
+	/**
+	 * @param boolean $hidden
+	 * @return $this
+	 */
+	public function setHidden($hidden) {
+		$this->hidden = $hidden;
+		return $this;
+	}
+
+	/**
 	 * @param string $label
 	 * @param string $description
 	 * @param string $group
