@@ -7,7 +7,7 @@
 		"bleicker/registry": "1.2.*",
 		"bleicker/translation": "0.2.*",
 		"bleicker/exception": "1.0.*",
-		"bleicker/context": "dev-develop"
+		"bleicker/context": "0.0.*"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "4.6.*"
