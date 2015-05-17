@@ -194,4 +194,10 @@ interface NodeServiceInterface {
 	 * @api
 	 */
 	public function update(NodeInterface $node);
+
+	/**
+	 * @return boolean
+	 * @api
+	 */
+	public function showHidden();
 }

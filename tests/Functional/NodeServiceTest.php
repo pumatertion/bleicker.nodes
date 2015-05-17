@@ -2,6 +2,7 @@
 
 namespace Tests\Bleicker\Nodes\Functional;
 
+use Bleicker\Context\Context;
 use Bleicker\Nodes\Configuration\NodeTypeConfigurations;
 use Bleicker\Nodes\Configuration\NodeTypeConfigurationsInterface;
 use Bleicker\Nodes\Locale;
@@ -34,6 +35,7 @@ class NodeServiceTest extends FunctionalTestCase {
 		SystemLocale::register('german', 'de', 'DE');
 		SystemLocale::register('french', 'fr', 'FR');
 		SystemLocale::register('english', 'en', 'GB');
+		Context::add(NodeService::SHOW_HIDDEN_CONTEXT_KEY, TRUE);
 	}
 
 	protected function tearDown() {
@@ -41,6 +43,27 @@ class NodeServiceTest extends FunctionalTestCase {
 		ObjectManager::remove(NodeTypeConfigurationsInterface::class);
 		NodeTypeConfigurations::prune();
 		Locales::prune();
+		Context::prune();
+	}
+
+	/**
+	 * @test
+	 */
+	public function getNotHiddenTest() {
+		Context::remove(NodeService::SHOW_HIDDEN_CONTEXT_KEY)->add(NodeService::SHOW_HIDDEN_CONTEXT_KEY, TRUE);
+		$content = new Content();
+		$persisted = $this->nodeService->add($content)->get($content->getId());
+		$this->assertEquals($content->getId(), $persisted->getId());
+	}
+
+	/**
+	 * @test
+	 */
+	public function getHiddenTest(){
+		Context::remove(NodeService::SHOW_HIDDEN_CONTEXT_KEY)->add(NodeService::SHOW_HIDDEN_CONTEXT_KEY, FALSE);
+		$node = new Content();
+		$node = $this->nodeService->add($node->setHidden(TRUE))->get($node->getId());
+		$this->assertNull($node);
 	}
 
 	/**
@@ -117,10 +140,16 @@ class NodeServiceTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
-	public function getTest() {
-		$content = new Content();
-		$persisted = $this->nodeService->add($content)->get($content->getId());
-		$this->assertEquals($content->getId(), $persisted->getId());
+	public function findSitesTest() {
+		$site1 = new Site('site1');
+		$site2 = new Site('site2');
+		$page = new Page('page');
+		$lostPage = new Page('page');
+		$lostContent = new Content('content');
+		$content = new Content('content');
+
+		$this->nodeService->add($lostContent)->add($lostPage)->add($site1)->add($site2)->addChild($content, $site1)->addChild($page, $site2);
+		$this->assertEquals(2, $this->nodeService->findSites()->count());
 	}
 
 	/**
