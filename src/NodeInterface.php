@@ -69,6 +69,17 @@ interface NodeInterface extends TranslateInterface {
 	public function getNodeTypeAbstraction();
 
 	/**
+	 * @return boolean
+	 */
+	public function getHidden();
+
+	/**
+	 * @param boolean $hidden
+	 * @return $this
+	 */
+	public function setHidden($hidden);
+
+	/**
 	 * @param string $label
 	 * @param string $description
 	 * @param string $group

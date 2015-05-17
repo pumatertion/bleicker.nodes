@@ -20,6 +20,11 @@ abstract class AbstractNode implements NodeInterface {
 	protected $id;
 
 	/**
+	 * @var boolean
+	 */
+	protected $hidden;
+
+	/**
 	 * @var string
 	 */
 	protected $nodeType;
@@ -55,5 +60,6 @@ abstract class AbstractNode implements NodeInterface {
 		$this->nodeType = $this->getNodeType();
 		$this->nodeTypeAbstraction = $this->getNodeTypeAbstraction();
 		$this->sorting = static::SORTING_DIFF;
+		$this->hidden = FALSE;
 	}
 }
