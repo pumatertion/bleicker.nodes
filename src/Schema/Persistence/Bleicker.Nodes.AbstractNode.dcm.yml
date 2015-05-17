@@ -8,6 +8,8 @@ Bleicker\Nodes\AbstractNode:
       generator:
         strategy: AUTO
   fields:
+    hidden:
+      type: boolean
     sorting:
       nullable: true
       type: integer

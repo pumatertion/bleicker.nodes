@@ -2,6 +2,7 @@
 
 namespace Tests\Bleicker\Nodes\Functional;
 
+use Bleicker\Context\Context;
 use Bleicker\Nodes\Configuration\NodeTypeConfigurations;
 use Bleicker\Nodes\Configuration\NodeTypeConfigurationsInterface;
 use Bleicker\Nodes\Locale;
@@ -34,6 +35,7 @@ class NodeServiceTest extends FunctionalTestCase {
 		SystemLocale::register('german', 'de', 'DE');
 		SystemLocale::register('french', 'fr', 'FR');
 		SystemLocale::register('english', 'en', 'GB');
+		Context::add(NodeService::SHOW_HIDDEN_CONTEXT_KEY, TRUE);
 	}
 
 	protected function tearDown() {
@@ -41,6 +43,27 @@ class NodeServiceTest extends FunctionalTestCase {
 		ObjectManager::remove(NodeTypeConfigurationsInterface::class);
 		NodeTypeConfigurations::prune();
 		Locales::prune();
+		Context::prune();
+	}
+
+	/**
+	 * @test
+	 */
+	public function getNotHiddenTest() {
+		Context::remove(NodeService::SHOW_HIDDEN_CONTEXT_KEY)->add(NodeService::SHOW_HIDDEN_CONTEXT_KEY, TRUE);
+		$content = new Content();
+		$persisted = $this->nodeService->add($content)->get($content->getId());
+		$this->assertEquals($content->getId(), $persisted->getId());
+	}
+
+	/**
+	 * @test
+	 */
+	public function getHiddenTest(){
+		Context::remove(NodeService::SHOW_HIDDEN_CONTEXT_KEY)->add(NodeService::SHOW_HIDDEN_CONTEXT_KEY, FALSE);
+		$node = new Content();
+		$node = $this->nodeService->add($node->setHidden(TRUE))->get($node->getId());
+		$this->assertNull($node);
 	}
 
 	/**
@@ -117,15 +140,6 @@ class NodeServiceTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
-	public function getTest() {
-		$content = new Content();
-		$persisted = $this->nodeService->add($content)->get($content->getId());
-		$this->assertEquals($content->getId(), $persisted->getId());
-	}
-
-	/**
-	 * @test
-	 */
 	public function findSitesTest() {
 		$site1 = new Site('site1');
 		$site2 = new Site('site2');
@@ -136,6 +150,22 @@ class NodeServiceTest extends FunctionalTestCase {
 
 		$this->nodeService->add($lostContent)->add($lostPage)->add($site1)->add($site2)->addChild($content, $site1)->addChild($page, $site2);
 		$this->assertEquals(2, $this->nodeService->findSites()->count());
+	}
+
+	/**
+	 * @test
+	 */
+	public function findOnlyNonHiddenSitesTest() {
+		Context::remove(NodeService::SHOW_HIDDEN_CONTEXT_KEY)->add(NodeService::SHOW_HIDDEN_CONTEXT_KEY, FALSE);
+		$site1 = new Site('site1');
+		$site2 = new Site('site2');
+		$page = new Page('page');
+		$lostPage = new Page('page');
+		$lostContent = new Content('content');
+		$content = new Content('content');
+
+		$this->nodeService->add($lostContent)->add($lostPage)->add($site1)->add($site2->setHidden(TRUE))->addChild($content, $site1)->addChild($page, $site2);
+		$this->assertEquals(1, $this->nodeService->findSites()->count());
 	}
 
 	/**
@@ -406,6 +436,27 @@ class NodeServiceTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
+	public function getOnlyNonHiddenContentTest() {
+		Context::remove(NodeService::SHOW_HIDDEN_CONTEXT_KEY)->add(NodeService::SHOW_HIDDEN_CONTEXT_KEY, FALSE);
+		$content1 = new Content('c1');
+		$content2 = new Content('c2');
+		$content3 = new Content('c3');
+		$content4 = new Content('c4');
+
+		$page1 = new Page('p1');
+		$page2 = new Page('p2');
+
+		$this->nodeService
+			->addChild($page2, $page1)
+			->addChild($content1, $page1)->addChild($content2, $page1)->addChild($content3, $page1)->addChild($content4->setHidden(TRUE), $page1);
+
+		$this->assertEquals(3, $this->nodeService->getContent($page1)->count());
+		$this->assertEquals(0, $this->nodeService->getContent($page2)->count());
+	}
+
+	/**
+	 * @test
+	 */
 	public function getPagesTest() {
 		$content1 = new Content('c1');
 		$content2 = new Content('c2');
@@ -421,6 +472,31 @@ class NodeServiceTest extends FunctionalTestCase {
 		$this->nodeService->addChild($page2, $page1)->addChild($page3, $page1)->addChild($page5, $page3)->addChild($page4, $page1)->addChild($content1, $page1)->addChild($content2, $page1)->addChild($content3, $page1)->addChild($content4, $page1);
 
 		$this->assertEquals(3, $this->nodeService->getPages($page1)->count());
+		$this->assertEquals(0, $this->nodeService->getPages($page2)->count());
+		$this->assertEquals(1, $this->nodeService->getPages($page3)->count());
+		$this->assertEquals(0, $this->nodeService->getPages($page4)->count());
+		$this->assertEquals(0, $this->nodeService->getPages($page5)->count());
+	}
+
+	/**
+	 * @test
+	 */
+	public function getOnlyNonHiddenPagesTest() {
+		Context::remove(NodeService::SHOW_HIDDEN_CONTEXT_KEY)->add(NodeService::SHOW_HIDDEN_CONTEXT_KEY, FALSE);
+		$content1 = new Content('c1');
+		$content2 = new Content('c2');
+		$content3 = new Content('c3');
+		$content4 = new Content('c4');
+
+		$page1 = new Page('p1');
+		$page2 = new Page('p2');
+		$page3 = new Page('p3');
+		$page4 = new Page('p4');
+		$page5 = new Page('p5');
+
+		$this->nodeService->addChild($page2, $page1)->addChild($page3->setHidden(TRUE), $page1)->addChild($page5, $page3)->addChild($page4, $page1)->addChild($content1, $page1)->addChild($content2, $page1)->addChild($content3, $page1)->addChild($content4, $page1);
+
+		$this->assertEquals(2, $this->nodeService->getPages($page1)->count());
 		$this->assertEquals(0, $this->nodeService->getPages($page2)->count());
 		$this->assertEquals(1, $this->nodeService->getPages($page3)->count());
 		$this->assertEquals(0, $this->nodeService->getPages($page4)->count());
