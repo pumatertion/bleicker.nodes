@@ -10,6 +10,8 @@ Bleicker\Nodes\AbstractNode:
   fields:
     hidden:
       type: boolean
+      options:
+        default: 0
     sorting:
       nullable: true
       type: integer
