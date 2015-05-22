@@ -24,4 +24,20 @@ trait PageNodeTrait {
 	public function getTitle() {
 		return $this->title;
 	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getHiddenInMenu() {
+		return $this->hiddenInMenu;
+	}
+
+	/**
+	 * @param boolean $hiddenInMenu
+	 * @return $this
+	 */
+	public function setHiddenInMenu($hiddenInMenu) {
+		$this->hiddenInMenu = $hiddenInMenu;
+		return $this;
+	}
 }
