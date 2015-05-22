@@ -4,3 +4,6 @@ Tests\Bleicker\Nodes\Functional\Fixtures\Site:
   fields:
     title:
       type: string
+    domain:
+      type: string
+      nullable: true

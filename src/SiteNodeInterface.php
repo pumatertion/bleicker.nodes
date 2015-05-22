@@ -19,4 +19,15 @@ interface SiteNodeInterface extends NodeInterface {
 	 * @return string
 	 */
 	public function getTitle();
+
+	/**
+	 * @param string $domain
+	 * @return $this
+	 */
+	public function setDomain($domain);
+
+	/**
+	 * @return string
+	 */
+	public function getDomain();
 }

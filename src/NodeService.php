@@ -75,6 +75,16 @@ class NodeService implements NodeServiceInterface {
 	}
 
 	/**
+	 * @param string $domain
+	 * @return Collection
+	 */
+	public function findDomainSites($domain) {
+		return $this->findSites()->filter(function(AbstractSiteNode $site) use ($domain){
+			return $site->getDomain() === $domain;
+		});
+	}
+
+	/**
 	 * @param NodeInterface $node
 	 * @param NodeTranslationInterface $translation
 	 * @return $this
@@ -328,7 +338,6 @@ class NodeService implements NodeServiceInterface {
 		$expressionList[] = $expr->eq('nodeTypeAbstraction', AbstractPageNode::class);
 		$andWhere = call_user_func_array([$expr, 'andX'], $expressionList);
 		$criteria = Criteria::create()->andWhere($andWhere)->orderBy(['sorting' => Criteria::ASC]);
-//		$criteria = Criteria::create()->where(Criteria::expr()->eq('nodeTypeAbstraction', AbstractPageNode::class))->orderBy(['sorting' => Criteria::ASC]);
 		return $this->getChildrenByCriteria($node, $criteria);
 	}
 
