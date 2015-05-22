@@ -17,6 +17,11 @@ abstract class AbstractPageNode extends AbstractNode implements PageNodeInterfac
 	protected $title;
 
 	/**
+	 * @var boolean
+	 */
+	protected $hiddenInMenu;
+
+	/**
 	 * @return string
 	 */
 	public final function getNodeTypeAbstraction() {
