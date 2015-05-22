@@ -22,6 +22,11 @@ abstract class AbstractSiteNode extends AbstractNode implements SiteNodeInterfac
 	protected $domain;
 
 	/**
+	 * @var boolean
+	 */
+	protected $hiddenInMenu;
+
+	/**
 	 * @return string
 	 */
 	public final function getNodeTypeAbstraction() {
