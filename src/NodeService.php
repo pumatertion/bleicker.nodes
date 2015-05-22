@@ -328,7 +328,6 @@ class NodeService implements NodeServiceInterface {
 		$expressionList[] = $expr->eq('nodeTypeAbstraction', AbstractPageNode::class);
 		$andWhere = call_user_func_array([$expr, 'andX'], $expressionList);
 		$criteria = Criteria::create()->andWhere($andWhere)->orderBy(['sorting' => Criteria::ASC]);
-//		$criteria = Criteria::create()->where(Criteria::expr()->eq('nodeTypeAbstraction', AbstractPageNode::class))->orderBy(['sorting' => Criteria::ASC]);
 		return $this->getChildrenByCriteria($node, $criteria);
 	}
 
