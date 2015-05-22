@@ -31,14 +31,4 @@ interface SiteNodeInterface extends NodeInterface {
 	 */
 	public function getDomain();
 
-	/**
-	 * @return boolean
-	 */
-	public function getHiddenInMenu();
-
-	/**
-	 * @param boolean $hiddenInMenu
-	 * @return $this
-	 */
-	public function setHiddenInMenu($hiddenInMenu);
 }
