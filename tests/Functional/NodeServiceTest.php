@@ -155,6 +155,23 @@ class NodeServiceTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
+	public function findDomainSitesTest() {
+		$site1 = new Site('site1');
+		$site1->setDomain('foo.bar');
+		$site2 = new Site('site2');
+		$site2->setDomain('foo.baz');
+		$page = new Page('page');
+		$lostPage = new Page('page');
+		$lostContent = new Content('content');
+		$content = new Content('content');
+
+		$this->nodeService->add($lostContent)->add($lostPage)->add($site1)->add($site2)->addChild($content, $site1)->addChild($page, $site2);
+		$this->assertEquals(1, $this->nodeService->findDomainSites('foo.bar')->count());
+	}
+
+	/**
+	 * @test
+	 */
 	public function findOnlyNonHiddenSitesTest() {
 		Context::remove(NodeService::SHOW_HIDDEN_CONTEXT_KEY)->add(NodeService::SHOW_HIDDEN_CONTEXT_KEY, FALSE);
 		$site1 = new Site('site1');

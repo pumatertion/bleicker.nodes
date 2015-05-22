@@ -18,6 +18,12 @@ interface NodeServiceInterface {
 	public function findSites();
 
 	/**
+	 * @param string $domain
+	 * @return Collection
+	 */
+	public function findDomainSites($domain);
+
+	/**
 	 * @param NodeInterface $node
 	 * @param NodeInterface $after
 	 * @return $this

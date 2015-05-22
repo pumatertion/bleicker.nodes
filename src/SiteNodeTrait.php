@@ -24,4 +24,20 @@ trait SiteNodeTrait {
 	public function getTitle() {
 		return $this->title;
 	}
+
+	/**
+	 * @param string $domain
+	 * @return $this
+	 */
+	public function setDomain($domain) {
+		$this->domain = $domain;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDomain() {
+		return $this->domain;
+	}
 }
