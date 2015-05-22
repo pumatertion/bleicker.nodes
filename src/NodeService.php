@@ -75,6 +75,16 @@ class NodeService implements NodeServiceInterface {
 	}
 
 	/**
+	 * @param string $domain
+	 * @return Collection
+	 */
+	public function findDomainSites($domain) {
+		return $this->findSites()->filter(function(AbstractSiteNode $site) use ($domain){
+			return $site->getDomain() === $domain;
+		});
+	}
+
+	/**
 	 * @param NodeInterface $node
 	 * @param NodeTranslationInterface $translation
 	 * @return $this
