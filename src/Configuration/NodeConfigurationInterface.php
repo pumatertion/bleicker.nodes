@@ -8,7 +8,7 @@ namespace Bleicker\Nodes\Configuration;
  */
 interface NodeConfigurationInterface {
 
-	const SITE_GROUP = 'Sites', PAGE_GROUP = 'Pages', CONTENT_GROUP = 'Content', UNDEFINED_GROUP = 'Others';
+	const SITE_GROUP = 'Sites', PAGE_GROUP = 'Pages', CONTENT_GROUP = 'Content', PLUGIN_GROUP = 'Plugins', UNDEFINED_GROUP = 'Others';
 
 	/**
 	 * @return string
