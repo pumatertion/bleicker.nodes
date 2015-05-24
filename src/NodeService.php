@@ -20,7 +20,8 @@ use Doctrine\Common\Collections\Expr\Expression;
  */
 class NodeService implements NodeServiceInterface {
 
-	const SHOW_HIDDEN_CONTEXT_KEY = 'Bleicker\Nodes\NodeService::showHidden';
+	const SHOW_HIDDEN_CONTEXT_KEY = 'Bleicker\Nodes\NodeService::showHidden',
+		SHOW_HIDDEN_IF_AUTHENTICATED_CONTEXT_KEY = 'Bleicker\Nodes\NodeService::showHiddenIfAuthenticated';
 
 	/**
 	 * @var EntityManagerInterface
@@ -50,6 +51,9 @@ class NodeService implements NodeServiceInterface {
 		if (!$this->showHidden()) {
 			$expressionList[] = $expression->eq('hidden', FALSE);
 		}
+		if (!$this->showHiddenIfAuthenticated()) {
+			$expressionList[] = $expression->eq('hiddenIfAuthenticated', FALSE);
+		}
 		return $expressionList;
 	}
 
@@ -59,6 +63,14 @@ class NodeService implements NodeServiceInterface {
 	 */
 	public function showHidden() {
 		return (boolean)$this->context->get(static::SHOW_HIDDEN_CONTEXT_KEY);
+	}
+
+	/**
+	 * @return boolean
+	 * @api
+	 */
+	public function showHiddenIfAuthenticated() {
+		return (boolean)$this->context->get(static::SHOW_HIDDEN_IF_AUTHENTICATED_CONTEXT_KEY);
 	}
 
 	/**
@@ -79,7 +91,7 @@ class NodeService implements NodeServiceInterface {
 	 * @return Collection
 	 */
 	public function findDomainSites($domain) {
-		return $this->findSites()->filter(function(AbstractSiteNode $site) use ($domain){
+		return $this->findSites()->filter(function (AbstractSiteNode $site) use ($domain) {
 			return $site->getDomain() === $domain;
 		});
 	}
