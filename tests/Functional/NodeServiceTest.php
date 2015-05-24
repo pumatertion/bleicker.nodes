@@ -69,6 +69,26 @@ class NodeServiceTest extends FunctionalTestCase {
 	/**
 	 * @test
 	 */
+	public function getHiddenIfAuthenticatedTest() {
+		Context::remove(NodeService::SHOW_HIDDEN_IF_AUTHENTICATED_CONTEXT_KEY)->add(NodeService::SHOW_HIDDEN_IF_AUTHENTICATED_CONTEXT_KEY, TRUE);
+		$content = new Content();
+		$persisted = $this->nodeService->add($content->setHiddenIfAuthenticated(TRUE))->get($content->getId());
+		$this->assertEquals($content->getId(), $persisted->getId());
+	}
+
+	/**
+	 * @test
+	 */
+	public function nodeIsHiddenIfAuthenticatedTest(){
+		Context::remove(NodeService::SHOW_HIDDEN_IF_AUTHENTICATED_CONTEXT_KEY)->add(NodeService::SHOW_HIDDEN_IF_AUTHENTICATED_CONTEXT_KEY, FALSE);
+		$node = new Content();
+		$node = $this->nodeService->add($node->setHiddenIfAuthenticated(TRUE))->get($node->getId());
+		$this->assertNull($node);
+	}
+
+	/**
+	 * @test
+	 */
 	public function deleteNodeTest() {
 		$node = new Page('Page to delete');
 		$this->nodeService->add($node);

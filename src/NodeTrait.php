@@ -131,6 +131,22 @@ trait NodeTrait {
 	}
 
 	/**
+	 * @param boolean $hiddenIfAuthenticated
+	 * @return $this
+	 */
+	public function setHiddenIfAuthenticated($hiddenIfAuthenticated) {
+		$this->hiddenIfAuthenticated = $hiddenIfAuthenticated;
+		return $this;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getHiddenIfAuthenticated() {
+		return $this->hiddenIfAuthenticated;
+	}
+
+	/**
 	 * @param string $label
 	 * @param string $description
 	 * @param string $group

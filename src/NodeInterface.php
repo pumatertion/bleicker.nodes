@@ -80,6 +80,17 @@ interface NodeInterface extends TranslateInterface {
 	public function setHidden($hidden);
 
 	/**
+	 * @param boolean $hiddenIfAuthenticated
+	 * @return $this
+	 */
+	public function setHiddenIfAuthenticated($hiddenIfAuthenticated);
+
+	/**
+	 * @return boolean
+	 */
+	public function getHiddenIfAuthenticated();
+
+	/**
 	 * @param string $label
 	 * @param string $description
 	 * @param string $group

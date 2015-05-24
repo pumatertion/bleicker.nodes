@@ -12,6 +12,11 @@ Bleicker\Nodes\AbstractNode:
       type: boolean
       options:
         default: 0
+    hiddenIfAuthenticated:
+      type: boolean
+      column: hidden_if_authenticated
+      options:
+        default: 0
     sorting:
       nullable: true
       type: integer
